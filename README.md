@@ -15,6 +15,7 @@
 - Designs progressive disclosure: summary, visual map, walkthrough, examples, details, and references only when needed.
 - Encourages interactive learning with selectable concepts, step controls, timelines, diagrams, charts, examples, and misconception callouts.
 - Guides when to use generated educational images, Mermaid diagrams, SVG, tables, charts, code examples, interactive HTML, or a frontend app.
+- Avoids generic AI-style hero sections, prose-heavy card grids, and decorative metaphors when a domain-native visual would teach better.
 - Packages the workflow as an installable skill for the standard `skills` CLI.
 
 ## How It Works

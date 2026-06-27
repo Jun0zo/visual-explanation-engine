@@ -9,22 +9,45 @@ description: Create clear visual, interactive, and multimodal explanations for c
 
 Maximize human understanding by choosing the clearest mix of concise text, diagrams, illustrations, interaction, examples, charts, animations, code, and generated educational assets. Do not default to HTML; use HTML only when interaction or layout materially improves learning.
 
-## Core Question
+## Core Questions
 
 Before producing anything, answer internally:
 
 > What is the fastest and clearest way for this learner to truly understand this?
 
-Let that answer determine the output format.
+> What visual object, action, or example would make the idea understandable if most prose were removed?
+
+Let those answers determine the output format.
 
 ## Workflow
 
 1. Identify the topic, learner level, desired outcome, complexity, and likely misconceptions.
 2. Extract the explanation structures: process, workflow, timeline, comparison, hierarchy, cause and effect, architecture, lifecycle, decision flow, algorithm, relationship network, data flow, story, business logic, math, science, physical mechanism, or technical design.
-3. Select the smallest useful set of modalities. Read `references/modality-playbook.md` when the structure is mixed, the output will be substantial, or the best format is not obvious.
-4. Design progressive disclosure: one-sentence summary, high-level visual, guided steps, examples, implementation details, then references or formulas only if useful.
-5. Produce the artifact using the right medium: Mermaid, SVG, chart, table, generated image, interactive HTML, frontend app, animation, code example, or a compact written answer.
-6. Check that every visual or interaction teaches something. Remove decorative visuals, repeated text, and interactions that do not improve comprehension.
+3. Choose the primary explanatory object before layout: map, trace, specimen, simulator, timeline, graph, rubric, state machine, request path, comparison board, or annotated artifact.
+4. Select the smallest useful set of modalities. Read `references/modality-playbook.md` when the structure is mixed, the output will be substantial, or the best format is not obvious.
+5. Design progressive disclosure around actions: inspect, scrub, compare, toggle layers, run an example, follow evidence, adjust a parameter, or reveal a failure path.
+6. Produce the artifact using the right medium: Mermaid, SVG, chart, table, generated image, interactive HTML, frontend app, animation, code example, or a compact written answer.
+7. Check that every visual or interaction teaches something. Remove decorative visuals, repeated text, and interactions that do not improve comprehension.
+
+## Visual-First Contract
+
+For nontrivial explainers, make the visual or interactive model carry the understanding:
+
+- Put a concrete visual object in the first view; do not lead with a large marketing-style headline and paragraphs.
+- Use text as labels, annotations, captions, and short guidance. Avoid long explanatory blocks inside cards.
+- Encode relationships with position, grouping, motion, color, scale, sequence, or direct manipulation, not just with written descriptions.
+- Use real or realistic examples from the user's topic. If the task involves evaluation, writing, code, data, or a workflow, show a sample artifact being inspected instead of only describing the rules.
+- Make interactions change the visual state. A tab or button that only swaps paragraphs is not enough.
+
+## Anti-Template Rules
+
+Avoid outputs that feel like generic AI slideware:
+
+- Do not use a giant hero headline, vague subtitle, and grid of cards unless the user explicitly asks for a landing page.
+- Do not turn every concept into a ladder, journey, tree, factory, pipeline, or metaphor. Use metaphors only when they clarify the user's actual domain.
+- Do not make "important premise", "current confusion", "key insight", or similar prose panels the main content.
+- Do not use dark dashboard cards as the default visual language. Choose a form that fits the subject: worksheet, lab bench, map, timeline, circuit, courtroom evidence board, microscope, editor, graph, cockpit, rubric, or simulator.
+- Do not pad the artifact with repeated summaries. If a sentence does not help the learner act, inspect, compare, or decide, remove it.
 
 ## Modality Rules
 
@@ -44,6 +67,9 @@ When creating an interactive explainer:
 - Make major concepts selectable, expandable, or step-addressable.
 - For selected concepts, show a concise explanation, related concepts, practical example, and deeper detail.
 - Prefer guided exploration over long scrolls of prose.
+- Keep the primary visual persistent while controls change it.
+- Put controls next to the thing they affect.
+- Limit prose in interactive views: one or two short sentences per selected state is usually enough.
 - Keep controls obvious, responsive, accessible, and mobile-friendly.
 - Avoid hiding essential understanding behind hover-only behavior.
 
@@ -64,6 +90,9 @@ Before finalizing, verify:
 
 - The first screen or first section gives the learner orientation immediately.
 - Visual structure matches the concept structure.
+- The artifact would still mostly make sense if paragraphs were removed.
+- The main interaction changes a diagram, example, state, chart, or specimen rather than only replacing text.
+- The design does not look like a generic AI-generated dark card dashboard.
 - Examples sit near the abstract ideas they explain.
 - Common misconceptions are corrected when relevant.
 - Text is concise: one idea per section, no filler paragraphs.

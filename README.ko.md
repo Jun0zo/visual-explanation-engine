@@ -15,6 +15,7 @@
 - 요약, 큰 그림, 단계별 설명, 예시, 구현 세부사항, 참고자료 순서로 정보를 점진적으로 공개합니다.
 - selectable concept, step control, timeline, diagram, chart, example, misconception callout 같은 탐색형 학습을 유도합니다.
 - generated educational image, Mermaid, SVG, table, chart, code example, interactive HTML, frontend app 중 무엇을 써야 하는지 판단하게 합니다.
+- 도메인에 맞는 시각 모델이 더 잘 가르칠 때는 AI스러운 hero, 텍스트 카드 그리드, 장식용 은유를 피합니다.
 - 표준 `skills` CLI로 설치 가능한 skill 패키지로 배포됩니다.
 
 ## 작동 프로세스
