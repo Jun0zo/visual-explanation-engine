@@ -55,7 +55,7 @@ Install from npm:
 npm install -g visual-explanation-engine
 ```
 
-The npm `postinstall` step copies the packaged skill into:
+The npm `postinstall` step quietly installs the packaged skill for Codex:
 
 ```text
 ${CODEX_HOME:-~/.codex}/skills/visual-explanation-engine
@@ -65,6 +65,12 @@ If the skill already exists, the installer leaves it untouched. To replace it:
 
 ```bash
 visual-explanation-engine install --force
+```
+
+Run the installer without a target for an arrow-key multi-select flow. Codex global and Claude Code global are selected by default; project-local targets can be added with Space.
+
+```bash
+visual-explanation-engine install
 ```
 
 You can also skip automatic Codex installation:
@@ -108,10 +114,23 @@ The npm package includes a small installer CLI:
 
 ```bash
 visual-explanation-engine install
+visual-explanation-engine install codex
+visual-explanation-engine install claude
+visual-explanation-engine install all
 visual-explanation-engine install --force
 visual-explanation-engine doctor
 visual-explanation-engine path
 ```
+
+Install targets:
+
+| Target | Destination |
+| --- | --- |
+| `codex` | `${CODEX_HOME:-~/.codex}/skills` |
+| `claude` | `${CLAUDE_HOME:-~/.claude}/skills` |
+| `project-codex` | `./.codex/skills` |
+| `project-claude` | `./.claude/skills` |
+| `all` | every target above |
 
 Short alias:
 

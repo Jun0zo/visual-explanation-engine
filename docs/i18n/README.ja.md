@@ -28,8 +28,10 @@
 
 ```bash
 npm install -g visual-explanation-engine
-visual-explanation-engine install --force
+visual-explanation-engine install
 ```
+
+The installer opens a multi-select flow. Codex global and Claude Code global are selected by default, and project-local targets can be added.
 
 ## Usage
 

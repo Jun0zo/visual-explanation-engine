@@ -53,7 +53,7 @@ npm에서 설치합니다.
 npm install -g visual-explanation-engine
 ```
 
-npm `postinstall` 단계에서 skill을 아래 위치에 복사합니다.
+npm `postinstall` 단계에서는 Codex용 skill을 조용히 설치합니다.
 
 ```text
 ${CODEX_HOME:-~/.codex}/skills/visual-explanation-engine
@@ -63,6 +63,12 @@ ${CODEX_HOME:-~/.codex}/skills/visual-explanation-engine
 
 ```bash
 visual-explanation-engine install --force
+```
+
+대상을 지정하지 않고 installer를 실행하면 화살표로 고르는 multi-select 화면이 뜹니다. 기본값은 Codex global + Claude Code global이 선택된 상태이고, Space로 project-local 대상도 추가할 수 있습니다.
+
+```bash
+visual-explanation-engine install
 ```
 
 자동 설치를 건너뛰려면:
@@ -104,10 +110,23 @@ Use $visual-explanation-engine to explain our backend architecture to a new engi
 
 ```bash
 visual-explanation-engine install
+visual-explanation-engine install codex
+visual-explanation-engine install claude
+visual-explanation-engine install all
 visual-explanation-engine install --force
 visual-explanation-engine doctor
 visual-explanation-engine path
 ```
+
+설치 대상:
+
+| Target | 위치 |
+| --- | --- |
+| `codex` | `${CODEX_HOME:-~/.codex}/skills` |
+| `claude` | `${CLAUDE_HOME:-~/.claude}/skills` |
+| `project-codex` | `./.codex/skills` |
+| `project-claude` | `./.claude/skills` |
+| `all` | 위 대상 전체 |
 
 짧은 alias:
 

@@ -10,7 +10,7 @@ if (process.env.VEE_SKIP_CODEX_INSTALL === "1") {
 
 const root = path.resolve(__dirname, "..");
 const cli = path.join(root, "bin", "visual-explanation-engine.js");
-const result = spawnSync(process.execPath, [cli, "install", "--skip-existing"], {
+const result = spawnSync(process.execPath, [cli, "install", "codex", "--skip-existing", "--quiet"], {
   cwd: root,
   stdio: "inherit",
   env: process.env,
