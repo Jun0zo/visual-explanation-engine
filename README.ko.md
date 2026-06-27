@@ -15,7 +15,7 @@
 - 요약, 큰 그림, 단계별 설명, 예시, 구현 세부사항, 참고자료 순서로 정보를 점진적으로 공개합니다.
 - selectable concept, step control, timeline, diagram, chart, example, misconception callout 같은 탐색형 학습을 유도합니다.
 - generated educational image, Mermaid, SVG, table, chart, code example, interactive HTML, frontend app 중 무엇을 써야 하는지 판단하게 합니다.
-- npm으로 설치 가능한 Codex skill 패키지로 배포됩니다.
+- 표준 `skills` CLI와 npm으로 설치 가능한 skill 패키지로 배포됩니다.
 
 ## 작동 프로세스
 
@@ -45,7 +45,27 @@
 
 ## 설치
 
-### npm
+### 권장: skills CLI
+
+GitHub에서 바로 표준 선택 UI로 설치합니다.
+
+```bash
+npx --yes skills add Jun0zo/visual-explanation-engine
+```
+
+Codex + Claude Code에 프롬프트 없이 설치하려면:
+
+```bash
+npx --yes skills add Jun0zo/visual-explanation-engine --skill visual-explanation-engine --agent codex claude-code --yes
+```
+
+설치 전에 repo가 인식되는지 확인하려면:
+
+```bash
+npx --yes skills add Jun0zo/visual-explanation-engine --list
+```
+
+### npm fallback
 
 npm에서 설치합니다.
 
@@ -65,7 +85,7 @@ ${CODEX_HOME:-~/.codex}/skills/visual-explanation-engine
 visual-explanation-engine install --force
 ```
 
-대상을 지정하지 않고 installer를 실행하면 화살표로 고르는 multi-select 화면이 뜹니다. 기본값은 Codex global + Claude Code global이 선택된 상태이고, Space로 project-local 대상도 추가할 수 있습니다.
+대상을 지정하지 않고 npm installer를 실행하면 Codex global + Claude Code global에 설치합니다. 예쁜 표준 선택 UI가 필요하면 위의 `skills` CLI를 쓰면 됩니다.
 
 ```bash
 visual-explanation-engine install
@@ -86,7 +106,7 @@ npx --yes visual-explanation-engine install --force
 ### 수동 설치
 
 ```bash
-cp -R skill/visual-explanation-engine "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R skills/visual-explanation-engine "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
 ## 사용 예시
@@ -137,7 +157,7 @@ vee doctor
 ## 포함 파일
 
 ```text
-skill/visual-explanation-engine/
+skills/visual-explanation-engine/
 ├── SKILL.md
 ├── agents/openai.yaml
 └── references/modality-playbook.md

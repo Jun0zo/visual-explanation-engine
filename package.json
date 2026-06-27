@@ -1,6 +1,6 @@
 {
   "name": "visual-explanation-engine",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Codex skill that turns explanations into visual, interactive, multimodal learning experiences.",
   "license": "MIT",
   "author": "Visual Explanation Engine Contributors",
@@ -31,7 +31,7 @@
     "docs/assets/*.png",
     "docs/i18n/*.md",
     "scripts/",
-    "skill/visual-explanation-engine/",
+    "skills/visual-explanation-engine/",
     "LICENSE",
     "README.md",
     "README.ko.md"

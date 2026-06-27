@@ -4,11 +4,10 @@
 const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
-const readline = require("node:readline");
 
 const root = path.resolve(__dirname, "..");
 const skillName = "visual-explanation-engine";
-const sourceSkill = path.join(root, "skill", skillName);
+const sourceSkill = path.join(root, "skills", skillName);
 
 function codexHome() {
   return process.env.CODEX_HOME || path.join(os.homedir(), ".codex");
@@ -165,87 +164,6 @@ function installSelected(targetIds, options = {}) {
   }
 }
 
-async function promptForTargets() {
-  const targets = installTargets();
-  if (!process.stdin.isTTY || !process.stdout.isTTY) {
-    return targets.filter((target) => target.defaultSelected).map((target) => target.id);
-  }
-
-  readline.emitKeypressEvents(process.stdin);
-  const selected = new Set(targets.filter((target) => target.defaultSelected).map((target) => target.id));
-  let cursor = 0;
-  let renderedLines = 0;
-  const stdinWasRaw = process.stdin.isRaw;
-
-  function render() {
-    if (renderedLines > 0) {
-      process.stdout.write(`\x1b[${renderedLines}A`);
-      process.stdout.write("\x1b[J");
-    }
-    const lines = [
-      "Select AI targets. Space toggles, arrows move, A toggles all, Enter installs.",
-      "",
-      ...targets.map((target, index) => {
-        const pointer = index === cursor ? ">" : " ";
-        const mark = selected.has(target.id) ? "[x]" : "[ ]";
-        return `${pointer} ${mark} ${target.label}  (${target.detail})`;
-      }),
-      "",
-    ];
-    renderedLines = lines.length;
-    process.stdout.write(lines.join("\n"));
-  }
-
-  function cleanup() {
-    if (process.stdin.isTTY) {
-      process.stdin.setRawMode(stdinWasRaw);
-    }
-    process.stdin.pause();
-    process.stdout.write("\n");
-  }
-
-  return new Promise((resolve, reject) => {
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
-    render();
-
-    process.stdin.on("keypress", (_str, key) => {
-      if (key.ctrl && key.name === "c") {
-        cleanup();
-        process.exit(130);
-      }
-      if (key.name === "up") {
-        cursor = (cursor - 1 + targets.length) % targets.length;
-        render();
-      } else if (key.name === "down") {
-        cursor = (cursor + 1) % targets.length;
-        render();
-      } else if (key.name === "space") {
-        const id = targets[cursor].id;
-        if (selected.has(id)) {
-          selected.delete(id);
-        } else {
-          selected.add(id);
-        }
-        render();
-      } else if (key.name === "a") {
-        if (selected.size === targets.length) {
-          selected.clear();
-        } else {
-          targets.forEach((target) => selected.add(target.id));
-        }
-        render();
-      } else if (key.name === "return") {
-        cleanup();
-        resolve([...selected]);
-      } else if (key.name === "escape" || key.name === "q") {
-        cleanup();
-        reject(new Error("Install cancelled."));
-      }
-    });
-  });
-}
-
 async function installCommand() {
   const force = hasFlag("--force");
   const quiet = hasFlag("--quiet");
@@ -261,7 +179,7 @@ async function installCommand() {
     return;
   }
 
-  const targetIds = rawTargets.length ? expandTargetIds(rawTargets) : await promptForTargets();
+  const targetIds = rawTargets.length ? expandTargetIds(rawTargets) : expandTargetIds(["global"]);
   installSelected(targetIds, { force, quiet, skipExisting, dryRun });
 }
 
@@ -280,6 +198,7 @@ function showHelp() {
   console.log(`Visual Explanation Engine
 
 Usage:
+  npx --yes skills add Jun0zo/visual-explanation-engine
   visual-explanation-engine install
   visual-explanation-engine install codex
   visual-explanation-engine install claude
@@ -303,7 +222,8 @@ Options:
   --dry-run        Print planned install actions without copying files
   --path <path>    Install to a custom visual-explanation-engine skill folder
 
-Run without a target for an interactive multi-select installer.
+Run without a target to install to Codex global and Claude Code global.
+Use the standard skills CLI above for the richer interactive selector.
 `);
 }
 

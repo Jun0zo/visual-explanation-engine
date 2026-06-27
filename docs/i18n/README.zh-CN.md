@@ -27,11 +27,20 @@
 ## 安装
 
 ```bash
-npm install -g visual-explanation-engine
-visual-explanation-engine install
+npx --yes skills add Jun0zo/visual-explanation-engine
 ```
 
-安装器会打开多选界面。默认选择 Codex global 和 Claude Code global，也可以追加 project-local 目标。
+要无提示安装到 Codex + Claude Code：
+
+```bash
+npx --yes skills add Jun0zo/visual-explanation-engine --skill visual-explanation-engine --agent codex claude-code --yes
+```
+
+npm fallback:
+
+```bash
+npm install -g visual-explanation-engine
+```
 
 ## 使用
 

@@ -15,7 +15,7 @@
 - Designs progressive disclosure: summary, visual map, walkthrough, examples, details, and references only when needed.
 - Encourages interactive learning with selectable concepts, step controls, timelines, diagrams, charts, examples, and misconception callouts.
 - Guides when to use generated educational images, Mermaid diagrams, SVG, tables, charts, code examples, interactive HTML, or a frontend app.
-- Packages the workflow as an installable Codex skill that can be installed with npm.
+- Packages the workflow as an installable skill that works with the standard `skills` CLI and npm.
 
 ## How It Works
 
@@ -47,7 +47,27 @@ That changes the output:
 
 ## Install
 
-### npm
+### Recommended: skills CLI
+
+Install directly from GitHub with the standard selector:
+
+```bash
+npx --yes skills add Jun0zo/visual-explanation-engine
+```
+
+For a non-interactive Codex + Claude Code install:
+
+```bash
+npx --yes skills add Jun0zo/visual-explanation-engine --skill visual-explanation-engine --agent codex claude-code --yes
+```
+
+To confirm the repository is discoverable before installing:
+
+```bash
+npx --yes skills add Jun0zo/visual-explanation-engine --list
+```
+
+### npm fallback
 
 Install from npm:
 
@@ -67,7 +87,7 @@ If the skill already exists, the installer leaves it untouched. To replace it:
 visual-explanation-engine install --force
 ```
 
-Run the installer without a target for an arrow-key multi-select flow. Codex global and Claude Code global are selected by default; project-local targets can be added with Space.
+Run the npm installer without a target to install to Codex global and Claude Code global. Use the `skills` CLI above when you want the richer standard selector.
 
 ```bash
 visual-explanation-engine install
@@ -88,7 +108,7 @@ npx --yes visual-explanation-engine install --force
 ### Manual
 
 ```bash
-cp -R skill/visual-explanation-engine "${CODEX_HOME:-$HOME/.codex}/skills/"
+cp -R skills/visual-explanation-engine "${CODEX_HOME:-$HOME/.codex}/skills/"
 ```
 
 ## Usage
@@ -141,7 +161,7 @@ vee doctor
 ## Included Skill Files
 
 ```text
-skill/visual-explanation-engine/
+skills/visual-explanation-engine/
 ├── SKILL.md
 ├── agents/openai.yaml
 └── references/modality-playbook.md
