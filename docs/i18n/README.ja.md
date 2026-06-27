@@ -36,12 +36,6 @@ For a non-interactive Codex + Claude Code install:
 npx --yes skills add Jun0zo/visual-explanation-engine --skill visual-explanation-engine --agent codex claude-code --yes
 ```
 
-npm fallback:
-
-```bash
-npm install -g visual-explanation-engine
-```
-
 ## Usage
 
 ```text

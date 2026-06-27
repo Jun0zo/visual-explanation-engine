@@ -36,12 +36,6 @@ Para instalar en Codex + Claude Code sin prompts:
 npx --yes skills add Jun0zo/visual-explanation-engine --skill visual-explanation-engine --agent codex claude-code --yes
 ```
 
-npm fallback:
-
-```bash
-npm install -g visual-explanation-engine
-```
-
 ## Uso
 
 ```text

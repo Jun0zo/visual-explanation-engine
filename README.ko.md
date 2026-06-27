@@ -15,7 +15,7 @@
 - 요약, 큰 그림, 단계별 설명, 예시, 구현 세부사항, 참고자료 순서로 정보를 점진적으로 공개합니다.
 - selectable concept, step control, timeline, diagram, chart, example, misconception callout 같은 탐색형 학습을 유도합니다.
 - generated educational image, Mermaid, SVG, table, chart, code example, interactive HTML, frontend app 중 무엇을 써야 하는지 판단하게 합니다.
-- 표준 `skills` CLI와 npm으로 설치 가능한 skill 패키지로 배포됩니다.
+- 표준 `skills` CLI로 설치 가능한 skill 패키지로 배포됩니다.
 
 ## 작동 프로세스
 
@@ -45,8 +45,6 @@
 
 ## 설치
 
-### 권장: skills CLI
-
 GitHub에서 바로 표준 선택 UI로 설치합니다.
 
 ```bash
@@ -65,50 +63,6 @@ npx --yes skills add Jun0zo/visual-explanation-engine --skill visual-explanation
 npx --yes skills add Jun0zo/visual-explanation-engine --list
 ```
 
-### npm fallback
-
-npm에서 설치합니다.
-
-```bash
-npm install -g visual-explanation-engine
-```
-
-npm `postinstall` 단계에서는 Codex용 skill을 조용히 설치합니다.
-
-```text
-${CODEX_HOME:-~/.codex}/skills/visual-explanation-engine
-```
-
-이미 설치되어 있으면 덮어쓰지 않습니다. 갱신하려면:
-
-```bash
-visual-explanation-engine install --force
-```
-
-대상을 지정하지 않고 npm installer를 실행하면 Codex global + Claude Code global에 설치합니다. 예쁜 표준 선택 UI가 필요하면 위의 `skills` CLI를 쓰면 됩니다.
-
-```bash
-visual-explanation-engine install
-```
-
-자동 설치를 건너뛰려면:
-
-```bash
-VEE_SKIP_CODEX_INSTALL=1 npm install -g visual-explanation-engine
-```
-
-### npx
-
-```bash
-npx --yes visual-explanation-engine install --force
-```
-
-### 수동 설치
-
-```bash
-cp -R skills/visual-explanation-engine "${CODEX_HOME:-$HOME/.codex}/skills/"
-```
-
 ## 사용 예시
 
 Codex에서 명시적으로 호출합니다.
@@ -124,34 +78,6 @@ Use $visual-explanation-engine to make an interactive lesson for OAuth login flo
 Use $visual-explanation-engine to visualize the difference between TCP and UDP.
 Use $visual-explanation-engine to teach gradient descent with diagrams and examples.
 Use $visual-explanation-engine to explain our backend architecture to a new engineer.
-```
-
-## CLI
-
-```bash
-visual-explanation-engine install
-visual-explanation-engine install codex
-visual-explanation-engine install claude
-visual-explanation-engine install all
-visual-explanation-engine install --force
-visual-explanation-engine doctor
-visual-explanation-engine path
-```
-
-설치 대상:
-
-| Target | 위치 |
-| --- | --- |
-| `codex` | `${CODEX_HOME:-~/.codex}/skills` |
-| `claude` | `${CLAUDE_HOME:-~/.claude}/skills` |
-| `project-codex` | `./.codex/skills` |
-| `project-claude` | `./.claude/skills` |
-| `all` | 위 대상 전체 |
-
-짧은 alias:
-
-```bash
-vee doctor
 ```
 
 ## 포함 파일

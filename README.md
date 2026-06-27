@@ -15,7 +15,7 @@
 - Designs progressive disclosure: summary, visual map, walkthrough, examples, details, and references only when needed.
 - Encourages interactive learning with selectable concepts, step controls, timelines, diagrams, charts, examples, and misconception callouts.
 - Guides when to use generated educational images, Mermaid diagrams, SVG, tables, charts, code examples, interactive HTML, or a frontend app.
-- Packages the workflow as an installable skill that works with the standard `skills` CLI and npm.
+- Packages the workflow as an installable skill for the standard `skills` CLI.
 
 ## How It Works
 
@@ -47,8 +47,6 @@ That changes the output:
 
 ## Install
 
-### Recommended: skills CLI
-
 Install directly from GitHub with the standard selector:
 
 ```bash
@@ -67,50 +65,6 @@ To confirm the repository is discoverable before installing:
 npx --yes skills add Jun0zo/visual-explanation-engine --list
 ```
 
-### npm fallback
-
-Install from npm:
-
-```bash
-npm install -g visual-explanation-engine
-```
-
-The npm `postinstall` step quietly installs the packaged skill for Codex:
-
-```text
-${CODEX_HOME:-~/.codex}/skills/visual-explanation-engine
-```
-
-If the skill already exists, the installer leaves it untouched. To replace it:
-
-```bash
-visual-explanation-engine install --force
-```
-
-Run the npm installer without a target to install to Codex global and Claude Code global. Use the `skills` CLI above when you want the richer standard selector.
-
-```bash
-visual-explanation-engine install
-```
-
-You can also skip automatic Codex installation:
-
-```bash
-VEE_SKIP_CODEX_INSTALL=1 npm install -g visual-explanation-engine
-```
-
-### npx
-
-```bash
-npx --yes visual-explanation-engine install --force
-```
-
-### Manual
-
-```bash
-cp -R skills/visual-explanation-engine "${CODEX_HOME:-$HOME/.codex}/skills/"
-```
-
 ## Usage
 
 Invoke the skill explicitly in Codex:
@@ -126,36 +80,6 @@ Use $visual-explanation-engine to make an interactive lesson for OAuth login flo
 Use $visual-explanation-engine to visualize the difference between TCP and UDP.
 Use $visual-explanation-engine to teach gradient descent with diagrams and examples.
 Use $visual-explanation-engine to explain our backend architecture to a new engineer.
-```
-
-## CLI
-
-The npm package includes a small installer CLI:
-
-```bash
-visual-explanation-engine install
-visual-explanation-engine install codex
-visual-explanation-engine install claude
-visual-explanation-engine install all
-visual-explanation-engine install --force
-visual-explanation-engine doctor
-visual-explanation-engine path
-```
-
-Install targets:
-
-| Target | Destination |
-| --- | --- |
-| `codex` | `${CODEX_HOME:-~/.codex}/skills` |
-| `claude` | `${CLAUDE_HOME:-~/.claude}/skills` |
-| `project-codex` | `./.codex/skills` |
-| `project-claude` | `./.claude/skills` |
-| `all` | every target above |
-
-Short alias:
-
-```bash
-vee doctor
 ```
 
 ## Included Skill Files

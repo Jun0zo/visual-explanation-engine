@@ -36,12 +36,6 @@ npx --yes skills add Jun0zo/visual-explanation-engine
 npx --yes skills add Jun0zo/visual-explanation-engine --skill visual-explanation-engine --agent codex claude-code --yes
 ```
 
-npm fallback:
-
-```bash
-npm install -g visual-explanation-engine
-```
-
 ## 使用
 
 ```text
