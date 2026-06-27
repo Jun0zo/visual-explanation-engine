@@ -27,7 +27,7 @@
 ## Instalacion
 
 ```bash
-npm install -g github:Jun0zo/visual-explanation-engine
+npm install -g visual-explanation-engine
 visual-explanation-engine install --force
 ```
 

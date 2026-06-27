@@ -47,10 +47,10 @@
 
 ### npm
 
-GitHub에서 설치합니다.
+npm에서 설치합니다.
 
 ```bash
-npm install -g github:Jun0zo/visual-explanation-engine
+npm install -g visual-explanation-engine
 ```
 
 npm `postinstall` 단계에서 skill을 아래 위치에 복사합니다.
@@ -68,13 +68,13 @@ visual-explanation-engine install --force
 자동 설치를 건너뛰려면:
 
 ```bash
-VEE_SKIP_CODEX_INSTALL=1 npm install -g github:Jun0zo/visual-explanation-engine
+VEE_SKIP_CODEX_INSTALL=1 npm install -g visual-explanation-engine
 ```
 
 ### npx
 
 ```bash
-npx --yes github:Jun0zo/visual-explanation-engine install --force
+npx --yes visual-explanation-engine install --force
 ```
 
 ### 수동 설치

@@ -49,10 +49,10 @@ That changes the output:
 
 ### npm
 
-Install from GitHub:
+Install from npm:
 
 ```bash
-npm install -g github:Jun0zo/visual-explanation-engine
+npm install -g visual-explanation-engine
 ```
 
 The npm `postinstall` step copies the packaged skill into:
@@ -70,13 +70,13 @@ visual-explanation-engine install --force
 You can also skip automatic Codex installation:
 
 ```bash
-VEE_SKIP_CODEX_INSTALL=1 npm install -g github:Jun0zo/visual-explanation-engine
+VEE_SKIP_CODEX_INSTALL=1 npm install -g visual-explanation-engine
 ```
 
 ### npx
 
 ```bash
-npx --yes github:Jun0zo/visual-explanation-engine install --force
+npx --yes visual-explanation-engine install --force
 ```
 
 ### Manual

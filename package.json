@@ -23,8 +23,8 @@
     "explainers"
   ],
   "bin": {
-    "visual-explanation-engine": "./bin/visual-explanation-engine.js",
-    "vee": "./bin/visual-explanation-engine.js"
+    "visual-explanation-engine": "bin/visual-explanation-engine.js",
+    "vee": "bin/visual-explanation-engine.js"
   },
   "files": [
     "bin/",
