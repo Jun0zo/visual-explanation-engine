@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Explanation Engine"
+  short_description: "Turn ideas into visual learning experiences"
+  default_prompt: "Use $visual-explanation-engine to explain this concept with the clearest mix of visuals, interaction, examples, and concise text."
