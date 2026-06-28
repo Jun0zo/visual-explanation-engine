@@ -1,6 +1,6 @@
 # Current Research Findings
 
-Latest local run inspected: `2026-06-28T07-05-29-978Z`.
+Latest local run inspected: `2026-06-28T07-11-24-547Z`.
 
 Generated screenshots and the full report live under `evals/runs/` locally and are ignored by git.
 
@@ -15,6 +15,7 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 | React render debugging | 23 | 81 | +58 |
 | Photosynthesis mechanism | 25 | 85 | +60 |
 | Incident timeline | 20 | 84 | +64 |
+| Architecture tradeoff | 18 | 83 | +65 |
 
 ## What Improved
 
@@ -28,6 +29,7 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 - Code/debugging candidates score best when code, runtime state, output, and trace are connected in one workspace rather than split into lifecycle cards.
 - Science mechanism candidates score best when hidden structure becomes the surface and matter/energy flows are attached to where they enter, transform, and exit.
 - Timeline candidates score best when time is a scaled surface with spans, overlaps, causal lag, metric traces, and before/after state changes in one view.
+- Architecture tradeoff candidates score best when constraints become a decision surface and workload changes move the recommendation on the visual object.
 
 ## Remaining Pressure
 
@@ -36,5 +38,5 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 - Labels and callouts must avoid covering the node, curve, path, document text, or moving object they explain.
 - The React trace still has interaction as its weakest score; future fixtures should make the visual state transition more dramatic without becoming noisy.
 - Science candidates can still improve by making interactions teach more than a two-state highlight; staged scrubbing through inputs, transformation, and output would be stronger.
-- More benchmark tasks are needed for architecture tradeoffs and data/analytics explanations.
+- More benchmark tasks are needed for data/analytics explanations.
 - The harness is heuristic and should eventually be paired with comprehension/transfer questions.

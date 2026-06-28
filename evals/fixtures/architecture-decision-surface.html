@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Architecture Decision Surface Candidate</title>
+  <style>
+    :root { --paper:#fbfcf8; --ink:#1f2924; --muted:#68766f; --grid:#e5eee8; --line:#9caaa3; --green:#10866f; --blue:#2c69d8; --orange:#d98916; --purple:#6e58d9; --red:#c94d4d; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; color:var(--ink); background:var(--paper); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .stage { position:relative; min-height:100vh; padding:28px 36px; background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size:42px 42px; }
+    h1 { margin:0; font-size:34px; letter-spacing:0; }
+    .hint { margin-top:7px; max-width:830px; color:var(--muted); font-size:17px; line-height:1.45; }
+    .toolbar { position:absolute; right:34px; top:28px; display:flex; align-items:center; gap:10px; padding:8px; border:1px solid #cbd8d1; border-radius:999px; background:rgba(251,252,248,.86); backdrop-filter:blur(10px); z-index:4; }
+    button { border:0; border-radius:999px; padding:10px 15px; background:transparent; color:var(--ink); font-weight:900; }
+    button[data-eval-action] { background:var(--ink); color:#fff; }
+    svg { position:absolute; inset:104px 28px 70px; width:calc(100% - 56px); height:calc(100% - 174px); }
+    .axis { stroke:#899892; stroke-width:5; stroke-linecap:round; }
+    .tick { stroke:#899892; stroke-width:3; }
+    .zone { opacity:.18; stroke-width:2; }
+    .api { fill:var(--green); stroke:var(--green); }
+    .faas { fill:var(--blue); stroke:var(--blue); }
+    .queue { fill:var(--purple); stroke:var(--purple); }
+    .stream { fill:var(--orange); stroke:var(--orange); }
+    .budget { stroke:var(--red); stroke-width:3; stroke-dasharray:10 10; }
+    .flow { fill:none; stroke:#54635c; stroke-width:5; stroke-linecap:round; stroke-dasharray:12 12; opacity:.48; }
+    .burst-flow { fill:none; stroke:var(--purple); stroke-width:8; stroke-linecap:round; stroke-dasharray:0; opacity:0; }
+    .scenario, .scenario-burst { fill:var(--paper); stroke-width:8; }
+    .scenario { stroke:var(--green); }
+    .scenario-burst { stroke:var(--purple); opacity:0; }
+    .label { font-size:16px; font-weight:950; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .small { font-size:13px; font-weight:780; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .axis-label { font-size:15px; font-weight:900; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .callout { position:absolute; max-width:292px; padding:8px 10px; border-left:4px solid var(--green); background:rgba(251,252,248,.74); font-weight:850; line-height:1.35; }
+    .callout small { display:block; margin-top:4px; color:var(--muted); font-weight:720; }
+    .c1 { left:150px; top:238px; }
+    .c2 { left:612px; top:170px; border-color:var(--blue); }
+    .c3 { right:112px; top:456px; border-color:var(--purple); }
+    .ribbon { position:absolute; left:72px; right:72px; bottom:32px; height:6px; background:#d2ddd7; }
+    .ribbon::before { content:""; position:absolute; left:0; top:0; bottom:0; width:38%; background:var(--green); }
+    .ribbon i { position:absolute; top:-9px; left:38%; width:24px; height:24px; border-radius:50%; border:6px solid var(--green); background:var(--paper); transform:translateX(-50%); }
+    body.burst .scenario { opacity:.2; }
+    body.burst .scenario-burst { opacity:1; }
+    body.burst .burst-flow { opacity:.86; }
+    body.burst .queue { opacity:.28; }
+    body.burst .ribbon::before { width:76%; background:var(--purple); }
+    body.burst .ribbon i { left:76%; border-color:var(--purple); }
+  </style>
+</head>
+<body data-state-target>
+  <main class="stage" data-visual>
+    <h1>아키텍처 선택은 옵션 카드가 아니라 제약의 위치다</h1>
+    <div class="hint">체크아웃 이미지 처리는 지연 허용치와 버스트 크기를 같이 보면 추천이 어디서 바뀌는지 드러납니다.</div>
+    <div class="toolbar" data-floating-toolbar><button>일상 부하</button><button data-eval-action>피크 부하로 이동</button></div>
+    <svg viewBox="0 0 1360 700" aria-label="architecture decision surface">
+      <polygon class="zone api" points="138,598 138,392 438,452 520,598"/>
+      <polygon class="zone faas" points="318,388 546,292 794,356 726,598 520,598 438,452"/>
+      <polygon class="zone queue" points="646,292 1028,182 1228,262 1228,598 726,598 794,356"/>
+      <polygon class="zone stream" points="892,132 1228,86 1228,262 1028,182 646,292"/>
+      <path class="flow" d="M268 486 C432 398 580 360 740 378 C906 396 1038 344 1158 242"/>
+      <path class="burst-flow" d="M268 486 C488 358 682 310 874 286 C1014 268 1114 246 1158 242"/>
+      <line class="budget" x1="138" y1="318" x2="1228" y2="318"/>
+      <text class="small" x="148" y="300">200ms 응답 예산: 위로 갈수록 API 응답과 작업 완료를 분리해야 함</text>
+      <line class="axis" x1="138" y1="598" x2="1228" y2="598"/>
+      <line class="axis" x1="138" y1="598" x2="138" y2="92"/>
+      <g>
+        <line class="tick" x1="356" y1="584" x2="356" y2="612"/><text class="axis-label" x="302" y="640">낮은 버스트</text>
+        <line class="tick" x1="716" y1="584" x2="716" y2="612"/><text class="axis-label" x="660" y="640">예측 어려움</text>
+        <line class="tick" x1="1086" y1="584" x2="1086" y2="612"/><text class="axis-label" x="1012" y="640">큰 피크</text>
+        <line class="tick" x1="124" y1="468" x2="152" y2="468"/><text class="axis-label" x="54" y="474">짧은 작업</text>
+        <line class="tick" x1="124" y1="292" x2="152" y2="292"/><text class="axis-label" x="42" y="298">수 초 작업</text>
+        <line class="tick" x1="124" y1="132" x2="152" y2="132"/><text class="axis-label" x="46" y="138">긴 작업</text>
+      </g>
+      <text class="label" x="244" y="534">single API</text>
+      <text class="small" x="244" y="557">작고 즉시 끝나는 작업</text>
+      <text class="label" x="510" y="380">serverless</text>
+      <text class="small" x="510" y="403">간헐적 처리, 운영 낮음</text>
+      <text class="label" x="890" y="410">queue worker</text>
+      <text class="small" x="890" y="433">버스트 흡수, 응답 분리</text>
+      <text class="label" x="940" y="158">streaming pipeline</text>
+      <text class="small" x="940" y="181">상시 대량 처리</text>
+      <circle class="scenario" cx="366" cy="486" r="18"/>
+      <text class="label" x="390" y="492">현재: API도 가능</text>
+      <circle class="scenario-burst" cx="866" cy="288" r="20"/>
+      <text class="label scenario-burst" x="892" y="294">피크: Queue로 이동</text>
+    </svg>
+    <div class="callout c1" data-annotation>현재 위치는 API 영역 <small>작업이 짧고 부하가 낮으면 분리 비용이 더 큽니다.</small></div>
+    <div class="callout c2" data-annotation>응답 예산을 넘는 순간 <small>사용자 응답과 이미지 처리를 분리해야 합니다.</small></div>
+    <div class="callout c3" data-annotation>피크 가정이면 추천이 이동 <small>버스트가 커질수록 큐가 지연을 흡수합니다.</small></div>
+    <div class="ribbon"><i></i></div>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => document.body.classList.toggle("burst"));
+  </script>
+</body>
+</html>

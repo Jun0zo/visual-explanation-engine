@@ -110,5 +110,21 @@
       "Cause, impact, and mitigation are separated into prose panels.",
       "The interaction changes a summary paragraph but not the timeline."
     ]
+  },
+  {
+    "id": "architecture-tradeoff",
+    "prompt": "Use visual-explanation-engine to explain whether a team should use a single API service, serverless functions, or a queue worker for checkout image processing.",
+    "domain": "architecture-tradeoff",
+    "successCriteria": [
+      "Constraints are visible as axes, thresholds, or budget lines rather than prose bullets.",
+      "The candidate architectures occupy different regions of the decision space.",
+      "A realistic scenario moves across the surface when workload assumptions change.",
+      "The recommendation changes on the visual object, not only in a paragraph."
+    ],
+    "failureModes": [
+      "Each architecture is summarized as a detached pros/cons card.",
+      "Constraints such as latency, burstiness, cost, and operational load are not spatially encoded.",
+      "The interaction changes explanatory copy but not the decision surface."
+    ]
   }
 ]

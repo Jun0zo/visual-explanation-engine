@@ -96,5 +96,19 @@
     "variant": "candidate",
     "file": "incident-timeline-axis.html",
     "notes": "Incident timeline with scaled time axis, degraded interval, metric traces, and recovery-state toggle."
+  },
+  {
+    "id": "architecture-option-cards",
+    "task": "architecture-tradeoff",
+    "variant": "baseline",
+    "file": "architecture-option-cards.html",
+    "notes": "Generic architecture pros/cons cards with detached constraint notes."
+  },
+  {
+    "id": "architecture-decision-surface",
+    "task": "architecture-tradeoff",
+    "variant": "candidate",
+    "file": "architecture-decision-surface.html",
+    "notes": "Decision surface with constraint axes, architecture regions, scenario movement, and visual recommendation shift."
   }
 ]

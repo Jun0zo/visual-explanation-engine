@@ -41,6 +41,7 @@ For nontrivial explainers, make the visual or interactive model carry the unders
 - For code explanations, make the code, runtime state, call stack, data flow, or trace the inspected object. Highlight the exact line or state transition being explained.
 - For science or physical mechanisms, make the structure, cross-section, scale view, transformation, or material/energy flow the inspected object. Attach labels to where the mechanism happens.
 - For timelines, make time the organizing surface. Show duration, gaps, overlap, causal lag, and state changes on the axis instead of turning events into cards.
+- For architecture and tradeoff explanations, make constraints, request paths, budgets, failure boundaries, or decision surfaces the inspected object. Show where the recommendation changes.
 
 ## Anti-Template Rules
 
@@ -68,6 +69,7 @@ Design the surface around the explanatory object, not around containers:
 - For code and debugging explainers, connect code lines to runtime events: input, handler, state update, render, network request, cache read, error boundary, log, or output. Avoid standalone lifecycle cards when a trace would show the mechanism.
 - For science explainers, connect inputs, outputs, forces, reactions, energy, matter, layers, and hidden internals to the exact region where they occur. Avoid definition cards when a cross-section, exploded view, or simulation would show the mechanism.
 - For timeline explainers, encode actual timing: positions, spans, parallel lanes, before/after state, and cause-effect delays. Avoid equal-width event cards unless time intervals are genuinely equal.
+- For architecture tradeoffs, encode constraints as axes, thresholds, lanes, flow capacity, failure zones, or budget lines. Avoid detached pros/cons cards when the choice depends on workload or constraints.
 - Make callouts physically touch or point to the evidence they describe. Floating labels in empty space are weak explanations.
 - Keep labels and callouts out of the object's path. They may touch, underline, bracket, or point to evidence, but should not cover the node, curve, document text, or moving object being explained.
 - Let whitespace, alignment, scale, and motion organize the page before adding borders.
@@ -121,6 +123,7 @@ Before finalizing, verify:
 - Code explanations show what line runs, what state changes, and where the output changes.
 - Science explanations show what enters, moves, transforms, exits, and where hidden structure matters.
 - Timeline explanations show when things happen, how long they last, what overlaps, and what changes before and after.
+- Architecture tradeoffs show how constraints, workload, failure modes, or budgets move the recommendation.
 - The design does not look like a generic AI-generated dark card dashboard.
 - The layout avoids nested boxes, card stacks, and framed panels around framed panels.
 - The main visual is not trapped inside a decorative chart card when it could be the page surface.

@@ -34,6 +34,7 @@ Generated runs are intentionally ignored by git. They are evidence for local ite
 - `react-render-debugging`: React lifecycle card baseline vs code-and-runtime trace workspace.
 - `photosynthesis-mechanism`: definition-card baseline vs chloroplast cross-section mechanism lab.
 - `incident-timeline`: card postmortem baseline vs scaled incident timeline axis.
+- `architecture-tradeoff`: pros/cons card baseline vs constraint-driven decision surface.
 
 The goal is not to make the metric perfect. The goal is to create a repeatable pressure loop: generate examples, capture them, score regressions, inspect screenshots, then tighten the skill instructions.
 
