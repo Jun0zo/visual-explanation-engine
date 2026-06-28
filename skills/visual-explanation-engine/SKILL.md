@@ -38,6 +38,7 @@ For nontrivial explainers, make the visual or interactive model carry the unders
 - Encode relationships with position, grouping, motion, color, scale, sequence, or direct manipulation, not just with written descriptions.
 - Use real or realistic examples from the user's topic. If the task involves evaluation, writing, code, data, or a workflow, show a sample artifact being inspected instead of only describing the rules.
 - Make interactions change the visual state. A tab or button that only swaps paragraphs is not enough.
+- For code explanations, make the code, runtime state, call stack, data flow, or trace the inspected object. Highlight the exact line or state transition being explained.
 
 ## Anti-Template Rules
 
@@ -62,6 +63,7 @@ Design the surface around the explanatory object, not around containers:
 - Keep controls compact and spatially attached to what they affect. Use a toolbar, floating controls, edge rail, or inline handles instead of a separate card column when possible.
 - Avoid making every small label a pill or rounded rectangle. Prefer typography, tick marks, leader lines, direct labels, ghost paths, strokes, fills, and axis marks.
 - For algorithm and graph explainers, show state as marks on the graph: colored edges, pointer movement, inline distance values, struck/replaced values, and ghost paths. Avoid distance badges under every node unless the badge itself changes in a meaningful way.
+- For code and debugging explainers, connect code lines to runtime events: input, handler, state update, render, network request, cache read, error boundary, log, or output. Avoid standalone lifecycle cards when a trace would show the mechanism.
 - Make callouts physically touch or point to the evidence they describe. Floating labels in empty space are weak explanations.
 - Keep labels and callouts out of the object's path. They may touch, underline, bracket, or point to evidence, but should not cover the node, curve, document text, or moving object being explained.
 - Let whitespace, alignment, scale, and motion organize the page before adding borders.
@@ -112,6 +114,7 @@ Before finalizing, verify:
 - Visual structure matches the concept structure.
 - The artifact would still mostly make sense if paragraphs were removed.
 - The main interaction changes a diagram, example, state, chart, or specimen rather than only replacing text.
+- Code explanations show what line runs, what state changes, and where the output changes.
 - The design does not look like a generic AI-generated dark card dashboard.
 - The layout avoids nested boxes, card stacks, and framed panels around framed panels.
 - The main visual is not trapped inside a decorative chart card when it could be the page surface.

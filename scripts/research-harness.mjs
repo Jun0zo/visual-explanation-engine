@@ -61,7 +61,14 @@ function scoreMetrics(metrics) {
   );
   const annotation = clamp(metrics.annotationCount * 13 + metrics.attachedAnnotationRatio * 35);
   const interaction = clamp(metrics.controlCount * 5 + metrics.interactionPixelDiffRatio * 800 + metrics.visualStateChangeCount * 24);
-  const antiSlop = clamp(100 - metrics.heroPenalty - metrics.longParagraphCount * 8 - metrics.roundedTextControlCount * 2.5 - metrics.roundedLabelCount * 1.8);
+  const antiSlop = clamp(
+    100 -
+      metrics.heroPenalty -
+      metrics.longParagraphCount * 8 -
+      metrics.roundedTextControlCount * 2.5 -
+      metrics.roundedLabelCount * 1.8 -
+      metrics.labelCollisionCount * 5
+  );
   const overall = Math.round(
     visualRatio * 0.2 +
     textEconomy * 0.18 +
@@ -126,6 +133,12 @@ async function collectDomMetrics(page) {
     function clippedArea(rect) {
       const width = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
       const height = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      return width * height;
+    }
+
+    function overlapArea(a, b) {
+      const width = Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left));
+      const height = Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top));
       return width * height;
     }
 
@@ -226,6 +239,18 @@ async function collectDomMetrics(page) {
       if (rect.area < 60 || rect.area > 5200) return false;
       return true;
     }).length;
+    const labelEls = [
+      ...document.querySelectorAll("[data-annotation], .annotation, .callout, [data-label], svg text.label, svg text.small, svg text.weight, svg text.dist"),
+    ].filter(isVisible).filter((el) => !el.closest("[data-floating-toolbar]"));
+    const labelRects = labelEls.map((el) => rectOf(el)).filter((rect) => rect.area > 18);
+    let labelCollisionCount = 0;
+    for (let index = 0; index < labelRects.length; index++) {
+      for (let otherIndex = index + 1; otherIndex < labelRects.length; otherIndex++) {
+        const area = overlapArea(labelRects[index], labelRects[otherIndex]);
+        const threshold = Math.max(24, Math.min(labelRects[index].area, labelRects[otherIndex].area) * 0.18);
+        if (area > threshold) labelCollisionCount++;
+      }
+    }
 
     return {
       bodyText,
@@ -243,6 +268,7 @@ async function collectDomMetrics(page) {
       longParagraphCount,
       roundedTextControlCount,
       roundedLabelCount: roundedHtmlLabelCount + roundedSvgLabelCount,
+      labelCollisionCount,
     };
   });
 }
@@ -288,6 +314,7 @@ async function evaluateFixture(browser, fixture, runDir) {
     longParagraphCount: dom.longParagraphCount,
     roundedTextControlCount: dom.roundedTextControlCount,
     roundedLabelCount: dom.roundedLabelCount,
+    labelCollisionCount: dom.labelCollisionCount,
   };
   return {
     ...fixture,
@@ -319,8 +346,9 @@ function summarizeFindings(results) {
         candidate.metrics.cardLikeCount < baseline.metrics.cardLikeCount ? "candidate reduced card-like containers" : "candidate still has many card-like containers",
         candidate.metrics.framedVisualCount < baseline.metrics.framedVisualCount ? "candidate lets the primary visual escape decorative frames" : "candidate still frames the primary visual too heavily",
         candidate.metrics.roundedLabelCount < baseline.metrics.roundedLabelCount ? "candidate uses fewer pill-like labels" : "candidate still leans on rounded labels",
+        candidate.metrics.labelCollisionCount <= baseline.metrics.labelCollisionCount ? "labels collide less often" : "labels still collide",
         candidate.metrics.attachedAnnotationRatio >= baseline.metrics.attachedAnnotationRatio ? "annotations are better attached to evidence" : "annotations drift away from evidence",
-        candidate.metrics.interactionPixelDiffRatio > baseline.metrics.interactionPixelDiffRatio ? "interaction changes more pixels" : "interaction does not visibly change much",
+        candidate.metrics.visualStateChangeCount > baseline.metrics.visualStateChangeCount ? "interaction changes marked visual state" : "interaction lacks marked visual state changes",
       ],
     });
   }

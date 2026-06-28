@@ -32,6 +32,7 @@ Pick a form that feels native to the subject instead of defaulting to cards:
 - **Writing or presentation coaching**: show annotated excerpts, timing, structure, audience reaction, and revision handles.
 - **Algorithms**: show state, pointer movement, iterations, and before/after memory or data structures.
 - **Systems**: show an object moving through components, permissions, queues, retries, and failure branches.
+- **Code and debugging**: show the source artifact, highlighted execution line, runtime state, logs/output, and the trace connecting them.
 - **Mathematics**: show a graph, geometric construction, or manipulable parameter before definitions.
 - **Scientific mechanisms**: show cross-sections, scale changes, transformations, and hidden internals.
 - **Tradeoffs**: show a decision surface, sliders for constraints, and how the recommendation changes.
@@ -52,6 +53,7 @@ Use these patterns to avoid boxy AI layouts:
 - **Non-occluding labels**: place labels in the whitespace around the evidence, with a pointer or bracket when needed; never cover the mark, text, path, or object that must be inspected.
 - **Surface-as-page**: for graphs, maps, timelines, editors, and documents, make the native surface fill the page; do not wrap it in a title card, inner canvas, and surrounding dashboard.
 - **State-on-object**: show algorithm state by changing the object itself: recolor paths, move pointers, replace numbers in place, fade rejected branches, or draw the next-step preview.
+- **Code trace workspace**: pair code with the live state/output it changes; use arrows, highlighted lines, stack frames, request traces, or logs instead of separate explanation cards.
 
 Use boxes only when they represent real domain boundaries such as files, screens, components, documents, rooms, states, or data records. Decorative grouping boxes should be rare.
 
@@ -88,6 +90,8 @@ Use for systems, code, algorithms, APIs, or architecture:
 3. Walk one realistic request, state transition, or example.
 4. Expose tradeoffs and failure modes.
 5. Include minimal code only where it clarifies the mechanism.
+
+For code/debugging topics, treat code as an artifact to inspect, not a decorative snippet. Show exact lines, state before/after, output, logs, requests, or stack movement in one connected trace.
 
 ### Educational illustration
 
@@ -143,4 +147,6 @@ Revise before finalizing if any of these are true:
 - The visual metaphor is unrelated to the user's domain.
 - Interactions only change text panels.
 - A diagram node or card repeats prose that could have been a label.
+- Code is shown in a small decorative block while the explanation happens in cards.
+- A runtime explanation never shows the state, output, log, request, or stack frame that changes.
 - The result would look plausible for almost any topic after swapping the words.

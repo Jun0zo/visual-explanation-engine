@@ -62,5 +62,21 @@
       "The graph is decorative or too small.",
       "The interaction changes text but not the curve, point, or tangent."
     ]
+  },
+  {
+    "id": "react-render-debugging",
+    "prompt": "Use visual-explanation-engine to explain why a React counter re-renders after setState to a junior frontend developer.",
+    "domain": "code-debugging",
+    "successCriteria": [
+      "The code and execution trace are the primary objects.",
+      "The setState line, render pass, commit moment, and effect timing are spatially connected.",
+      "The learner can see what changes before and after one click.",
+      "Concept labels do not cover the code or execution path they explain."
+    ],
+    "failureModes": [
+      "React lifecycle is explained as a list of generic concept cards.",
+      "Code is a decorative snippet instead of an inspected artifact.",
+      "The interaction changes a paragraph but not the code highlight, rendered output, or trace."
+    ]
   }
 ]

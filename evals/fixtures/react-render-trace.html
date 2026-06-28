@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>React Render Trace Candidate</title>
+  <style>
+    :root { --paper:#fbfcf8; --ink:#1f2724; --muted:#68756f; --grid:#e6eee8; --line:#c9d7d0; --blue:#266bd8; --green:#10866f; --orange:#d98a16; --red:#c35050; --code:#17211c; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; color:var(--ink); background:var(--paper); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .stage { position:relative; min-height:100vh; padding:28px 36px; background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size:42px 42px; }
+    h1 { margin:0; font-size:34px; letter-spacing:0; }
+    .hint { margin-top:7px; max-width:740px; color:var(--muted); font-size:17px; line-height:1.45; }
+    .toolbar { position:absolute; right:34px; top:28px; display:flex; align-items:center; gap:10px; padding:8px; border:1px solid var(--line); border-radius:999px; background:rgba(251,252,248,.84); backdrop-filter:blur(10px); z-index:4; }
+    button { border:0; border-radius:999px; padding:10px 15px; background:transparent; color:var(--ink); font-weight:900; }
+    button[data-eval-action] { background:var(--ink); color:#fff; }
+    .workspace { position:absolute; inset:124px 34px 86px; display:grid; grid-template-columns:520px 1fr; gap:34px; }
+    .editor { position:relative; background:var(--code); color:#d8f0e5; border-radius:6px; padding:26px 22px 22px 58px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:18px; line-height:1.9; box-shadow:0 20px 55px rgba(24,38,30,.16); }
+    .editor::before { content:""; position:absolute; left:0; top:0; bottom:0; width:42px; background:#101812; border-radius:6px 0 0 6px; }
+    .line-no { position:absolute; left:13px; color:#6f8179; }
+    .l1 { top:26px; } .l2 { top:60px; } .l3 { top:94px; } .l4 { top:128px; } .l5 { top:162px; } .l6 { top:196px; } .l7 { top:230px; }
+    .code-line { position:relative; display:block; white-space:pre; }
+    .hot { background:rgba(38,107,216,.22); box-shadow:-12px 0 0 rgba(38,107,216,.22), 12px 0 0 rgba(38,107,216,.22); }
+    .effect { color:#9ee7cf; }
+    .set { color:#ffd28a; }
+    .screen { position:absolute; left:70px; bottom:58px; width:190px; height:112px; border:1px solid rgba(216,240,229,.28); border-radius:5px; display:grid; place-items:center; background:#202d26; }
+    .screen b { font-size:54px; color:#fff; }
+    .trace { position:relative; }
+    svg { position:absolute; inset:0; width:100%; height:100%; }
+    .rail { fill:none; stroke:#cfdad3; stroke-width:8; stroke-linecap:round; }
+    .rail.active { stroke:var(--blue); }
+    .rail.commit { stroke:var(--green); }
+    .rail.effect { stroke:var(--orange); }
+    .node circle { fill:var(--paper); stroke:#67736c; stroke-width:4; }
+    .node.active circle { fill:#eef4ff; stroke:var(--blue); stroke-width:7; }
+    .node.done circle { fill:#e6f6ef; stroke:var(--green); stroke-width:6; }
+    .node text { font-size:20px; font-weight:950; text-anchor:middle; dominant-baseline:central; fill:var(--ink); }
+    .label { font-size:16px; font-weight:950; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .small { font-size:13px; font-weight:760; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .callout { position:absolute; max-width:270px; padding:8px 10px; border-left:4px solid var(--blue); background:rgba(251,252,248,.72); font-weight:850; line-height:1.35; }
+    .callout small { display:block; color:var(--muted); margin-top:4px; font-weight:700; }
+    .c1 { left:36px; top:58px; }
+    .c2 { left:330px; top:610px; border-color:var(--green); }
+    .c3 { right:34px; top:86px; border-color:var(--orange); }
+    .probe { position:absolute; left:36px; right:36px; bottom:32px; height:5px; background:#d3ded8; }
+    .probe::before { content:""; position:absolute; left:0; top:0; bottom:0; width:25%; background:var(--blue); }
+    .dot { position:absolute; top:-8px; left:25%; width:22px; height:22px; border-radius:50%; border:5px solid var(--blue); background:var(--paper); transform:translateX(-50%); }
+    body.step2 .editor .code-line:nth-of-type(6) { background:rgba(16,134,111,.22); box-shadow:-12px 0 0 rgba(16,134,111,.22), 12px 0 0 rgba(16,134,111,.22); }
+    body.step2 .editor .hot { background:transparent; box-shadow:none; }
+    body.step2 .screen b::after { content:"1"; }
+    body:not(.step2) .screen b::after { content:"0"; }
+    body.step2 .rail[data-step="2"], body.step2 .rail[data-step="3"] { stroke:var(--green); }
+    body.step2 .node[data-n="render"], body.step2 .node[data-n="commit"] { --x:1; }
+    body.step2 .node[data-n="render"] circle, body.step2 .node[data-n="commit"] circle { fill:#e6f6ef; stroke:var(--green); stroke-width:7; }
+    body.step2 .probe::before { width:62%; background:var(--green); }
+    body.step2 .dot { left:62%; border-color:var(--green); }
+  </style>
+</head>
+<body data-state-target>
+  <main class="stage" data-visual>
+    <h1>React 렌더는 코드가 다시 지나간 흔적이다</h1>
+    <div class="hint">버튼 클릭은 값을 즉시 밀어 넣는 일이 아니라, 같은 컴포넌트 함수를 새 상태로 다시 통과시키는 예약입니다.</div>
+    <div class="toolbar" data-floating-toolbar><button>처음</button><button data-eval-action>클릭 한 번 실행</button></div>
+    <section class="workspace">
+      <pre class="editor" data-domain-box aria-label="React Counter source code"><i class="line-no l1">1</i><i class="line-no l2">2</i><i class="line-no l3">3</i><i class="line-no l4">4</i><i class="line-no l5">5</i><i class="line-no l6">6</i><i class="line-no l7">7</i><code><span class="code-line">function Counter() {</span>
+<span class="code-line">  const [count, setCount] = useState(0);</span>
+<span class="code-line effect">  useEffect(() =&gt; log(count), [count]);</span>
+<span class="code-line">  return &lt;button</span>
+<span class="code-line hot">    onClick={() =&gt; <span class="set">setCount(count + 1)</span>}</span>
+<span class="code-line">  &gt;{count}&lt;/button&gt;;</span>
+<span class="code-line">}</span></code><div class="screen" aria-label="Rendered counter"><b></b></div></pre>
+      <section class="trace" aria-label="React render execution trace">
+        <svg viewBox="0 0 800 560">
+          <path class="rail active" data-step="1" d="M92 188 C210 188 270 188 372 188"/>
+          <path class="rail" data-step="2" d="M372 188 C486 188 534 280 534 374"/>
+          <path class="rail commit" data-step="3" d="M534 374 C632 374 690 310 690 216"/>
+          <path class="rail effect" data-step="4" d="M690 216 C674 106 534 84 410 104"/>
+          <g class="node active" data-n="event" transform="translate(92 188)"><circle r="46"/><text>click</text></g>
+          <g class="node" data-n="render" transform="translate(372 188)"><circle r="54"/><text>render</text></g>
+          <g class="node" data-n="commit" transform="translate(534 374)"><circle r="52"/><text>commit</text></g>
+          <g class="node" data-n="effect" transform="translate(690 216)"><circle r="48"/><text>effect</text></g>
+          <text class="label" x="136" y="156">handler schedules update</text>
+          <text class="label" x="416" y="124">component runs again</text>
+          <text class="label" x="488" y="442">DOM changes here</text>
+          <text class="label" x="588" y="108">effect sees committed UI</text>
+          <text class="small" x="276" y="262">old count=0, next count=1</text>
+        </svg>
+        <div class="callout c1" data-annotation>setState는 예약 신호 <small>이 줄이 다음 render를 큐에 넣습니다.</small></div>
+        <div class="callout c2" data-annotation>화면은 commit에서 바뀜 <small>버튼 숫자는 여기서 0에서 1로 보입니다.</small></div>
+        <div class="callout c3" data-annotation>effect는 뒤따라 옴 <small>그래서 DOM 동기화와 로그가 여기로 갑니다.</small></div>
+      </section>
+    </section>
+    <div class="probe"><i class="dot"></i></div>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => document.body.classList.toggle("step2"));
+  </script>
+</body>
+</html>

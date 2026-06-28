@@ -1,6 +1,6 @@
 # Current Research Findings
 
-Latest local run inspected: `2026-06-28T06-18-17-952Z`.
+Latest local run inspected: `2026-06-28T06-31-49-736Z`.
 
 Generated screenshots and the full report live under `evals/runs/` locally and are ignored by git.
 
@@ -12,6 +12,7 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 | Rubric inspection | 15 | 68 | +53 |
 | OAuth request path | 26 | 82 | +56 |
 | Gradient descent surface | 28 | 83 | +55 |
+| React render debugging | 23 | 81 | +58 |
 
 ## What Improved
 
@@ -20,12 +21,15 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 - Artifact inspection works better than abstract metaphors for evaluation/rubric explanations.
 - Controls are useful only when they visibly change the primary object, not just a text panel.
 - New box-surface metrics make framed chart cards, high box-area layouts, and rounded-label overuse visible in the report.
+- Label-collision metrics catch annotations and SVG labels that physically overlap before they become a polished-output problem.
 - Graph and math candidates score best when the native surface becomes the page and state changes happen directly on paths, points, and inline values.
+- Code/debugging candidates score best when code, runtime state, output, and trace are connected in one workspace rather than split into lifecycle cards.
 
 ## Remaining Pressure
 
 - Distance and state labels can still overuse rounded pills; prefer ticks, inline numerals, strokes, and ghost paths.
 - Callouts need physical attachment to evidence. Floating tags still read as UI decoration.
 - Labels and callouts must avoid covering the node, curve, path, document text, or moving object they explain.
-- More benchmark tasks are needed for timelines, scientific mechanisms, architecture tradeoffs, and code/debugging flows.
+- The React trace still has interaction as its weakest score; future fixtures should make the visual state transition more dramatic without becoming noisy.
+- More benchmark tasks are needed for timelines, scientific mechanisms, architecture tradeoffs, and data/analytics explanations.
 - The harness is heuristic and should eventually be paired with comprehension/transfer questions.

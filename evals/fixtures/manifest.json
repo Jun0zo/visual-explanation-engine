@@ -54,5 +54,19 @@
     "variant": "candidate",
     "file": "gradient-curve-lab.html",
     "notes": "Curve-first explanation with tangent, step arrow, and visible point update."
+  },
+  {
+    "id": "react-render-cards",
+    "task": "react-render-debugging",
+    "variant": "baseline",
+    "file": "react-render-cards.html",
+    "notes": "Generic React concept cards with a decorative code snippet and detached explanation column."
+  },
+  {
+    "id": "react-render-trace",
+    "task": "react-render-debugging",
+    "variant": "candidate",
+    "file": "react-render-trace.html",
+    "notes": "Code-and-trace workspace showing setState, render, commit, effect, and visible output change."
   }
 ]
