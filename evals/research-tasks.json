@@ -1,0 +1,34 @@
+[
+  {
+    "id": "dijkstra-lab",
+    "prompt": "Use visual-explanation-engine to teach Dijkstra's shortest path algorithm to a beginner.",
+    "domain": "algorithm",
+    "successCriteria": [
+      "The graph is the main object rather than a framed chart inside a dashboard.",
+      "State changes are visible on the graph itself.",
+      "Labels sit near nodes and edges instead of in a separate explanation column.",
+      "Controls advance or scrub the algorithm state."
+    ],
+    "failureModes": [
+      "Right-side card stack explains what should be annotated directly.",
+      "Most labels and controls are rounded text boxes.",
+      "The user reads paragraphs instead of watching the algorithm evolve."
+    ]
+  },
+  {
+    "id": "rubric-inspection",
+    "prompt": "Use visual-explanation-engine to explain how an evaluation rubric reads a messy student presentation draft.",
+    "domain": "evaluation-language",
+    "successCriteria": [
+      "A realistic artifact is inspected directly.",
+      "Evidence, interpretation, and judgment are visually separated.",
+      "Criteria act like lenses over the artifact rather than abstract cards.",
+      "The learner can compare before and after states."
+    ],
+    "failureModes": [
+      "Large hero copy and conceptual card grid dominate.",
+      "Decorative growth metaphors replace the actual rubric behavior.",
+      "The output describes criteria without showing how they apply."
+    ]
+  }
+]

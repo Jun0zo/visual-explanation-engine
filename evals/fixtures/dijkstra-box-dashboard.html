@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dijkstra Box Dashboard Baseline</title>
+  <style>
+    :root { --ink:#1f2924; --muted:#69736e; --line:#d7e0db; --panel:#fff; --soft:#f4f8f5; --green:#168a78; --blue:#3468cf; --orange:#f2a51b; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:#f7faf7; }
+    header { display:flex; justify-content:space-between; gap:24px; padding:32px 42px 28px; border-bottom:1px solid var(--line); background:#fbfdfb; }
+    h1 { margin:0 0 8px; font-size:52px; }
+    p { font-size:20px; line-height:1.55; color:var(--muted); margin:0; }
+    .toolbar { display:flex; gap:12px; align-items:center; }
+    button, select { border:1px solid #cdd8d1; background:#fff; border-radius:14px; padding:14px 18px; font-weight:800; font-size:18px; color:var(--ink); }
+    button.primary { background:#1d2521; color:#fff; }
+    main { display:grid; grid-template-columns:minmax(720px, 1fr) 390px; gap:36px; padding:40px 42px; }
+    .panel, .card { background:var(--panel); border:1px solid var(--line); border-radius:18px; box-shadow:0 16px 40px rgba(41,60,49,.06); }
+    .graph-panel { padding:28px; }
+    .graph-title { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; }
+    h2 { margin:0; font-size:28px; }
+    .legend { display:flex; gap:16px; color:var(--muted); font-weight:700; }
+    .dot { display:inline-block; width:15px; height:15px; border-radius:999px; margin-right:6px; vertical-align:-2px; }
+    .graphbox { border:1px solid var(--line); border-radius:14px; overflow:hidden; background-image:linear-gradient(#eef3ef 1px, transparent 1px), linear-gradient(90deg, #eef3ef 1px, transparent 1px); background-size:48px 48px; min-height:680px; }
+    svg { width:100%; height:680px; display:block; }
+    .sidebar { display:flex; flex-direction:column; gap:20px; }
+    .card { padding:28px; }
+    .card h3 { margin:0 0 16px; font-size:26px; }
+    .tag { color:var(--green); font-weight:900; font-size:20px; }
+    .pill { display:inline-block; margin-top:16px; padding:12px 18px; border:1px solid var(--line); border-radius:12px; font-weight:900; background:#f1f7f3; }
+    .steps { display:grid; gap:16px; }
+    .step { display:grid; grid-template-columns:40px 1fr; gap:14px; align-items:start; }
+    .num { background:#d9f0e9; color:#168a78; border-radius:12px; padding:8px 0; text-align:center; font-weight:900; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>다익스트라 실험실</h1>
+      <p>출발점에서 가장 가까운 후보를 하나씩 확정하며 최단거리를 퍼뜨리는 과정을 눌러서 따라가 보세요.</p>
+    </div>
+    <div class="toolbar">
+      <select aria-label="출발"><option>출발 A</option></select>
+      <select aria-label="목표"><option>목표 F</option></select>
+      <button>이전</button>
+      <button class="primary" data-eval-action>다음</button>
+      <button>자동</button>
+    </div>
+  </header>
+  <main>
+    <section class="panel graph-panel">
+      <div class="graph-title">
+        <h2>가중치 그래프</h2>
+        <div class="legend"><span><i class="dot" style="background:var(--orange)"></i>현재 선택</span><span><i class="dot" style="background:var(--green)"></i>거리 확정</span><span><i class="dot" style="background:var(--blue)"></i>목표 경로</span></div>
+      </div>
+      <div class="graphbox" data-visual>
+        <svg viewBox="0 0 900 620" aria-label="가중치 그래프">
+          <g stroke="#aebbb3" stroke-width="5" fill="none">
+            <path d="M150 330 L330 220 L330 430 L150 330 L560 270 L610 455 L760 345 L560 270 L330 430"/>
+            <path d="M330 220 L560 270"/>
+          </g>
+          <g font-size="18" font-weight="900" fill="#1f2924">
+            <text x="255" y="285">4</text><text x="245" y="390">2</text><text x="318" y="332">1</text><text x="475" y="260">5</text><text x="480" y="372">8</text><text x="595" y="355">2</text><text x="703" y="330">6</text><text x="700" y="445">3</text><text x="488" y="478">10</text>
+          </g>
+          <g font-size="28" font-weight="900" text-anchor="middle" dominant-baseline="central">
+            <circle cx="150" cy="330" r="45" fill="#fff8df" stroke="#f2a51b" stroke-width="6"/><text x="150" y="330">A</text>
+            <circle cx="330" cy="220" r="45" fill="#fff" stroke="#65716b" stroke-width="5"/><text x="330" y="220">B</text>
+            <circle cx="330" cy="430" r="45" fill="#fff" stroke="#65716b" stroke-width="5"/><text x="330" y="430">C</text>
+            <circle cx="560" cy="270" r="45" fill="#fff" stroke="#65716b" stroke-width="5"/><text x="560" y="270">D</text>
+            <circle cx="610" cy="455" r="45" fill="#fff" stroke="#65716b" stroke-width="5"/><text x="610" y="455">E</text>
+            <circle cx="760" cy="345" r="45" fill="#fff" stroke="#3468cf" stroke-width="5"/><text x="760" y="345">F</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+    <aside class="sidebar">
+      <section class="card" data-side-card>
+        <div class="tag">확정</div>
+        <h3>A의 거리를 확정합니다</h3>
+        <p>큐에서 가장 작은 값은 A=0입니다. 음수 간선이 없으므로 이 값은 더 줄어들 수 없습니다.</p>
+        <span class="pill">확정: A = 0</span>
+      </section>
+      <section class="card" data-side-card>
+        <h3>우선순위 큐</h3>
+        <p>큐의 맨 앞 후보가 다음으로 확정될 노드입니다. 값이 작을수록 먼저 나옵니다.</p>
+        <span class="pill">비어 있음</span>
+      </section>
+      <section class="card" data-side-card>
+        <h3>읽는 법</h3>
+        <div class="steps">
+          <div class="step"><div class="num">1</div><p>현재 가장 짧은 후보를 하나 고르면 거리는 확정됩니다.</p></div>
+          <div class="step"><div class="num">2</div><p>그 노드의 이웃을 보며 현재거리 + 비용을 계산합니다.</p></div>
+          <div class="step"><div class="num">3</div><p>새 계산값이 더 작으면 거리와 이전 노드를 바꿉니다.</p></div>
+        </div>
+      </section>
+    </aside>
+  </main>
+  <script>
+    document.querySelector('[data-eval-action]').addEventListener('click', () => {
+      document.body.style.setProperty('--orange', '#0f9f8d');
+      document.querySelector('.tag').textContent = '완료';
+    });
+  </script>
+</body>
+</html>

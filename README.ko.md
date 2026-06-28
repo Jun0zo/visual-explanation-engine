@@ -92,3 +92,10 @@ skills/visual-explanation-engine/
 ```
 
 `modality-playbook.md`는 설명 구조별 추천 형식을 담고 있습니다. flow diagram, timeline, comparison matrix, architecture diagram, algorithm trace, relationship network, decision tree, chart, mathematical visual, scientific illustration, interactive lesson 같은 선택지를 안내합니다.
+
+## 개발
+
+```bash
+npm test
+npm run eval:research
+```

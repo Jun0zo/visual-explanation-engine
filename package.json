@@ -30,7 +30,7 @@
     "bin/",
     "docs/assets/*.png",
     "docs/i18n/*.md",
-    "scripts/",
+    "scripts/postinstall.js",
     "skills/visual-explanation-engine/",
     "LICENSE",
     "README.md",
@@ -40,10 +40,15 @@
     "postinstall": "node scripts/postinstall.js",
     "install:skill": "node bin/visual-explanation-engine.js install --force",
     "doctor": "node bin/visual-explanation-engine.js doctor",
-    "test": "node --check bin/visual-explanation-engine.js && node --check scripts/postinstall.js",
+    "eval:research": "node scripts/research-harness.mjs",
+    "test": "node --check bin/visual-explanation-engine.js && node --check scripts/postinstall.js && node --check scripts/research-harness.mjs",
     "pack:dry": "npm pack --dry-run"
   },
   "engines": {
     "node": ">=18"
+  },
+  "devDependencies": {
+    "playwright": "^1.61.1",
+    "pngjs": "^7.0.0"
   }
 }

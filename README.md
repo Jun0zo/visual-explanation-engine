@@ -99,6 +99,7 @@ The modality playbook maps explanation structures to the best formats: flow diag
 
 ```bash
 npm test
+npm run eval:research
 npm pack --dry-run
 node bin/visual-explanation-engine.js doctor
 ```

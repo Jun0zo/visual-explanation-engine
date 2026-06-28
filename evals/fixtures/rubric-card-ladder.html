@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rubric Card Ladder Baseline</title>
+  <style>
+    :root { --bg:#101922; --panel:#172333; --line:#314158; --ink:#eef5ff; --muted:#a5b3c3; --teal:#13a58d; --gold:#9c650d; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:linear-gradient(#102033, #0d141e); color:var(--ink); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    main { max-width:1240px; margin:0 auto; padding:58px 40px 90px; }
+    .eyebrow { display:inline-block; padding:12px 18px; border-radius:999px; color:#53a0ff; background:#143a61; font-weight:800; margin-bottom:28px; }
+    h1 { font-size:58px; line-height:1.08; margin:0 0 28px; max-width:900px; }
+    p { color:var(--muted); line-height:1.7; font-size:19px; }
+    .grid { display:grid; grid-template-columns:1.15fr .85fr; gap:24px; margin-top:30px; }
+    .panel { background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:26px; box-shadow:0 18px 50px rgba(0,0,0,.18); }
+    .inside { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:center; }
+    .mini { background:#1c2b3c; border:1px solid #39506a; border-radius:12px; padding:18px; margin:14px 0; display:grid; grid-template-columns:96px 1fr; gap:12px; }
+    .pill { border-radius:999px; padding:8px 10px; font-weight:900; align-self:center; justify-self:start; background:#57400d; color:#f2ad2f; }
+    .rec { background:#0e453f; border:1px solid #137766; border-radius:12px; padding:22px; }
+    .brown { background:#563811; border-color:#8b5b17; }
+    .stages { display:grid; grid-template-columns:repeat(6, 1fr); gap:10px; margin-top:70px; }
+    .stage { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:18px; min-height:120px; }
+    .stage.active { background:#0f493f; border-color:#13917d; }
+    h2, h3 { margin:0 0 10px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Visual Explanation Engine · 세움 평가 언어 정리</div>
+    <h1>측정값은 여러 개여도, 평가 언어는 하나여야 한다.</h1>
+    <p>생각지도, 원고, 발표는 측정 도구가 다릅니다. 하지만 최종 결과는 씨앗 · 새싹 · 가지 · 나무 · 열매 · 숲 6단계로 통일해야 이해가 쉽습니다.</p>
+    <section class="grid">
+      <div class="panel">
+        <h2>현재 헷갈리는 지점</h2>
+        <h2>세 가지 평가 언어가 섞여 있음</h2>
+        <div class="inside">
+          <div>
+            <div class="mini"><span class="pill">관찰값</span><p>노드 7개<br>그냥 측정된 사실. 점수가 아님.</p></div>
+            <div class="mini"><span class="pill">100점</span><p>84점<br>일부 기준 로직의 환산값.</p></div>
+            <div class="mini"><span class="pill">6단계</span><p>4단계 · 나무<br>앞으로 통일해야 할 사용자 언어.</p></div>
+          </div>
+          <div class="rec">
+            <h3>추천 모델</h3>
+            <p>저장되는 판정값과 화면에 보이는 판정값 모두 stageIndex 1~6입니다. 모든 하위 항목도 공개하되, 척도는 6단계로 맞춥니다.</p>
+          </div>
+        </div>
+      </div>
+      <div class="panel brown" data-side-card>
+        <h2>중요한 전제</h2>
+        <p>팩터 목록은 확정되어 있습니다. 다만 공식 가중치와 기준 리포트에 영향을 주는 scoring algorithm 변경은 written sign-off가 필요합니다. 이 페이지는 산식 변경이 아니라 현재 체계와 추천 방향을 이해시키는 설명판입니다.</p>
+      </div>
+    </section>
+    <section class="stages" data-visual>
+      <div class="stage active"><h3>1단계</h3><h2>씨앗</h2><p>생각 조각이 생김</p></div>
+      <div class="stage"><h3>2단계</h3><h2>새싹</h2><p>한 주제로 모임</p></div>
+      <div class="stage"><h3>3단계</h3><h2>가지</h2><p>주장과 이유 연결</p></div>
+      <div class="stage"><h3>4단계</h3><h2>나무</h2><p>근거와 사례 활용</p></div>
+      <div class="stage"><h3>5단계</h3><h2>열매</h2><p>다른 관점 고려</p></div>
+      <div class="stage"><h3>6단계</h3><h2>숲</h2><p>통찰과 자기 관점</p></div>
+    </section>
+  </main>
+</body>
+</html>

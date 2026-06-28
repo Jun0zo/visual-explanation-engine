@@ -58,6 +58,8 @@ Design the surface around the explanatory object, not around containers:
 - Use at most one framing container around the primary object. Avoid nested borders, stacked panels, and repeated rounded rectangles.
 - Replace side explanation cards with direct annotations, labels, callout lines, overlays, tooltips, legends, scrubbers, or inline evidence markers near the relevant visual element.
 - Keep controls compact and spatially attached to what they affect. Use a toolbar, floating controls, edge rail, or inline handles instead of a separate card column when possible.
+- Avoid making every small label a pill or rounded rectangle. Prefer typography, tick marks, leader lines, direct labels, ghost paths, strokes, fills, and axis marks.
+- Make callouts physically touch or point to the evidence they describe. Floating labels in empty space are weak explanations.
 - Let whitespace, alignment, scale, and motion organize the page before adding borders.
 - When a secondary explanation is necessary, use one lightweight inspector or drawer, not several independent cards.
 
@@ -108,6 +110,8 @@ Before finalizing, verify:
 - The design does not look like a generic AI-generated dark card dashboard.
 - The layout avoids nested boxes, card stacks, and framed panels around framed panels.
 - Labels and annotations sit close to the visual evidence they describe.
+- Repeated pills, badges, and rounded labels are not carrying the visual language.
+- Leader lines and callouts terminate on real evidence, not empty space.
 - Examples sit near the abstract ideas they explain.
 - Common misconceptions are corrected when relevant.
 - Text is concise: one idea per section, no filler paragraphs.

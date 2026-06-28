@@ -1,0 +1,30 @@
+[
+  {
+    "id": "dijkstra-box-dashboard",
+    "task": "dijkstra-lab",
+    "variant": "baseline",
+    "file": "dijkstra-box-dashboard.html",
+    "notes": "Intentionally boxy dashboard: framed graph, stacked side cards, paragraph-heavy explanation."
+  },
+  {
+    "id": "dijkstra-open-canvas",
+    "task": "dijkstra-lab",
+    "variant": "candidate",
+    "file": "dijkstra-open-canvas.html",
+    "notes": "Open graph-paper stage with attached labels, ghost path, compact floating inspector, and state-changing controls."
+  },
+  {
+    "id": "rubric-card-ladder",
+    "task": "rubric-inspection",
+    "variant": "baseline",
+    "file": "rubric-card-ladder.html",
+    "notes": "Intentionally generic AI output: hero, ladder metaphor, cards, and detached explanations."
+  },
+  {
+    "id": "rubric-artifact-lens",
+    "task": "rubric-inspection",
+    "variant": "candidate",
+    "file": "rubric-artifact-lens.html",
+    "notes": "Artifact-centered rubric lens: annotated excerpt, criterion overlays, evidence trace, and before/after toggle."
+  }
+]

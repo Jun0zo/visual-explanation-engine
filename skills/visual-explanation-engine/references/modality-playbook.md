@@ -47,6 +47,8 @@ Use these patterns to avoid boxy AI layouts:
 - **Scrub bar**: use a timeline or stepper along the visual edge instead of a row of large step cards.
 - **Ghost path or overlay**: show previous, current, and next states as overlays on the same object rather than separate boxes.
 - **Object-attached controls**: put sliders, toggles, handles, or buttons on or beside the affected element.
+- **Direct measurement marks**: show distances, scores, weights, durations, or confidence as ticks, strokes, axis marks, and inline numerals rather than pill labels.
+- **Evidence-tethered callouts**: ensure each callout has a leader line, highlight, bracket, underline, or region that visibly attaches it to evidence.
 
 Use boxes only when they represent real domain boundaries such as files, screens, components, documents, rooms, states, or data records. Decorative grouping boxes should be rare.
 
@@ -130,6 +132,8 @@ Revise before finalizing if any of these are true:
 - The layout has panels inside panels or a large visual trapped inside a bordered card.
 - A right sidebar contains several explanation cards that could be direct annotations.
 - Most controls and labels are rounded rectangles with text inside.
+- Callouts float in empty space or point vaguely near the target.
+- Values that should be spatial or quantitative are shown as detached badges.
 - The visual metaphor is unrelated to the user's domain.
 - Interactions only change text panels.
 - A diagram node or card repeats prose that could have been a label.

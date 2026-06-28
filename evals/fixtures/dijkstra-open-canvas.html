@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dijkstra Open Canvas Candidate</title>
+  <style>
+    :root { --ink:#1f2924; --muted:#68746d; --grid:#e6eee8; --line:#93a29a; --path:#2469d8; --current:#f2a51b; --done:#158b78; --paper:#fbfdf9; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:var(--ink); background:var(--paper); overflow:hidden; }
+    .stage { position:relative; min-height:100vh; padding:28px 34px; background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size:42px 42px; }
+    .title { position:absolute; left:34px; top:26px; z-index:3; max-width:540px; }
+    h1 { margin:0; font-size:36px; }
+    .subtitle { margin-top:8px; color:var(--muted); font-size:17px; line-height:1.45; }
+    .toolbar { position:absolute; right:30px; top:28px; display:flex; gap:10px; align-items:center; z-index:4; background:rgba(251,253,249,.84); backdrop-filter:blur(10px); padding:8px; border:1px solid #dbe5de; border-radius:999px; }
+    button, select { border:0; background:transparent; font:inherit; font-weight:800; color:var(--ink); padding:10px 14px; border-radius:999px; }
+    button[data-eval-action] { background:#1d2521; color:#fff; }
+    svg { position:absolute; inset:0; width:100%; height:100%; }
+    .edge { stroke:var(--line); stroke-width:8; stroke-linecap:round; opacity:.62; fill:none; }
+    .edge.active { stroke:var(--path); opacity:.92; }
+    .edge.ghost { stroke:var(--path); opacity:.2; stroke-dasharray:14 12; }
+    .weight { fill:#334039; font-size:17px; font-weight:900; paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .node circle { fill:var(--paper); stroke:#66736b; stroke-width:5; filter:drop-shadow(0 9px 18px rgba(28,50,38,.13)); }
+    .node.current circle { fill:#fff5d8; stroke:var(--current); stroke-width:7; }
+    .node.done circle { fill:#e7f7f1; stroke:var(--done); stroke-width:7; }
+    .node.goal circle { stroke:var(--path); }
+    .node text { font-size:30px; font-weight:950; text-anchor:middle; dominant-baseline:central; fill:var(--ink); }
+    .dist { fill:var(--muted); font-size:16px; font-weight:900; text-anchor:middle; dominant-baseline:central; }
+    .dist-bg { fill:rgba(251,253,249,.92); stroke:#cfdad3; stroke-width:1; }
+    .annotation { position:absolute; max-width:250px; color:#26322c; font-weight:800; line-height:1.35; background:rgba(251,253,249,.7); border-left:4px solid var(--done); padding:8px 10px; }
+    .annotation small { display:block; color:var(--muted); font-weight:700; margin-top:4px; }
+    .a1 { left:155px; top:518px; }
+    .a2 { left:515px; top:284px; border-color:var(--path); }
+    .a3 { right:105px; top:420px; border-color:var(--current); }
+    .scrub { position:absolute; left:34px; right:34px; bottom:30px; height:56px; display:flex; align-items:center; gap:18px; z-index:3; }
+    .track { flex:1; height:4px; background:#cfdad3; position:relative; }
+    .track::before { content:""; position:absolute; left:0; top:0; bottom:0; width:42%; background:var(--path); }
+    .tick { position:absolute; top:-7px; width:18px; height:18px; border-radius:50%; background:var(--paper); border:4px solid #cfdad3; transform:translateX(-50%); }
+    .tick.on { border-color:var(--path); }
+    .inspector { position:absolute; right:42px; bottom:98px; width:310px; padding:16px 18px; background:rgba(251,253,249,.78); backdrop-filter:blur(12px); border:1px solid #d8e3db; box-shadow:0 16px 36px rgba(30,47,37,.10); }
+    .inspector b { display:block; font-size:18px; margin-bottom:6px; }
+    .inspector p { margin:0; color:var(--muted); line-height:1.45; }
+    body.step2 .edge[data-e="A-C"], body.step2 .edge[data-e="C-E"], body.step2 .edge[data-e="E-F"] { stroke:var(--path); opacity:.92; }
+    body.step2 .node[data-n="C"], body.step2 .node[data-n="E"] { --done:#2469d8; }
+  </style>
+</head>
+<body>
+  <main class="stage" data-visual>
+    <div class="title">
+      <h1>다익스트라를 그래프 위에서 보기</h1>
+      <div class="subtitle">가장 작은 후보를 확정하면 그 노드에서만 거리가 퍼집니다. 파란 ghost path는 현재까지의 최단 경로 가설입니다.</div>
+    </div>
+    <div class="toolbar" data-floating-toolbar>
+      <select aria-label="출발"><option>A에서 시작</option></select>
+      <select aria-label="목표"><option>F까지</option></select>
+      <button>되감기</button>
+      <button data-eval-action>다음 확정</button>
+    </div>
+    <svg viewBox="0 0 1440 900" aria-label="다익스트라 알고리즘 그래프">
+      <path class="edge active" data-e="A-C" d="M220 520 L420 640"/>
+      <path class="edge ghost" data-e="C-E" d="M420 640 L750 610"/>
+      <path class="edge ghost" data-e="E-F" d="M750 610 L1010 480"/>
+      <path class="edge" d="M220 520 L420 350"/><path class="edge" d="M420 350 L420 640"/><path class="edge" d="M420 350 L720 400"/><path class="edge" d="M420 640 L720 400"/><path class="edge" d="M720 400 L750 610"/><path class="edge" d="M720 400 L1010 480"/>
+      <text class="weight" x="310" y="578">2</text><text class="weight" x="306" y="424">4</text><text class="weight" x="438" y="498">1</text><text class="weight" x="570" y="362">5</text><text class="weight" x="585" y="528">8</text><text class="weight" x="740" y="505">2</text><text class="weight" x="870" y="428">6</text><text class="weight" x="875" y="548">3</text><text class="weight" x="580" y="644">10</text>
+      <g class="node current done" data-n="A" transform="translate(220 520)"><circle r="52"/><text>A</text><rect class="dist-bg" x="-37" y="64" width="74" height="30" rx="15"/><text class="dist" y="80">d=0</text></g>
+      <g class="node" data-n="B" transform="translate(420 350)"><circle r="52"/><text>B</text><rect class="dist-bg" x="-42" y="64" width="84" height="30" rx="15"/><text class="dist" y="80">d=4</text></g>
+      <g class="node done" data-n="C" transform="translate(420 640)"><circle r="52"/><text>C</text><rect class="dist-bg" x="-38" y="64" width="76" height="30" rx="15"/><text class="dist" y="80">d=2</text></g>
+      <g class="node" data-n="D" transform="translate(720 400)"><circle r="52"/><text>D</text><rect class="dist-bg" x="-43" y="64" width="86" height="30" rx="15"/><text class="dist" y="80">d=∞</text></g>
+      <g class="node" data-n="E" transform="translate(750 610)"><circle r="52"/><text>E</text><rect class="dist-bg" x="-38" y="64" width="76" height="30" rx="15"/><text class="dist" y="80">d=12</text></g>
+      <g class="node goal" data-n="F" transform="translate(1010 480)"><circle r="52"/><text>F</text><rect class="dist-bg" x="-42" y="64" width="84" height="30" rx="15"/><text class="dist" y="80">d=15</text></g>
+    </svg>
+    <div class="annotation a1" data-annotation>현재 확정: A, C <small>A에서 C가 더 싸서 먼저 확정됩니다.</small></div>
+    <div class="annotation a2" data-annotation>계산은 간선 위에서 일어남 <small>현재거리 + 간선비용이 더 작으면 라벨이 바뀝니다.</small></div>
+    <div class="annotation a3" data-annotation>목표 F는 아직 가설 <small>파란 경로는 현재 최선일 뿐, 더 싼 길이 나오면 바뀝니다.</small></div>
+    <div class="inspector" data-light-inspector><b>선택한 순간</b><p>A에서 C를 확정한 뒤, C의 이웃인 B, D, E를 다시 계산합니다.</p></div>
+    <div class="scrub" aria-label="단계 이동"><strong>0</strong><div class="track"><i class="tick on" style="left:0%"></i><i class="tick on" style="left:22%"></i><i class="tick on" style="left:42%"></i><i class="tick" style="left:68%"></i><i class="tick" style="left:100%"></i></div><strong>F</strong></div>
+  </main>
+  <script>
+    document.querySelector('[data-eval-action]').addEventListener('click', () => {
+      document.body.classList.toggle('step2');
+      document.querySelector('.inspector p').textContent = document.body.classList.contains('step2') ? 'C에서 E, F로 이어지는 가설 경로가 같은 그래프 위에 겹쳐집니다.' : 'A에서 C를 확정한 뒤, C의 이웃인 B, D, E를 다시 계산합니다.';
+    });
+  </script>
+</body>
+</html>
