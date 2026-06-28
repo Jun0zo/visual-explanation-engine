@@ -41,6 +41,8 @@ Use proven libraries for established visual domains instead of hand-rolling core
 
 Hand-authored SVG is acceptable for small custom annotations, simple diagrams, labels, icons, or educational illustrations where a library would add more complexity than clarity. Do not hand-code graph layout, chart scales, zoom/pan, force simulation, brushing, filtering, or editor behavior when a maintained library can do it reliably.
 
+Treat large hand-authored SVG as visual debt unless it is a genuinely simple bespoke illustration. If the primary visual has many manually positioned paths, nodes, labels, axes, or curves, switch to a library, canvas/simulation, generated educational asset with overlays, or project-native component. This applies especially to timelines, decision surfaces, charts, dependency graphs, architecture maps, mechanism diagrams, and anything the learner should scrub, select, filter, zoom, or inspect.
+
 ## Visual-First Contract
 
 For nontrivial explainers, make the visual or interactive model carry the understanding:
@@ -51,6 +53,7 @@ For nontrivial explainers, make the visual or interactive model carry the unders
 - Use real or realistic examples from the user's topic. If the task involves evaluation, writing, code, data, or a workflow, show a sample artifact being inspected instead of only describing the rules.
 - Make interactions change the visual state. A tab or button that only swaps paragraphs is not enough.
 - When an interactive visual needs graph layout, chart scales, zoom, filtering, simulation, code editing, or map behavior, use the relevant library so the artifact is genuinely explorable rather than a static SVG mockup.
+- Do not let a large single SVG become the default explainer engine. Use SVG mainly for small overlays, callout marks, icons, or simple static sketches; move complex layout, scales, hit-testing, and animation to libraries or real rendering engines.
 - For code explanations, make the code, runtime state, call stack, data flow, or trace the inspected object. Highlight the exact line or state transition being explained.
 - For science or physical mechanisms, make the structure, cross-section, scale view, transformation, or material/energy flow the inspected object. Attach labels to where the mechanism happens.
 - For timelines, make time the organizing surface. Show duration, gaps, overlap, causal lag, and state changes on the axis instead of turning events into cards.
@@ -101,6 +104,7 @@ Design the surface around the explanatory object, not around containers:
 - Use generated images only for educational illustrations, labeled figures, cross-sections, concept scenes, exploded views, or before/after explanations that improve understanding.
 - Use interactive HTML or a frontend app when the learner benefits from exploration: stepping through an algorithm, toggling perspectives, selecting concepts, animating state changes, filtering examples, or manipulating parameters.
 - In interactive HTML or frontend apps, prefer library-backed visuals for charts, graphs, maps, editors, simulations, timelines, and tables. Build custom SVG only for small bespoke marks or explanatory overlays.
+- For scientific mechanisms or physical processes, prefer generated labeled illustrations, Canvas/WebGL/Three.js, or lightweight simulation when the scene would otherwise become a pile of manually positioned SVG shapes.
 - Use code examples when implementation is part of understanding; pair code with flow, state, or data visuals when helpful.
 
 ## Interactive Explanation Requirements

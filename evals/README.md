@@ -47,4 +47,4 @@ Use `data-state-target` on the primary visual state container when an action sho
 
 Use `data-annotation`, `.callout`, `.annotation`, or `data-label` on labels that should remain legible. The harness counts label-to-label collisions so dense traces and diagrams do not pass just because they are visually busy.
 
-Use `data-library-visual` on a maintained-library visual surface and `data-handrolled-complex` on intentionally hand-built complex fixtures. This lets the research loop reward real chart/graph/map/editor/simulation engines and penalize brittle static SVG approximations when a library should own layout or interaction.
+Use `data-library-visual` on a maintained-library visual surface and `data-handrolled-complex` on intentionally hand-built complex fixtures. The harness also auto-flags large visible SVGs with many manually positioned marks as hand-rolled complex visuals. This lets the research loop reward real chart/graph/map/editor/simulation engines and penalize brittle static SVG approximations when a library should own layout or interaction.

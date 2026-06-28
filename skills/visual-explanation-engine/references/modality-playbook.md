@@ -73,6 +73,8 @@ Use maintained libraries for visual systems with real layout, scale, or interact
 
 Hand-authored SVG is a last-mile annotation or bespoke illustration tool, not the default engine for charts, graph layouts, maps, editors, simulations, or rich interactions. If a learner should explore the visual, prefer a library with real state, hit-testing, layout, and interaction primitives.
 
+Large manually positioned SVG is a warning sign. When the primary surface needs many coordinates, curved paths, labels, axes, regions, or state transitions, use a chart/graph/timeline/simulation library, Canvas/WebGL, or a generated educational image with a thin annotation layer. Keep SVG for small overlays, simple sketches, and custom marks that do not need layout or interaction logic.
+
 ## Output Recipes
 
 ### Compact visual answer
@@ -96,7 +98,8 @@ Use when exploration will teach better than static reading:
 5. Pair each interaction with immediate visual feedback and short annotations.
 6. Include examples and misconception callouts near the relevant visual evidence, preferably as attached labels or overlays rather than cards.
 7. Use appropriate libraries for charts, graphs, maps, timelines, editors, simulations, and tables instead of manually positioning SVG marks.
-8. Verify responsiveness, accessible labels, keyboard usability, readable text, non-overlapping controls, and that container borders do not dominate the object.
+8. Avoid using one large handcrafted SVG as the whole lesson. If the artifact starts to look like a static mockup of a graph, chart, surface, timeline, or mechanism, replace the engine before polishing the labels.
+9. Verify responsiveness, accessible labels, keyboard usability, readable text, non-overlapping controls, and that container borders do not dominate the object.
 
 ### Technical explainer
 
@@ -173,4 +176,5 @@ Revise before finalizing if any of these are true:
 - An architecture recommendation is just option cards with pros and cons, without request paths, capacity, constraints, budgets, or failure boundaries.
 - A data explanation is mostly KPI tiles and insight prose without the data marks, baseline, segment, or uncertainty that support the claim.
 - An interactive graph, chart, map, timeline, editor, simulation, or table is hand-rolled as static SVG when a library should provide real layout, hit-testing, scales, or exploration.
+- A large SVG carries the primary explanation with many manually placed paths, nodes, labels, or axes, especially when a chart, graph, timeline, canvas, simulation, or generated educational asset would be more natural.
 - The result would look plausible for almost any topic after swapping the words.

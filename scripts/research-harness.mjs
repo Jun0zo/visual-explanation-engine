@@ -68,16 +68,18 @@ function scoreMetrics(metrics) {
       metrics.roundedTextControlCount * 2.5 -
       metrics.roundedLabelCount * 1.8 -
       metrics.labelCollisionCount * 5 -
-      metrics.handRolledComplexVisualCount * 12 +
+      metrics.handRolledComplexVisualCount * 24 +
       metrics.libraryVisualCount * 2
   );
+  const libraryDiscipline = clamp(100 - metrics.handRolledComplexVisualCount * 55 + metrics.libraryVisualCount * 10);
   const overall = Math.round(
-    visualRatio * 0.2 +
-    textEconomy * 0.18 +
-    boxDiscipline * 0.22 +
-    annotation * 0.16 +
-    interaction * 0.14 +
-    antiSlop * 0.1
+    visualRatio * 0.18 +
+    textEconomy * 0.16 +
+    boxDiscipline * 0.2 +
+    annotation * 0.15 +
+    interaction * 0.12 +
+    antiSlop * 0.09 +
+    libraryDiscipline * 0.1
   );
   return {
     overall,
@@ -87,6 +89,7 @@ function scoreMetrics(metrics) {
     annotation: Math.round(annotation),
     interaction: Math.round(interaction),
     antiSlop: Math.round(antiSlop),
+    libraryDiscipline: Math.round(libraryDiscipline),
   };
 }
 
@@ -179,7 +182,21 @@ async function collectDomMetrics(page) {
     const sideCardCount = document.querySelectorAll("[data-side-card]").length;
     const visualEls = [...document.querySelectorAll("svg, canvas, [data-visual], .visual-object")].filter(isVisible);
     const libraryVisualCount = [...document.querySelectorAll("[data-library-visual]")].filter(isVisible).length;
-    const handRolledComplexVisualCount = [...document.querySelectorAll("[data-handrolled-complex]")].filter(isVisible).length;
+    const manualHandRolledComplex = [...document.querySelectorAll("[data-handrolled-complex]")].filter(isVisible);
+    const autoComplexSvg = [...document.querySelectorAll("svg")].filter((svg) => {
+      if (!isVisible(svg) || svg.closest("[data-library-visual]") || svg.matches("[data-handrolled-complex]")) return false;
+      const rect = rectOf(svg);
+      const area = clippedArea(rect);
+      const markCount = svg.querySelectorAll("path, line, polyline, polygon, circle, ellipse, rect, text").length;
+      const pathCount = svg.querySelectorAll("path, line, polyline, polygon").length;
+      const nodeCount = svg.querySelectorAll("circle, ellipse, rect").length;
+      const textCount = svg.querySelectorAll("text").length;
+      const isPrimaryScale = area > viewportArea * 0.1 || rect.width > window.innerWidth * 0.45 || rect.height > window.innerHeight * 0.45;
+      const isNotTinyIcon = rect.width > 260 && rect.height > 180;
+      const isComplexSystem = markCount >= 18 && (pathCount >= 4 || nodeCount >= 6 || textCount >= 6);
+      return isPrimaryScale && isNotTinyIcon && isComplexSystem;
+    });
+    const handRolledComplexVisualCount = manualHandRolledComplex.length + autoComplexSvg.length;
     const boxAreaRatio = Math.min(1.5, boxLike.reduce((sum, el) => sum + clippedArea(rectOf(el)), 0) / viewportArea);
     const framedVisualCount = boxLike.filter((el) => {
       const rect = rectOf(el);

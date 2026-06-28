@@ -1,6 +1,6 @@
 # Current Research Findings
 
-Latest local run inspected: `2026-06-28T14-30-19-035Z`.
+Latest local run inspected: `2026-06-28T14-54-10-487Z`.
 
 Generated screenshots and the full report live under `evals/runs/` locally and are ignored by git.
 
@@ -8,16 +8,16 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 
 | Task | Baseline | Candidate | Delta |
 | --- | ---: | ---: | ---: |
-| Dijkstra lab | 36 | 82 | +46 |
-| Rubric inspection | 15 | 68 | +53 |
-| OAuth request path | 26 | 82 | +56 |
-| Gradient descent surface | 28 | 83 | +55 |
-| React render debugging | 23 | 81 | +58 |
-| Photosynthesis mechanism | 25 | 85 | +60 |
-| Incident timeline | 20 | 84 | +64 |
-| Architecture tradeoff | 18 | 83 | +65 |
-| Retention analysis | 28 | 83 | +55 |
-| Dependency graph | 32 | 89 | +57 |
+| Dijkstra lab | 35 | 76 | +41 |
+| Rubric inspection | 24 | 71 | +47 |
+| OAuth request path | 34 | 76 | +42 |
+| Gradient descent surface | 35 | 85 | +50 |
+| React render debugging | 30 | 83 | +53 |
+| Photosynthesis mechanism | 32 | 79 | +47 |
+| Incident timeline | 27 | 78 | +51 |
+| Architecture tradeoff | 26 | 77 | +51 |
+| Retention analysis | 34 | 77 | +43 |
+| Dependency graph | 32 | 90 | +58 |
 
 ## What Improved
 
@@ -34,7 +34,7 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 - Architecture tradeoff candidates score best when constraints become a decision surface and workload changes move the recommendation on the visual object.
 - Data/analytics candidates score best when the cohort grid, chart, baseline, selected segment, and claim annotations stay on the same data surface.
 - Library-backed graph candidates score best when layout, hit-testing, selection, and neighbor/path highlighting are handled by a maintained graph library rather than hand-positioned SVG.
-- The harness now records `libraryVisualCount` and `handRolledComplexVisualCount` so complex hand-rolled SVG can be pressured directly.
+- The harness now records `libraryVisualCount`, auto-flags large complex SVGs as `handRolledComplexVisualCount`, and includes a `libraryDiscipline` score so hand-built SVG debt affects overall results.
 
 ## Remaining Pressure
 
@@ -43,6 +43,7 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 - Labels and callouts must avoid covering the node, curve, path, document text, or moving object they explain.
 - The React trace still has interaction as its weakest score; future fixtures should make the visual state transition more dramatic without becoming noisy.
 - Science candidates can still improve by making interactions teach more than a two-state highlight; staged scrubbing through inputs, transformation, and output would be stronger.
+- Several previously strong candidates now show `hand=1` and `libraryDiscipline=45`; timeline, architecture surface, photosynthesis, retention, Dijkstra, and OAuth examples should be rebuilt with chart/timeline/graph/canvas/simulation engines instead of large handcrafted SVG.
 - More library-backed benchmarks are needed for chart brushing, timeline zooming, map inspection, code editors, rich tables, and 3D/physics explainers.
 - Future benchmarks should stress multi-chart analytical stories, statistical uncertainty, and slide/narrative outputs.
 - The harness is heuristic and should eventually be paired with comprehension/transfer questions.

@@ -124,6 +124,7 @@ function metricLine(result) {
     `labels ${m.labelCollisionCount}`,
     `lib ${m.libraryVisualCount ?? 0}`,
     `hand ${m.handRolledComplexVisualCount ?? 0}`,
+    `libscore ${result.scores.libraryDiscipline ?? 100}`,
     `state ${m.visualStateChangeCount}`,
   ].join(" · ");
 }
@@ -505,7 +506,7 @@ function renderHtml(runPath, report) {
     <div class="rules">
       <div class="rule"><h3>결론</h3><p>좋은 설명은 예쁜 카드가 아니라 subject-native surface 위에서 관계, 상태, 근거, 변화가 직접 보이는 것이다.</p></div>
       <div class="rule"><h3>현재 강점</h3><p>알고리즘, API flow, code trace, science mechanism, timeline, architecture, analytics, library-backed network까지 anti-box 기준이 넓어졌다.</p></div>
-      <div class="rule"><h3>남은 압력</h3><p>chart brushing, timeline zoom, maps, code editors, rich tables, 3D/physics, statistical uncertainty, narrative slide output을 추가해야 한다.</p></div>
+      <div class="rule"><h3>남은 압력</h3><p>large hand-authored SVG debt, chart brushing, timeline zoom, maps, code editors, rich tables, 3D/physics, statistical uncertainty, narrative slide output을 추가해야 한다.</p></div>
     </div>
   </section>
 </body>
