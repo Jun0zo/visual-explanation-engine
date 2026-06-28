@@ -49,6 +49,9 @@ Use these patterns to avoid boxy AI layouts:
 - **Object-attached controls**: put sliders, toggles, handles, or buttons on or beside the affected element.
 - **Direct measurement marks**: show distances, scores, weights, durations, or confidence as ticks, strokes, axis marks, and inline numerals rather than pill labels.
 - **Evidence-tethered callouts**: ensure each callout has a leader line, highlight, bracket, underline, or region that visibly attaches it to evidence.
+- **Non-occluding labels**: place labels in the whitespace around the evidence, with a pointer or bracket when needed; never cover the mark, text, path, or object that must be inspected.
+- **Surface-as-page**: for graphs, maps, timelines, editors, and documents, make the native surface fill the page; do not wrap it in a title card, inner canvas, and surrounding dashboard.
+- **State-on-object**: show algorithm state by changing the object itself: recolor paths, move pointers, replace numbers in place, fade rejected branches, or draw the next-step preview.
 
 Use boxes only when they represent real domain boundaries such as files, screens, components, documents, rooms, states, or data records. Decorative grouping boxes should be rare.
 
@@ -74,7 +77,7 @@ Use when exploration will teach better than static reading:
 4. Add controls that change the object directly: scrub, select, compare, toggle layers, run an example, adjust parameters, or reveal evidence.
 5. Pair each interaction with immediate visual feedback and short annotations.
 6. Include examples and misconception callouts near the relevant visual evidence, preferably as attached labels or overlays rather than cards.
-7. Verify responsiveness, accessible labels, keyboard usability, readable text, and non-overlapping controls.
+7. Verify responsiveness, accessible labels, keyboard usability, readable text, non-overlapping controls, and that container borders do not dominate the object.
 
 ### Technical explainer
 
@@ -131,8 +134,11 @@ Revise before finalizing if any of these are true:
 - The screen is mostly headline, paragraph, and cards.
 - The layout has panels inside panels or a large visual trapped inside a bordered card.
 - A right sidebar contains several explanation cards that could be direct annotations.
+- A graph, chart, or simulator is boxed inside a card even though it could be the whole page surface.
 - Most controls and labels are rounded rectangles with text inside.
+- Many values are shown as badges where ticks, strokes, inline numerals, or direct replacement would be clearer.
 - Callouts float in empty space or point vaguely near the target.
+- Callouts or labels cover the exact mark, line, node, word, or object they are meant to explain.
 - Values that should be spatial or quantitative are shown as detached badges.
 - The visual metaphor is unrelated to the user's domain.
 - Interactions only change text panels.

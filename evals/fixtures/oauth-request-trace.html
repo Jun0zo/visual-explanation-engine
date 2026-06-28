@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OAuth Request Trace Candidate</title>
+  <style>
+    :root { --paper:#fbfcf8; --ink:#1d2722; --muted:#66736d; --line:#d9e2dc; --blue:#266bd8; --green:#10866f; --orange:#d98a16; --red:#c35050; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; color:var(--ink); background:var(--paper); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .trace { position:relative; min-height:100vh; padding:30px 36px; background-image:linear-gradient(90deg, rgba(34,52,43,.05) 1px, transparent 1px), linear-gradient(rgba(34,52,43,.05) 1px, transparent 1px); background-size:44px 44px; }
+    h1 { margin:0; font-size:34px; }
+    .hint { color:var(--muted); margin-top:8px; font-size:17px; max-width:760px; line-height:1.45; }
+    .toolbar { position:absolute; right:34px; top:28px; display:flex; gap:8px; align-items:center; padding:8px; border:1px solid var(--line); background:rgba(251,252,248,.82); border-radius:999px; backdrop-filter:blur(10px); }
+    button { border:0; background:transparent; border-radius:999px; padding:10px 15px; font-weight:900; color:var(--ink); }
+    button[data-eval-action] { background:var(--ink); color:#fff; }
+    svg { position:absolute; left:20px; right:20px; top:126px; width:calc(100% - 40px); height:690px; }
+    .lane { stroke:#ccd8d1; stroke-width:2; stroke-dasharray:8 10; }
+    .actor { fill:var(--ink); font-size:18px; font-weight:900; text-anchor:middle; }
+    .arrow { fill:none; stroke:#93a49b; stroke-width:5; marker-end:url(#arrow); }
+    .arrow.hot { stroke:var(--blue); }
+    .arrow.server { stroke:var(--green); }
+    .arrow.warn { stroke:var(--orange); }
+    .label { font-size:15px; font-weight:900; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .small { font-size:13px; font-weight:750; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .token { fill:rgba(38,107,216,.09); stroke:var(--blue); stroke-width:2; }
+    .state { fill:rgba(16,134,111,.10); stroke:var(--green); stroke-width:2; }
+    .callout { position:absolute; max-width:270px; padding:8px 10px; border-left:4px solid var(--blue); background:rgba(251,252,248,.72); font-weight:850; line-height:1.35; }
+    .callout small { display:block; color:var(--muted); margin-top:5px; font-weight:700; }
+    .c1 { left:238px; top:326px; }
+    .c2 { left:570px; top:448px; border-color:var(--green); }
+    .c3 { right:62px; top:600px; border-color:var(--orange); }
+    .probe { position:absolute; left:90px; right:90px; bottom:44px; height:8px; background:#d7e1db; }
+    .probe::before { content:""; position:absolute; left:0; top:0; bottom:0; width:40%; background:var(--blue); }
+    .dot { position:absolute; top:-8px; width:24px; height:24px; border-radius:50%; background:var(--paper); border:5px solid var(--blue); transform:translateX(-50%); }
+    body.step2 .arrow[data-step="4"], body.step2 .arrow[data-step="5"] { stroke:var(--green); stroke-width:7; }
+    body.step2 .probe::before { width:72%; }
+    body.step2 .dot { left:72% !important; border-color:var(--green); }
+  </style>
+</head>
+<body data-state-target>
+  <main class="trace" data-visual>
+    <h1>OAuth는 카드 목록이 아니라 왕복 경로다</h1>
+    <div class="hint">브라우저가 code를 들고 돌아오고, 서버가 provider와 따로 token을 교환합니다. state와 redirect URI는 흐름의 특정 지점에 붙어 있습니다.</div>
+    <div class="toolbar" data-floating-toolbar><button>처음</button><button data-eval-action>token exchange 보기</button></div>
+    <svg viewBox="0 0 1320 690" aria-label="OAuth authorization code request trace">
+      <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="currentColor"/></marker></defs>
+      <line class="lane" x1="130" y1="60" x2="130" y2="620"/><line class="lane" x1="430" y1="60" x2="430" y2="620"/><line class="lane" x1="760" y1="60" x2="760" y2="620"/><line class="lane" x1="1110" y1="60" x2="1110" y2="620"/>
+      <text class="actor" x="130" y="34">사용자</text><text class="actor" x="430" y="34">브라우저</text><text class="actor" x="760" y="34">앱 서버</text><text class="actor" x="1110" y="34">Provider</text>
+      <path class="arrow hot" data-step="1" d="M130 105 C220 105 310 105 430 105"/><text class="label" x="230" y="88">login click</text>
+      <path class="arrow hot" data-step="2" d="M430 170 C545 170 640 170 760 170"/><text class="label" x="530" y="153">GET /login</text>
+      <path class="arrow warn" data-step="3" d="M760 235 C865 235 985 235 1110 235"/><text class="label" x="890" y="217">redirect + state</text><rect class="state" x="903" y="244" width="120" height="34" rx="17"/><text class="small" x="923" y="266">state=9f...</text>
+      <path class="arrow hot" data-step="3" d="M1110 305 C980 305 560 305 430 305"/><text class="label" x="712" y="286">callback?code=abc</text>
+      <path class="arrow server" data-step="4" d="M760 390 C870 390 980 390 1110 390"/><text class="label" x="892" y="372">server POST /token</text><rect class="token" x="960" y="402" width="128" height="36" rx="18"/><text class="small" x="978" y="425">code + secret</text>
+      <path class="arrow server" data-step="5" d="M1110 480 C1000 480 875 480 760 480"/><text class="label" x="895" y="462">access token</text>
+      <path class="arrow hot" data-step="6" d="M760 560 C635 560 550 560 430 560"/><text class="label" x="560" y="542">Set-Cookie session</text>
+    </svg>
+    <div class="callout c1" data-annotation>브라우저는 code만 운반 <small>token은 아직 없습니다.</small></div>
+    <div class="callout c2" data-annotation>교환은 서버 대 서버 <small>client secret은 브라우저에 가지 않습니다.</small></div>
+    <div class="callout c3" data-annotation>state는 왕복 검증점 <small>돌아온 값이 출발값과 같아야 합니다.</small></div>
+    <div class="probe"><i class="dot" style="left:40%"></i></div>
+  </main>
+  <script>
+    document.querySelector('[data-eval-action]').addEventListener('click', () => document.body.classList.toggle('step2'));
+  </script>
+</body>
+</html>

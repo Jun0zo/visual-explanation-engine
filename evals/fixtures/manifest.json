@@ -26,5 +26,33 @@
     "variant": "candidate",
     "file": "rubric-artifact-lens.html",
     "notes": "Artifact-centered rubric lens: annotated excerpt, criterion overlays, evidence trace, and before/after toggle."
+  },
+  {
+    "id": "oauth-step-cards",
+    "task": "oauth-request-path",
+    "variant": "baseline",
+    "file": "oauth-step-cards.html",
+    "notes": "Generic step-card OAuth explanation with detached security notes."
+  },
+  {
+    "id": "oauth-request-trace",
+    "task": "oauth-request-path",
+    "variant": "candidate",
+    "file": "oauth-request-trace.html",
+    "notes": "Request trace with tokens and redirects attached directly to the flow."
+  },
+  {
+    "id": "gradient-definition-cards",
+    "task": "gradient-descent-surface",
+    "variant": "baseline",
+    "file": "gradient-definition-cards.html",
+    "notes": "Formula and definition card explainer with a small decorative graph."
+  },
+  {
+    "id": "gradient-curve-lab",
+    "task": "gradient-descent-surface",
+    "variant": "candidate",
+    "file": "gradient-curve-lab.html",
+    "notes": "Curve-first explanation with tangent, step arrow, and visible point update."
   }
 ]

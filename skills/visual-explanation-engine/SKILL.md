@@ -48,6 +48,7 @@ Avoid outputs that feel like generic AI slideware:
 - Do not make "important premise", "current confusion", "key insight", or similar prose panels the main content.
 - Do not use dark dashboard cards as the default visual language. Choose a form that fits the subject: worksheet, lab bench, map, timeline, circuit, courtroom evidence board, microscope, editor, graph, cockpit, rubric, or simulator.
 - Do not create box-in-box layouts: card grids inside panels, sidebars full of explanation cards, or framed canvases surrounded by more framed cards.
+- Do not compose explainers as header band + framed chart/card + right-column explanation cards unless those rectangles are real domain objects.
 - Do not pad the artifact with repeated summaries. If a sentence does not help the learner act, inspect, compare, or decide, remove it.
 
 ## Layout Discipline
@@ -55,13 +56,17 @@ Avoid outputs that feel like generic AI slideware:
 Design the surface around the explanatory object, not around containers:
 
 - Prefer an open canvas, board, lab table, graph paper, timeline, editor, map, or simulation stage as the main surface.
+- If the main object already has a native surface such as graph paper, a map, an editor, a timeline, or a document, let that surface be the page instead of placing it inside another panel.
 - Use at most one framing container around the primary object. Avoid nested borders, stacked panels, and repeated rounded rectangles.
 - Replace side explanation cards with direct annotations, labels, callout lines, overlays, tooltips, legends, scrubbers, or inline evidence markers near the relevant visual element.
 - Keep controls compact and spatially attached to what they affect. Use a toolbar, floating controls, edge rail, or inline handles instead of a separate card column when possible.
 - Avoid making every small label a pill or rounded rectangle. Prefer typography, tick marks, leader lines, direct labels, ghost paths, strokes, fills, and axis marks.
+- For algorithm and graph explainers, show state as marks on the graph: colored edges, pointer movement, inline distance values, struck/replaced values, and ghost paths. Avoid distance badges under every node unless the badge itself changes in a meaningful way.
 - Make callouts physically touch or point to the evidence they describe. Floating labels in empty space are weak explanations.
+- Keep labels and callouts out of the object's path. They may touch, underline, bracket, or point to evidence, but should not cover the node, curve, document text, or moving object being explained.
 - Let whitespace, alignment, scale, and motion organize the page before adding borders.
 - When a secondary explanation is necessary, use one lightweight inspector or drawer, not several independent cards.
+- Run a box audit before finalizing: if the eye notices container outlines before the concept, remove borders, backgrounds, or side panels until the explanatory object dominates.
 
 ## Modality Rules
 
@@ -109,7 +114,9 @@ Before finalizing, verify:
 - The main interaction changes a diagram, example, state, chart, or specimen rather than only replacing text.
 - The design does not look like a generic AI-generated dark card dashboard.
 - The layout avoids nested boxes, card stacks, and framed panels around framed panels.
+- The main visual is not trapped inside a decorative chart card when it could be the page surface.
 - Labels and annotations sit close to the visual evidence they describe.
+- Labels, callouts, legends, and controls do not overlap the marks, words, paths, or objects the learner needs to inspect.
 - Repeated pills, badges, and rounded labels are not carrying the visual language.
 - Leader lines and callouts terminate on real evidence, not empty space.
 - Examples sit near the abstract ideas they explain.

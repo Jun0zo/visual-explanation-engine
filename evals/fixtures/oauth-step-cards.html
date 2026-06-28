@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OAuth Step Cards Baseline</title>
+  <style>
+    :root { --bg:#f6f8fb; --ink:#1d2730; --muted:#697582; --line:#dbe2ea; --card:#fff; --blue:#2f6bd4; --green:#10866f; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    header { padding:44px 54px 24px; }
+    h1 { margin:0 0 12px; font-size:56px; letter-spacing:0; }
+    p { margin:0; color:var(--muted); line-height:1.6; font-size:19px; }
+    main { display:grid; grid-template-columns:1fr 360px; gap:28px; padding:28px 54px 60px; }
+    .panel, .card { background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:0 18px 42px rgba(45,61,80,.08); }
+    .panel { padding:28px; }
+    .actors { display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; margin-bottom:24px; }
+    .actor { border:1px solid var(--line); border-radius:16px; padding:20px; min-height:110px; background:#fbfcfd; }
+    .actor b { display:block; font-size:22px; margin-bottom:8px; }
+    .steps { display:grid; grid-template-columns:repeat(2, 1fr); gap:16px; }
+    .step { border:1px solid var(--line); border-radius:16px; padding:22px; background:#fff; min-height:150px; }
+    .step i { display:inline-grid; place-items:center; width:34px; height:34px; border-radius:12px; background:#dfeaff; color:var(--blue); font-style:normal; font-weight:900; margin-bottom:12px; }
+    .side { display:flex; flex-direction:column; gap:18px; }
+    .card { padding:24px; }
+    h2, h3 { margin:0 0 12px; }
+    .badge { display:inline-block; border-radius:999px; background:#e5f5f1; color:var(--green); padding:8px 12px; font-weight:900; margin-top:14px; }
+    button { border:1px solid var(--line); background:#fff; border-radius:14px; padding:14px 18px; font-weight:900; font-size:16px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>OAuth 로그인 흐름</h1>
+    <p>사용자, 브라우저, 앱 서버, 인증 제공자가 코드를 주고받아 로그인하는 구조입니다.</p>
+  </header>
+  <main>
+    <section class="panel" data-visual>
+      <h2>등장인물</h2>
+      <div class="actors">
+        <div class="actor"><b>사용자</b><p>로그인 버튼을 누릅니다.</p></div>
+        <div class="actor"><b>브라우저</b><p>리다이렉트를 따라갑니다.</p></div>
+        <div class="actor"><b>앱 서버</b><p>세션을 만듭니다.</p></div>
+        <div class="actor"><b>Provider</b><p>코드와 토큰을 발급합니다.</p></div>
+      </div>
+      <div class="steps">
+        <div class="step"><i>1</i><h3>로그인 시작</h3><p>사용자가 앱에서 로그인 버튼을 누르면 인증 서버로 이동합니다.</p></div>
+        <div class="step"><i>2</i><h3>동의 화면</h3><p>제공자가 사용자에게 권한 동의를 받습니다.</p></div>
+        <div class="step"><i>3</i><h3>코드 반환</h3><p>브라우저는 authorization code를 앱 callback으로 가져옵니다.</p></div>
+        <div class="step"><i>4</i><h3>토큰 교환</h3><p>앱 서버가 코드를 access token으로 바꾸고 세션을 만듭니다.</p></div>
+      </div>
+    </section>
+    <aside class="side">
+      <section class="card" data-side-card><h2>중요한 전제</h2><p>authorization code는 access token이 아닙니다. 서버가 provider와 직접 교환해야 합니다.</p><span class="badge">code ≠ token</span></section>
+      <section class="card" data-side-card><h2>보안 포인트</h2><p>state는 CSRF를 막기 위한 값이고, redirect URI는 미리 등록되어 있어야 합니다.</p><span class="badge">state 검증</span></section>
+      <section class="card" data-side-card><h2>흔한 오해</h2><p>브라우저가 토큰을 직접 들고 오는 흐름으로 이해하면 서버 세션과 code exchange를 놓칩니다.</p><button data-eval-action>다음 설명</button></section>
+    </aside>
+  </main>
+  <script>
+    document.querySelector('[data-eval-action]').addEventListener('click', () => {
+      document.querySelector('.side .card:last-child p').textContent = '설명 카드만 바뀌었고, 흐름 그림은 그대로입니다.';
+    });
+  </script>
+</body>
+</html>

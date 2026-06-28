@@ -25,11 +25,10 @@
     .node.done circle { fill:#e7f7f1; stroke:var(--done); stroke-width:7; }
     .node.goal circle { stroke:var(--path); }
     .node text { font-size:30px; font-weight:950; text-anchor:middle; dominant-baseline:central; fill:var(--ink); }
-    .dist { fill:var(--muted); font-size:16px; font-weight:900; text-anchor:middle; dominant-baseline:central; }
-    .dist-bg { fill:rgba(251,253,249,.92); stroke:#cfdad3; stroke-width:1; }
+    .dist { fill:#26322c; font-size:21px; font-weight:950; text-anchor:middle; dominant-baseline:central; paint-order:stroke; stroke:var(--paper); stroke-width:8px; }
     .annotation { position:absolute; max-width:250px; color:#26322c; font-weight:800; line-height:1.35; background:rgba(251,253,249,.7); border-left:4px solid var(--done); padding:8px 10px; }
     .annotation small { display:block; color:var(--muted); font-weight:700; margin-top:4px; }
-    .a1 { left:155px; top:518px; }
+    .a1 { left:116px; top:430px; }
     .a2 { left:515px; top:284px; border-color:var(--path); }
     .a3 { right:105px; top:420px; border-color:var(--current); }
     .scrub { position:absolute; left:34px; right:34px; bottom:30px; height:56px; display:flex; align-items:center; gap:18px; z-index:3; }
@@ -44,7 +43,7 @@
     body.step2 .node[data-n="C"], body.step2 .node[data-n="E"] { --done:#2469d8; }
   </style>
 </head>
-<body>
+<body data-state-target>
   <main class="stage" data-visual>
     <div class="title">
       <h1>다익스트라를 그래프 위에서 보기</h1>
@@ -62,12 +61,12 @@
       <path class="edge ghost" data-e="E-F" d="M750 610 L1010 480"/>
       <path class="edge" d="M220 520 L420 350"/><path class="edge" d="M420 350 L420 640"/><path class="edge" d="M420 350 L720 400"/><path class="edge" d="M420 640 L720 400"/><path class="edge" d="M720 400 L750 610"/><path class="edge" d="M720 400 L1010 480"/>
       <text class="weight" x="310" y="578">2</text><text class="weight" x="306" y="424">4</text><text class="weight" x="438" y="498">1</text><text class="weight" x="570" y="362">5</text><text class="weight" x="585" y="528">8</text><text class="weight" x="740" y="505">2</text><text class="weight" x="870" y="428">6</text><text class="weight" x="875" y="548">3</text><text class="weight" x="580" y="644">10</text>
-      <g class="node current done" data-n="A" transform="translate(220 520)"><circle r="52"/><text>A</text><rect class="dist-bg" x="-37" y="64" width="74" height="30" rx="15"/><text class="dist" y="80">d=0</text></g>
-      <g class="node" data-n="B" transform="translate(420 350)"><circle r="52"/><text>B</text><rect class="dist-bg" x="-42" y="64" width="84" height="30" rx="15"/><text class="dist" y="80">d=4</text></g>
-      <g class="node done" data-n="C" transform="translate(420 640)"><circle r="52"/><text>C</text><rect class="dist-bg" x="-38" y="64" width="76" height="30" rx="15"/><text class="dist" y="80">d=2</text></g>
-      <g class="node" data-n="D" transform="translate(720 400)"><circle r="52"/><text>D</text><rect class="dist-bg" x="-43" y="64" width="86" height="30" rx="15"/><text class="dist" y="80">d=∞</text></g>
-      <g class="node" data-n="E" transform="translate(750 610)"><circle r="52"/><text>E</text><rect class="dist-bg" x="-38" y="64" width="76" height="30" rx="15"/><text class="dist" y="80">d=12</text></g>
-      <g class="node goal" data-n="F" transform="translate(1010 480)"><circle r="52"/><text>F</text><rect class="dist-bg" x="-42" y="64" width="84" height="30" rx="15"/><text class="dist" y="80">d=15</text></g>
+      <g class="node current done" data-n="A" transform="translate(220 520)"><circle r="52"/><text>A</text><text class="dist" y="82">d=0</text></g>
+      <g class="node" data-n="B" transform="translate(420 350)"><circle r="52"/><text>B</text><text class="dist" y="82">d=4</text></g>
+      <g class="node done" data-n="C" transform="translate(420 640)"><circle r="52"/><text>C</text><text class="dist" y="82">d=2</text></g>
+      <g class="node" data-n="D" transform="translate(720 400)"><circle r="52"/><text>D</text><text class="dist" y="82">d=∞</text></g>
+      <g class="node" data-n="E" transform="translate(750 610)"><circle r="52"/><text>E</text><text class="dist" y="82">d=12</text></g>
+      <g class="node goal" data-n="F" transform="translate(1010 480)"><circle r="52"/><text>F</text><text class="dist" y="82">d=15</text></g>
     </svg>
     <div class="annotation a1" data-annotation>현재 확정: A, C <small>A에서 C가 더 싸서 먼저 확정됩니다.</small></div>
     <div class="annotation a2" data-annotation>계산은 간선 위에서 일어남 <small>현재거리 + 간선비용이 더 작으면 라벨이 바뀝니다.</small></div>

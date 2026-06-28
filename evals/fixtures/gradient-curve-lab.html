@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gradient Curve Lab Candidate</title>
+  <style>
+    :root { --paper:#fbfaf4; --ink:#202822; --muted:#66736d; --grid:#e6e2d8; --curve:#266bd8; --point:#e58f18; --next:#0f8d74; --danger:#bd4b4b; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; color:var(--ink); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background:var(--paper); }
+    .lab { position:relative; min-height:100vh; padding:30px 34px; background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size:44px 44px; }
+    h1 { margin:0; font-size:34px; }
+    .hint { margin-top:8px; color:var(--muted); font-size:17px; max-width:720px; line-height:1.45; }
+    .controls { position:absolute; right:34px; top:28px; display:flex; align-items:center; gap:12px; background:rgba(251,250,244,.82); border:1px solid #dad6cc; border-radius:999px; padding:8px; backdrop-filter:blur(10px); }
+    button { border:0; border-radius:999px; padding:10px 16px; font-weight:900; background:transparent; color:var(--ink); }
+    button[data-eval-action] { background:var(--ink); color:white; }
+    .eta { font-weight:900; color:var(--muted); padding:0 10px; }
+    svg { position:absolute; inset:105px 24px 30px 24px; width:calc(100% - 48px); height:calc(100% - 135px); }
+    .axis { stroke:#bdc8c0; stroke-width:2; }
+    .curve { fill:none; stroke:var(--curve); stroke-width:8; stroke-linecap:round; }
+    .tangent { stroke:var(--point); stroke-width:5; stroke-dasharray:13 10; }
+    .step { stroke:var(--next); stroke-width:8; marker-end:url(#arrow); }
+    .drop { stroke:var(--next); stroke-width:3; stroke-dasharray:8 8; opacity:.55; }
+    .label { fill:var(--ink); font-size:17px; font-weight:900; paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .small { fill:var(--muted); font-size:14px; font-weight:800; paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .current { fill:var(--point); }
+    .next { fill:var(--next); }
+    .callout { position:absolute; padding:8px 10px; border-left:4px solid var(--point); background:rgba(251,250,244,.72); max-width:250px; font-weight:850; line-height:1.35; }
+    .callout small { display:block; margin-top:5px; color:var(--muted); font-weight:700; }
+    .c1 { left:790px; top:360px; }
+    .c2 { left:548px; top:565px; border-color:var(--next); }
+    .c3 { left:185px; bottom:118px; border-color:var(--curve); }
+    body.step2 .current { transform:translate(-190px, 103px); }
+    body.step2 .step { opacity:.25; }
+    body.step2 .next { transform:translate(-190px, 103px); }
+    body.step2 .eta::after { content:" → 한 번 이동 완료"; color:var(--next); }
+  </style>
+</head>
+<body data-state-target>
+  <main class="lab" data-visual>
+    <h1>기울기는 점을 움직이는 화살표다</h1>
+    <div class="hint">현재 점의 접선이 올라가는 방향을 말해주면, gradient descent는 그 반대 방향으로 한 걸음 내려갑니다.</div>
+    <div class="controls" data-floating-toolbar><span class="eta">η = 0.18</span><button>작게</button><button>크게</button><button data-eval-action>한 걸음 이동</button></div>
+    <svg viewBox="0 0 1320 760" aria-label="gradient descent curve">
+      <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0 L12 6 L0 12 Z" fill="#0f8d74"/></marker></defs>
+      <line class="axis" x1="100" y1="650" x2="1220" y2="650"/><line class="axis" x1="100" y1="80" x2="100" y2="650"/>
+      <path class="curve" d="M120 120 C230 450 360 620 530 610 C720 596 785 380 900 292 C1015 205 1110 265 1200 520"/>
+      <line class="tangent" x1="760" y1="410" x2="980" y2="250"/>
+      <line class="step" x1="900" y1="292" x2="710" y2="395"/>
+      <line class="drop" x1="710" y1="395" x2="710" y2="650"/>
+      <circle class="current" cx="900" cy="292" r="17"/>
+      <circle class="next" cx="710" cy="395" r="14"/>
+      <text class="label" x="925" y="288">현재 x</text>
+      <text class="label" x="615" y="402">다음 x</text>
+      <text class="small" x="800" y="228">접선: 여기서는 오른쪽으로 올라감</text>
+      <text class="small" x="498" y="640">최솟값 근처</text>
+    </svg>
+    <div class="callout c1" data-annotation>기울기 방향 <small>함수값이 증가하는 쪽입니다.</small></div>
+    <div class="callout c2" data-annotation>반대 방향으로 이동 <small>x_next = x - η·gradient</small></div>
+    <div class="callout c3" data-annotation>목표는 낮은 곳 <small>공식은 곡선 위 이동을 짧게 쓴 것입니다.</small></div>
+  </main>
+  <script>
+    document.querySelector('[data-eval-action]').addEventListener('click', () => document.body.classList.toggle('step2'));
+  </script>
+</body>
+</html>

@@ -30,5 +30,37 @@
       "Decorative growth metaphors replace the actual rubric behavior.",
       "The output describes criteria without showing how they apply."
     ]
+  },
+  {
+    "id": "oauth-request-path",
+    "prompt": "Use visual-explanation-engine to explain OAuth authorization code login to a junior engineer.",
+    "domain": "system-api-flow",
+    "successCriteria": [
+      "The request path is the primary object.",
+      "Browser, app, provider, and token exchange are spatially distinct.",
+      "State, code, token, redirect, and callback are attached to the exact step where they occur.",
+      "Controls trace one realistic login rather than swapping explanatory paragraphs."
+    ],
+    "failureModes": [
+      "Architecture boxes are surrounded by prose cards.",
+      "Security concepts are explained without showing where they live in the flow.",
+      "Steps are a card list instead of a request trace."
+    ]
+  },
+  {
+    "id": "gradient-descent-surface",
+    "prompt": "Use visual-explanation-engine to explain gradient descent to a beginner with one variable.",
+    "domain": "math",
+    "successCriteria": [
+      "The curve or surface is the primary object.",
+      "The current point, slope, step size, and next point are visible on the graph.",
+      "Changing the step updates the visual state.",
+      "Definitions stay attached to the marks they explain."
+    ],
+    "failureModes": [
+      "Formula and definition cards dominate the page.",
+      "The graph is decorative or too small.",
+      "The interaction changes text but not the curve, point, or tangent."
+    ]
   }
 ]

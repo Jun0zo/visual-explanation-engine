@@ -51,10 +51,17 @@ function pngDiffRatio(beforeBuffer, afterBuffer) {
 function scoreMetrics(metrics) {
   const visualRatio = clamp(metrics.visualAreaRatio * 100);
   const textEconomy = clamp(100 - metrics.firstViewportWordCount * 0.55);
-  const boxDiscipline = clamp(100 - metrics.cardLikeCount * 3.5 - metrics.nestedBoxCount * 9 - metrics.sideCardCount * 11);
+  const boxDiscipline = clamp(
+    100 -
+      metrics.cardLikeCount * 3.5 -
+      metrics.nestedBoxCount * 9 -
+      metrics.sideCardCount * 11 -
+      metrics.boxAreaRatio * 28 -
+      metrics.framedVisualCount * 12
+  );
   const annotation = clamp(metrics.annotationCount * 13 + metrics.attachedAnnotationRatio * 35);
-  const interaction = clamp(metrics.controlCount * 8 + metrics.interactionPixelDiffRatio * 2500);
-  const antiSlop = clamp(100 - metrics.heroPenalty - metrics.longParagraphCount * 8 - metrics.roundedTextControlCount * 2.5);
+  const interaction = clamp(metrics.controlCount * 5 + metrics.interactionPixelDiffRatio * 800 + metrics.visualStateChangeCount * 24);
+  const antiSlop = clamp(100 - metrics.heroPenalty - metrics.longParagraphCount * 8 - metrics.roundedTextControlCount * 2.5 - metrics.roundedLabelCount * 1.8);
   const overall = Math.round(
     visualRatio * 0.2 +
     textEconomy * 0.18 +
@@ -72,6 +79,28 @@ function scoreMetrics(metrics) {
     interaction: Math.round(interaction),
     antiSlop: Math.round(antiSlop),
   };
+}
+
+async function collectStateSnapshot(page) {
+  return page.evaluate(() => {
+    return [...document.querySelectorAll("[data-state-target]")].map((el, index) => ({
+      index,
+      tag: el.tagName,
+      text: (el.textContent || "").replace(/\s+/g, " ").trim(),
+      className: typeof el.className === "string" ? el.className : String(el.className?.baseVal || ""),
+      style: el.getAttribute("style") || "",
+      aria: el.getAttribute("aria-label") || "",
+    }));
+  });
+}
+
+function stateDiffCount(before, after) {
+  const count = Math.max(before.length, after.length);
+  let changed = 0;
+  for (let index = 0; index < count; index++) {
+    if (JSON.stringify(before[index] || null) !== JSON.stringify(after[index] || null)) changed++;
+  }
+  return changed;
 }
 
 async function collectDomMetrics(page) {
@@ -92,6 +121,12 @@ async function collectDomMetrics(page) {
         height: rect.height,
         area: Math.max(0, rect.width) * Math.max(0, rect.height),
       };
+    }
+
+    function clippedArea(rect) {
+      const width = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+      const height = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0));
+      return width * height;
     }
 
     function isVisible(el) {
@@ -128,6 +163,11 @@ async function collectDomMetrics(page) {
     const nestedBoxCount = boxLike.filter((el) => boxLike.some((other) => other !== el && other.contains(el))).length;
     const sideCardCount = document.querySelectorAll("[data-side-card]").length;
     const visualEls = [...document.querySelectorAll("svg, canvas, [data-visual], .visual-object")].filter(isVisible);
+    const boxAreaRatio = Math.min(1.5, boxLike.reduce((sum, el) => sum + clippedArea(rectOf(el)), 0) / viewportArea);
+    const framedVisualCount = boxLike.filter((el) => {
+      const rect = rectOf(el);
+      return rect.area > viewportArea * 0.08 && visualEls.some((visual) => visual !== el && el.contains(visual));
+    }).length;
     const visualArea = Math.min(
       viewportArea,
       visualEls.reduce((sum, el) => sum + Math.min(rectOf(el).area, viewportArea), 0)
@@ -167,6 +207,25 @@ async function collectDomMetrics(page) {
       );
       return radius >= 8 && normalize(el.innerText || el.value || "").length > 0;
     }).length;
+    const roundedHtmlLabelCount = visible.filter((el) => {
+      if (controls.includes(el) || el.closest("[data-floating-toolbar]")) return false;
+      const text = normalize(el.innerText || el.textContent || "");
+      if (!text || text.length > 28) return false;
+      const style = getComputedStyle(el);
+      const radius = Math.max(
+        Number.parseFloat(style.borderTopLeftRadius),
+        Number.parseFloat(style.borderTopRightRadius),
+        Number.parseFloat(style.borderBottomRightRadius),
+        Number.parseFloat(style.borderBottomLeftRadius)
+      );
+      return radius >= 8;
+    }).length;
+    const roundedSvgLabelCount = [...document.querySelectorAll("svg rect[rx], svg rect[ry]")].filter(isVisible).filter((el) => {
+      if (el.closest("[data-domain-box]")) return false;
+      const rect = rectOf(el);
+      if (rect.area < 60 || rect.area > 5200) return false;
+      return true;
+    }).length;
 
     return {
       bodyText,
@@ -174,6 +233,8 @@ async function collectDomMetrics(page) {
       cardLikeCount: boxLike.length,
       nestedBoxCount,
       sideCardCount,
+      boxAreaRatio,
+      framedVisualCount,
       visualAreaRatio: visualArea / viewportArea,
       controlCount: controls.length,
       annotationCount: annotations.length,
@@ -181,6 +242,7 @@ async function collectDomMetrics(page) {
       heroPenalty,
       longParagraphCount,
       roundedTextControlCount,
+      roundedLabelCount: roundedHtmlLabelCount + roundedSvgLabelCount,
     };
   });
 }
@@ -191,17 +253,21 @@ async function evaluateFixture(browser, fixture, runDir) {
   await page.goto(pathToFileURL(filePath).href);
   await page.waitForLoadState("networkidle");
   const before = await page.screenshot({ fullPage: true });
+  const beforeState = await collectStateSnapshot(page);
   const screenshotName = `${fixture.id}.png`;
   await fs.writeFile(path.join(runDir, "screenshots", screenshotName), before);
   const dom = await collectDomMetrics(page);
   let interactionPixelDiffRatio = 0;
+  let visualStateChangeCount = 0;
   const action = page.locator("[data-eval-action]").first();
   if (await action.count()) {
     await action.click();
     await page.waitForTimeout(250);
     const after = await page.screenshot({ fullPage: true });
+    const afterState = await collectStateSnapshot(page);
     await fs.writeFile(path.join(runDir, "screenshots", `${fixture.id}-after.png`), after);
     interactionPixelDiffRatio = pngDiffRatio(before, after);
+    visualStateChangeCount = stateDiffCount(beforeState, afterState);
   }
   await page.close();
   const metrics = {
@@ -210,14 +276,18 @@ async function evaluateFixture(browser, fixture, runDir) {
     cardLikeCount: dom.cardLikeCount,
     nestedBoxCount: dom.nestedBoxCount,
     sideCardCount: dom.sideCardCount,
+    boxAreaRatio: Number(dom.boxAreaRatio.toFixed(3)),
+    framedVisualCount: dom.framedVisualCount,
     visualAreaRatio: Number(dom.visualAreaRatio.toFixed(3)),
     controlCount: dom.controlCount,
     annotationCount: dom.annotationCount,
     attachedAnnotationRatio: Number(dom.attachedAnnotationRatio.toFixed(3)),
     interactionPixelDiffRatio: Number(interactionPixelDiffRatio.toFixed(4)),
+    visualStateChangeCount,
     heroPenalty: dom.heroPenalty,
     longParagraphCount: dom.longParagraphCount,
     roundedTextControlCount: dom.roundedTextControlCount,
+    roundedLabelCount: dom.roundedLabelCount,
   };
   return {
     ...fixture,
@@ -247,12 +317,20 @@ function summarizeFindings(results) {
       interactionDelta: candidate.scores.interaction - baseline.scores.interaction,
       notes: [
         candidate.metrics.cardLikeCount < baseline.metrics.cardLikeCount ? "candidate reduced card-like containers" : "candidate still has many card-like containers",
+        candidate.metrics.framedVisualCount < baseline.metrics.framedVisualCount ? "candidate lets the primary visual escape decorative frames" : "candidate still frames the primary visual too heavily",
+        candidate.metrics.roundedLabelCount < baseline.metrics.roundedLabelCount ? "candidate uses fewer pill-like labels" : "candidate still leans on rounded labels",
         candidate.metrics.attachedAnnotationRatio >= baseline.metrics.attachedAnnotationRatio ? "annotations are better attached to evidence" : "annotations drift away from evidence",
         candidate.metrics.interactionPixelDiffRatio > baseline.metrics.interactionPixelDiffRatio ? "interaction changes more pixels" : "interaction does not visibly change much",
       ],
     });
   }
   return findings;
+}
+
+function weakestScoreName(scores) {
+  const entries = Object.entries(scores).filter(([name]) => name !== "overall");
+  entries.sort((a, b) => a[1] - b[1]);
+  return entries[0]?.[0] || "overall";
 }
 
 function reportMarkdown(runId, tasks, results, findings) {
@@ -285,8 +363,12 @@ function reportMarkdown(runId, tasks, results, findings) {
   }
   lines.push("", "## Qualitative Reading", "");
   lines.push("- Strong candidates make the primary object occupy the page and attach explanations directly to visual evidence.");
-  lines.push("- Weak candidates use right-side explanation cards to say what the visual could have shown itself.");
-  lines.push("- The most useful next skill pressure is to make open-canvas annotation the default for algorithm and rubric explainers.");
+  lines.push("- Weak candidates use cards, side panels, or detached definitions to say what the visual could have shown itself.");
+  const candidates = results.filter((result) => result.variant === "candidate");
+  const weakSignals = candidates.map((candidate) => `${candidate.task}: ${weakestScoreName(candidate.scores)}`);
+  if (weakSignals.length) {
+    lines.push(`- Weakest candidate signals: ${weakSignals.join("; ")}.`);
+  }
   lines.push("- The harness is intentionally heuristic; use it to catch regressions and guide iteration, not as a final human-study substitute.");
   lines.push("");
   return lines.join("\n");
