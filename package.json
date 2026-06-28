@@ -41,7 +41,8 @@
     "install:skill": "node bin/visual-explanation-engine.js install --force",
     "doctor": "node bin/visual-explanation-engine.js doctor",
     "eval:research": "node scripts/research-harness.mjs",
-    "test": "node --check bin/visual-explanation-engine.js && node --check scripts/postinstall.js && node --check scripts/research-harness.mjs",
+    "report:pdf": "node scripts/build-research-report.mjs",
+    "test": "node --check bin/visual-explanation-engine.js && node --check scripts/postinstall.js && node --check scripts/research-harness.mjs && node --check scripts/build-research-report.mjs",
     "pack:dry": "npm pack --dry-run"
   },
   "engines": {

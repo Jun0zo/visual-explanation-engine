@@ -6,5 +6,6 @@ dist/
 coverage/
 tmp/
 evals/runs/
+output/pdf/*.html
 .agents/
 skills-lock.json
