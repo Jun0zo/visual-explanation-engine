@@ -49,6 +49,7 @@
     "node": ">=18"
   },
   "devDependencies": {
+    "cytoscape": "^3.34.0",
     "playwright": "^1.61.1",
     "pngjs": "^7.0.0"
   }

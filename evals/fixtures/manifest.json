@@ -124,5 +124,19 @@
     "variant": "candidate",
     "file": "retention-cohort-lens.html",
     "notes": "Cohort heatmap and retention curve with release marker, affected cohorts, baseline, and segment toggle."
+  },
+  {
+    "id": "dependency-static-svg",
+    "task": "dependency-graph",
+    "variant": "baseline",
+    "file": "dependency-static-svg.html",
+    "notes": "Hand-positioned dependency SVG with detached conflict cards."
+  },
+  {
+    "id": "dependency-cytoscape-lab",
+    "task": "dependency-graph",
+    "variant": "candidate",
+    "file": "dependency-cytoscape-lab.html",
+    "notes": "Cytoscape-backed dependency graph with real layout, selection, neighbor highlighting, and conflict-path toggle."
   }
 ]

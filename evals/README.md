@@ -24,6 +24,7 @@ Generated runs are intentionally ignored by git. They are evidence for local ite
 - **Annotation**: whether labels and callouts are attached to visual evidence.
 - **Interaction**: whether controls visibly change the rendered state and marked visual state targets.
 - **Anti-slop**: penalties for hero-heavy, rounded-control-heavy, rounded-label-heavy, label-collision-heavy, generic layouts.
+- **Library discipline**: whether complex interactive visuals are library-backed, and whether hand-rolled SVG is being used where layout, scales, hit-testing, or exploration should come from a maintained library.
 
 ## Current Benchmark Pairs
 
@@ -36,6 +37,7 @@ Generated runs are intentionally ignored by git. They are evidence for local ite
 - `incident-timeline`: card postmortem baseline vs scaled incident timeline axis.
 - `architecture-tradeoff`: pros/cons card baseline vs constraint-driven decision surface.
 - `retention-analysis`: KPI-card dashboard baseline vs annotated cohort heatmap and retention curve.
+- `dependency-graph`: hand-positioned SVG dependency graph vs Cytoscape-backed graph explorer.
 
 The goal is not to make the metric perfect. The goal is to create a repeatable pressure loop: generate examples, capture them, score regressions, inspect screenshots, then tighten the skill instructions.
 
@@ -44,3 +46,5 @@ Fixtures can mark legitimate domain boundaries with `data-domain-box`, lightweig
 Use `data-state-target` on the primary visual state container when an action should change the object itself. This keeps interaction scoring from over-rewarding large text-only panel changes.
 
 Use `data-annotation`, `.callout`, `.annotation`, or `data-label` on labels that should remain legible. The harness counts label-to-label collisions so dense traces and diagrams do not pass just because they are visually busy.
+
+Use `data-library-visual` on a maintained-library visual surface and `data-handrolled-complex` on intentionally hand-built complex fixtures. This lets the research loop reward real chart/graph/map/editor/simulation engines and penalize brittle static SVG approximations when a library should own layout or interaction.

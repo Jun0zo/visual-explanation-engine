@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dependency Static SVG Baseline</title>
+  <style>
+    :root { --ink:#1f2924; --muted:#68756e; --line:#d8e1dc; --panel:#fff; --soft:#f5f8f6; --red:#c94d4d; --orange:#d98916; --green:#10866f; --blue:#2c69d8; --purple:#6e58d9; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--soft); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    header { padding:38px 46px 28px; background:#fbfdf9; border-bottom:1px solid var(--line); }
+    h1 { margin:0 0 10px; font-size:52px; letter-spacing:0; }
+    p { margin:0; color:var(--muted); font-size:20px; line-height:1.55; }
+    main { display:grid; grid-template-columns:minmax(760px,1fr) 390px; gap:28px; padding:34px 46px; }
+    .panel, .card { background:var(--panel); border:1px solid var(--line); border-radius:18px; box-shadow:0 16px 42px rgba(38,60,48,.07); }
+    .panel { padding:26px; }
+    .card { padding:22px; }
+    h2, h3 { margin:0; }
+    h2 { font-size:30px; }
+    h3 { font-size:22px; margin-bottom:12px; }
+    .graph-wrap { height:500px; margin-top:22px; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:linear-gradient(#eaf1ed 1px, transparent 1px), linear-gradient(90deg, #eaf1ed 1px, transparent 1px); background-size:38px 38px; }
+    svg { width:100%; height:100%; }
+    .edge { stroke:#9aa7a1; stroke-width:4; fill:none; marker-end:url(#arrow); }
+    .bad { stroke:var(--red); stroke-width:5; }
+    .node { fill:#fff; stroke:#71827a; stroke-width:4; }
+    .direct { stroke:var(--green); }
+    .conflict { stroke:var(--red); }
+    .dup { stroke:var(--orange); }
+    .label { font-size:17px; font-weight:950; fill:var(--ink); text-anchor:middle; dominant-baseline:middle; }
+    .side { display:flex; flex-direction:column; gap:18px; }
+    button { margin-top:16px; border:1px solid #cbd8d1; border-radius:14px; padding:13px 17px; background:#fff; color:var(--ink); font-size:17px; font-weight:900; }
+    button.primary { background:var(--ink); color:#fff; }
+    .pill { display:inline-block; margin-top:14px; padding:9px 13px; border-radius:999px; background:#ffeceb; color:#9d3333; font-weight:900; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>빌드 의존성 충돌 설명</h1>
+    <p>앱 빌드가 실패한 이유를 의존성 그래프로 요약합니다. 빨간 노드가 충돌 지점입니다.</p>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>정적 의존성 그래프</h2>
+      <div class="graph-wrap" data-visual>
+        <svg viewBox="0 0 900 520" data-handrolled-complex aria-label="hand-positioned dependency graph">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa7a1"/>
+            </marker>
+          </defs>
+          <path class="edge" d="M142 252 C238 126 324 96 430 116"/>
+          <path class="edge" d="M142 252 C250 236 336 228 440 238"/>
+          <path class="edge" d="M142 252 C240 384 360 416 484 394"/>
+          <path class="edge" d="M484 394 C600 360 648 292 696 226"/>
+          <path class="edge bad" d="M440 238 C548 206 608 206 696 226"/>
+          <path class="edge bad" d="M430 116 C548 116 640 142 718 162"/>
+          <circle class="node direct" cx="118" cy="252" r="58"/><text class="label" x="118" y="252">app</text>
+          <circle class="node" cx="430" cy="116" r="62"/><text class="label" x="430" y="108">vite</text><text class="label" x="430" y="132">5.2</text>
+          <circle class="node" cx="440" cy="238" r="62"/><text class="label" x="440" y="230">plugin</text><text class="label" x="440" y="254">legacy</text>
+          <circle class="node dup" cx="484" cy="394" r="62"/><text class="label" x="484" y="386">rollup</text><text class="label" x="484" y="410">3.x</text>
+          <circle class="node conflict" cx="718" cy="162" r="62"/><text class="label" x="718" y="154">rollup</text><text class="label" x="718" y="178">4.x</text>
+          <circle class="node conflict" cx="696" cy="226" r="62"/><text class="label" x="696" y="218">peer</text><text class="label" x="696" y="242">range</text>
+          <text class="label" x="668" y="332">충돌 경로는 빨간 선</text>
+        </svg>
+      </div>
+    </section>
+    <aside class="side">
+      <section class="card" data-side-card><h3>문제</h3><p>Vite는 Rollup 4를 기대하지만 legacy plugin은 Rollup 3 peer range를 요구합니다.</p><button class="primary" data-eval-action>충돌 카드 보기</button></section>
+      <section class="card" data-side-card><h3>왜 실패하나</h3><p>동일한 빌드 단계에서 두 버전이 섞여 plugin hook shape가 달라집니다.</p><span class="pill">peer mismatch</span></section>
+      <section class="card" data-side-card><h3>조치</h3><p>legacy plugin을 업데이트하거나 Vite major를 낮춰 peer range를 맞춥니다.</p></section>
+    </aside>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => {
+      document.querySelector(".side .card:nth-child(2) p").textContent = "빨간 카드의 peer range가 실제 충돌 원인입니다.";
+    });
+  </script>
+</body>
+</html>

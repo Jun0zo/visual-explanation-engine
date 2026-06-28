@@ -1,6 +1,6 @@
 # Current Research Findings
 
-Latest local run inspected: `2026-06-28T07-20-17-745Z`.
+Latest local run inspected: `2026-06-28T14-30-19-035Z`.
 
 Generated screenshots and the full report live under `evals/runs/` locally and are ignored by git.
 
@@ -17,6 +17,7 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 | Incident timeline | 20 | 84 | +64 |
 | Architecture tradeoff | 18 | 83 | +65 |
 | Retention analysis | 28 | 83 | +55 |
+| Dependency graph | 32 | 89 | +57 |
 
 ## What Improved
 
@@ -32,6 +33,8 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 - Timeline candidates score best when time is a scaled surface with spans, overlaps, causal lag, metric traces, and before/after state changes in one view.
 - Architecture tradeoff candidates score best when constraints become a decision surface and workload changes move the recommendation on the visual object.
 - Data/analytics candidates score best when the cohort grid, chart, baseline, selected segment, and claim annotations stay on the same data surface.
+- Library-backed graph candidates score best when layout, hit-testing, selection, and neighbor/path highlighting are handled by a maintained graph library rather than hand-positioned SVG.
+- The harness now records `libraryVisualCount` and `handRolledComplexVisualCount` so complex hand-rolled SVG can be pressured directly.
 
 ## Remaining Pressure
 
@@ -40,5 +43,6 @@ Generated screenshots and the full report live under `evals/runs/` locally and a
 - Labels and callouts must avoid covering the node, curve, path, document text, or moving object they explain.
 - The React trace still has interaction as its weakest score; future fixtures should make the visual state transition more dramatic without becoming noisy.
 - Science candidates can still improve by making interactions teach more than a two-state highlight; staged scrubbing through inputs, transformation, and output would be stronger.
+- More library-backed benchmarks are needed for chart brushing, timeline zooming, map inspection, code editors, rich tables, and 3D/physics explainers.
 - Future benchmarks should stress multi-chart analytical stories, statistical uncertainty, and slide/narrative outputs.
 - The harness is heuristic and should eventually be paired with comprehension/transfer questions.

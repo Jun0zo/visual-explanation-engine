@@ -57,6 +57,11 @@ const taskMeta = {
     domain: "Data/Analytics",
     lesson: "KPI 타일보다 cohort grid, baseline, selected segment, claim annotation이 같은 데이터 표면에 있어야 한다.",
   },
+  "dependency-graph": {
+    title: "Dependency Graph",
+    domain: "Library-backed Network",
+    lesson: "복잡한 dependency network는 손으로 배치한 SVG보다 Cytoscape 같은 그래프 라이브러리가 layout, selection, neighbor/path highlight를 맡을 때 실제로 탐색 가능하다.",
+  },
 };
 
 const developmentStages = [
@@ -117,6 +122,8 @@ function metricLine(result) {
     `cards ${m.cardLikeCount}`,
     `box ${m.boxAreaRatio.toFixed(2)}`,
     `labels ${m.labelCollisionCount}`,
+    `lib ${m.libraryVisualCount ?? 0}`,
+    `hand ${m.handRolledComplexVisualCount ?? 0}`,
     `state ${m.visualStateChangeCount}`,
   ].join(" · ");
 }
@@ -388,9 +395,9 @@ function renderHtml(runPath, report) {
     img {
       display: block;
       width: 100%;
-      height: 112mm;
-      object-fit: cover;
-      object-position: top left;
+      height: 88mm;
+      object-fit: contain;
+      object-position: center center;
       border: 1px solid #d5dfd9;
       border-radius: 8px;
       background: #fff;
@@ -483,11 +490,6 @@ function renderHtml(runPath, report) {
       <thead><tr><th>Task</th><th>Baseline</th><th>Candidate</th><th>Delta</th></tr></thead>
       <tbody>${renderScoreTable(pairs)}</tbody>
     </table>
-    <div class="metric-notes">
-      <div class="metric-note"><h3>Box discipline</h3><p>side cards, nested cards, framed visuals, high box area를 감점해 "AI dashboard" 냄새를 수치화한다.</p></div>
-      <div class="metric-note"><h3>Annotation</h3><p>callout이 primary visual 가까이 붙는지 본다. 멀리 떠 있는 prose panel은 약하다.</p></div>
-      <div class="metric-note"><h3>Anti-slop</h3><p>hero-heavy, rounded label-heavy, collision-heavy 화면을 감점한다.</p></div>
-    </div>
   </section>
 
   ${pairs.map((pair, index) => renderBenchmarkPage(runPath, pair, index)).join("")}
@@ -502,8 +504,8 @@ function renderHtml(runPath, report) {
     </header>
     <div class="rules">
       <div class="rule"><h3>결론</h3><p>좋은 설명은 예쁜 카드가 아니라 subject-native surface 위에서 관계, 상태, 근거, 변화가 직접 보이는 것이다.</p></div>
-      <div class="rule"><h3>현재 강점</h3><p>알고리즘, API flow, code trace, science mechanism, timeline, architecture, analytics까지 anti-box 기준이 넓어졌다.</p></div>
-      <div class="rule"><h3>남은 압력</h3><p>multi-chart analytical story, statistical uncertainty, narrative slide output, comprehension/transfer questions를 추가해야 한다.</p></div>
+      <div class="rule"><h3>현재 강점</h3><p>알고리즘, API flow, code trace, science mechanism, timeline, architecture, analytics, library-backed network까지 anti-box 기준이 넓어졌다.</p></div>
+      <div class="rule"><h3>남은 압력</h3><p>chart brushing, timeline zoom, maps, code editors, rich tables, 3D/physics, statistical uncertainty, narrative slide output을 추가해야 한다.</p></div>
     </div>
   </section>
 </body>

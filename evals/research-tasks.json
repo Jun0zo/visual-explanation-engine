@@ -142,5 +142,21 @@
       "The chart is decorative and does not show the affected cohorts or baseline.",
       "The interaction changes narrative copy but not the data marks."
     ]
+  },
+  {
+    "id": "dependency-graph",
+    "prompt": "Use visual-explanation-engine to explain a package dependency conflict in a frontend build to an engineer.",
+    "domain": "library-backed-network",
+    "successCriteria": [
+      "The dependency graph uses a real graph library with layout, hit-testing, and selection.",
+      "Direct, transitive, duplicate, and conflicting dependencies are visually distinct.",
+      "Selecting or toggling a mode changes the graph state, highlights neighbors, and updates the inspected path.",
+      "Annotations explain the conflict at the relevant nodes and edges rather than in detached prose cards."
+    ],
+    "failureModes": [
+      "A complex network is hand-positioned as static SVG without graph interaction.",
+      "Conflict details are listed as cards beside a decorative graph.",
+      "The interaction changes text but not graph selection, node state, or edge emphasis."
+    ]
   }
 ]

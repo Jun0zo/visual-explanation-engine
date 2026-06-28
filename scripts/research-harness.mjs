@@ -67,7 +67,9 @@ function scoreMetrics(metrics) {
       metrics.longParagraphCount * 8 -
       metrics.roundedTextControlCount * 2.5 -
       metrics.roundedLabelCount * 1.8 -
-      metrics.labelCollisionCount * 5
+      metrics.labelCollisionCount * 5 -
+      metrics.handRolledComplexVisualCount * 12 +
+      metrics.libraryVisualCount * 2
   );
   const overall = Math.round(
     visualRatio * 0.2 +
@@ -176,6 +178,8 @@ async function collectDomMetrics(page) {
     const nestedBoxCount = boxLike.filter((el) => boxLike.some((other) => other !== el && other.contains(el))).length;
     const sideCardCount = document.querySelectorAll("[data-side-card]").length;
     const visualEls = [...document.querySelectorAll("svg, canvas, [data-visual], .visual-object")].filter(isVisible);
+    const libraryVisualCount = [...document.querySelectorAll("[data-library-visual]")].filter(isVisible).length;
+    const handRolledComplexVisualCount = [...document.querySelectorAll("[data-handrolled-complex]")].filter(isVisible).length;
     const boxAreaRatio = Math.min(1.5, boxLike.reduce((sum, el) => sum + clippedArea(rectOf(el)), 0) / viewportArea);
     const framedVisualCount = boxLike.filter((el) => {
       const rect = rectOf(el);
@@ -269,6 +273,8 @@ async function collectDomMetrics(page) {
       roundedTextControlCount,
       roundedLabelCount: roundedHtmlLabelCount + roundedSvgLabelCount,
       labelCollisionCount,
+      libraryVisualCount,
+      handRolledComplexVisualCount,
     };
   });
 }
@@ -315,6 +321,8 @@ async function evaluateFixture(browser, fixture, runDir) {
     roundedTextControlCount: dom.roundedTextControlCount,
     roundedLabelCount: dom.roundedLabelCount,
     labelCollisionCount: dom.labelCollisionCount,
+    libraryVisualCount: dom.libraryVisualCount,
+    handRolledComplexVisualCount: dom.handRolledComplexVisualCount,
   };
   return {
     ...fixture,
@@ -347,6 +355,8 @@ function summarizeFindings(results) {
         candidate.metrics.framedVisualCount < baseline.metrics.framedVisualCount ? "candidate lets the primary visual escape decorative frames" : "candidate still frames the primary visual too heavily",
         candidate.metrics.roundedLabelCount < baseline.metrics.roundedLabelCount ? "candidate uses fewer pill-like labels" : "candidate still leans on rounded labels",
         candidate.metrics.labelCollisionCount <= baseline.metrics.labelCollisionCount ? "labels collide less often" : "labels still collide",
+        candidate.metrics.libraryVisualCount > baseline.metrics.libraryVisualCount ? "candidate uses more library-backed visuals" : "candidate does not improve library-backed visuals",
+        candidate.metrics.handRolledComplexVisualCount < baseline.metrics.handRolledComplexVisualCount ? "candidate avoids hand-rolled complex visuals" : "candidate still hand-rolls complex visuals",
         candidate.metrics.attachedAnnotationRatio >= baseline.metrics.attachedAnnotationRatio ? "annotations are better attached to evidence" : "annotations drift away from evidence",
         candidate.metrics.visualStateChangeCount > baseline.metrics.visualStateChangeCount ? "interaction changes marked visual state" : "interaction lacks marked visual state changes",
       ],
