@@ -26,8 +26,20 @@ Let those answers determine the output format.
 3. Choose the primary explanatory object before layout: map, trace, specimen, simulator, timeline, graph, rubric, state machine, request path, comparison board, or annotated artifact.
 4. Select the smallest useful set of modalities. Read `references/modality-playbook.md` when the structure is mixed, the output will be substantial, or the best format is not obvious.
 5. Design progressive disclosure around actions: inspect, scrub, compare, toggle layers, run an example, follow evidence, adjust a parameter, or reveal a failure path.
-6. Produce the artifact using the right medium: Mermaid, SVG, chart, table, generated image, interactive HTML, frontend app, animation, code example, or a compact written answer.
+6. Produce the artifact using the right medium: compact written answer, Mermaid, table, generated image, library-backed chart/graph/map/editor/simulation, interactive HTML, frontend app, animation, or code example.
 7. Check that every visual or interaction teaches something. Remove decorative visuals, repeated text, and interactions that do not improve comprehension.
+
+## Library Discipline
+
+Use proven libraries for established visual domains instead of hand-rolling core behavior:
+
+- Charts and quantitative data: use Observable Plot, Vega-Lite, ECharts, Chart.js, D3, or the project's existing charting library.
+- Node-link graphs, dependency maps, and flow editors: use Cytoscape.js, Sigma, React Flow, Dagre/ELK, D3-force, or the project's existing graph library.
+- Timelines with scale, zoom, filtering, or multiple lanes: use a time-scale/chart/timeline library instead of equal event cards or manually positioned SVG.
+- Maps, editors, 3D, physics, and rich tables: use domain engines such as MapLibre/Leaflet, Monaco/CodeMirror, Three.js, Matter.js, or TanStack Table when appropriate.
+- In an existing app, follow its dependency stack and component patterns. In a quick standalone HTML artifact, a CDN library is acceptable only when that keeps the artifact runnable for the user.
+
+Hand-authored SVG is acceptable for small custom annotations, simple diagrams, labels, icons, or educational illustrations where a library would add more complexity than clarity. Do not hand-code graph layout, chart scales, zoom/pan, force simulation, brushing, filtering, or editor behavior when a maintained library can do it reliably.
 
 ## Visual-First Contract
 
@@ -38,6 +50,7 @@ For nontrivial explainers, make the visual or interactive model carry the unders
 - Encode relationships with position, grouping, motion, color, scale, sequence, or direct manipulation, not just with written descriptions.
 - Use real or realistic examples from the user's topic. If the task involves evaluation, writing, code, data, or a workflow, show a sample artifact being inspected instead of only describing the rules.
 - Make interactions change the visual state. A tab or button that only swaps paragraphs is not enough.
+- When an interactive visual needs graph layout, chart scales, zoom, filtering, simulation, code editing, or map behavior, use the relevant library so the artifact is genuinely explorable rather than a static SVG mockup.
 - For code explanations, make the code, runtime state, call stack, data flow, or trace the inspected object. Highlight the exact line or state transition being explained.
 - For science or physical mechanisms, make the structure, cross-section, scale view, transformation, or material/energy flow the inspected object. Attach labels to where the mechanism happens.
 - For timelines, make time the organizing surface. Show duration, gaps, overlap, causal lag, and state changes on the axis instead of turning events into cards.
@@ -87,6 +100,7 @@ Design the surface around the explanatory object, not around containers:
 - Use charts for quantitative claims, trends, proportions, and distributions.
 - Use generated images only for educational illustrations, labeled figures, cross-sections, concept scenes, exploded views, or before/after explanations that improve understanding.
 - Use interactive HTML or a frontend app when the learner benefits from exploration: stepping through an algorithm, toggling perspectives, selecting concepts, animating state changes, filtering examples, or manipulating parameters.
+- In interactive HTML or frontend apps, prefer library-backed visuals for charts, graphs, maps, editors, simulations, timelines, and tables. Build custom SVG only for small bespoke marks or explanatory overlays.
 - Use code examples when implementation is part of understanding; pair code with flow, state, or data visuals when helpful.
 
 ## Interactive Explanation Requirements
@@ -102,6 +116,7 @@ When creating an interactive explainer:
 - Keep explanatory side panels subordinate. The main object should occupy most of the screen and remain the obvious focus.
 - Keep controls obvious, responsive, accessible, and mobile-friendly.
 - Avoid hiding essential understanding behind hover-only behavior.
+- For library-backed artifacts, expose meaningful interactions the library supports: pan/zoom, hover inspect, selection, filtering, brushing, scrubbing, recomputation, layout changes, or parameter updates.
 
 ## Adaptive Learning
 
@@ -122,6 +137,7 @@ Before finalizing, verify:
 - Visual structure matches the concept structure.
 - The artifact would still mostly make sense if paragraphs were removed.
 - The main interaction changes a diagram, example, state, chart, or specimen rather than only replacing text.
+- Interactive charts, graphs, timelines, maps, editors, simulations, and tables use appropriate libraries or existing project components instead of fragile hand-coded SVG approximations.
 - Code explanations show what line runs, what state changes, and where the output changes.
 - Science explanations show what enters, moves, transforms, exits, and where hidden structure matters.
 - Timeline explanations show when things happen, how long they last, what overlaps, and what changes before and after.

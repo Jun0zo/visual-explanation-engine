@@ -62,6 +62,17 @@ Use these patterns to avoid boxy AI layouts:
 
 Use boxes only when they represent real domain boundaries such as files, screens, components, documents, rooms, states, or data records. Decorative grouping boxes should be rare.
 
+## Library Selection Guide
+
+Use maintained libraries for visual systems with real layout, scale, or interaction needs:
+
+- **Charts and analytics**: Observable Plot, Vega-Lite, ECharts, Chart.js, D3, or the existing project chart library for axes, scales, tooltips, brushing, zooming, and responsive rendering.
+- **Graphs and networks**: Cytoscape.js, Sigma, React Flow, Dagre/ELK, D3-force, or an existing graph library for layout, pan/zoom, selection, neighbor highlighting, and edge routing.
+- **Timelines**: use a chart/time-scale/timeline library when events need scale, zoom, filters, lanes, or duration spans.
+- **Maps, code, 3D, physics, tables**: use MapLibre/Leaflet, Monaco/CodeMirror, Three.js, Matter.js, TanStack Table, or project-native equivalents when those behaviors matter.
+
+Hand-authored SVG is a last-mile annotation or bespoke illustration tool, not the default engine for charts, graph layouts, maps, editors, simulations, or rich interactions. If a learner should explore the visual, prefer a library with real state, hit-testing, layout, and interaction primitives.
+
 ## Output Recipes
 
 ### Compact visual answer
@@ -84,7 +95,8 @@ Use when exploration will teach better than static reading:
 4. Add controls that change the object directly: scrub, select, compare, toggle layers, run an example, adjust parameters, or reveal evidence.
 5. Pair each interaction with immediate visual feedback and short annotations.
 6. Include examples and misconception callouts near the relevant visual evidence, preferably as attached labels or overlays rather than cards.
-7. Verify responsiveness, accessible labels, keyboard usability, readable text, non-overlapping controls, and that container borders do not dominate the object.
+7. Use appropriate libraries for charts, graphs, maps, timelines, editors, simulations, and tables instead of manually positioning SVG marks.
+8. Verify responsiveness, accessible labels, keyboard usability, readable text, non-overlapping controls, and that container borders do not dominate the object.
 
 ### Technical explainer
 
@@ -160,4 +172,5 @@ Revise before finalizing if any of these are true:
 - A timeline uses equal cards or steps for events whose timing, duration, overlap, or causal lag matters.
 - An architecture recommendation is just option cards with pros and cons, without request paths, capacity, constraints, budgets, or failure boundaries.
 - A data explanation is mostly KPI tiles and insight prose without the data marks, baseline, segment, or uncertainty that support the claim.
+- An interactive graph, chart, map, timeline, editor, simulation, or table is hand-rolled as static SVG when a library should provide real layout, hit-testing, scales, or exploration.
 - The result would look plausible for almost any topic after swapping the words.
