@@ -47,7 +47,19 @@ Avoid outputs that feel like generic AI slideware:
 - Do not turn every concept into a ladder, journey, tree, factory, pipeline, or metaphor. Use metaphors only when they clarify the user's actual domain.
 - Do not make "important premise", "current confusion", "key insight", or similar prose panels the main content.
 - Do not use dark dashboard cards as the default visual language. Choose a form that fits the subject: worksheet, lab bench, map, timeline, circuit, courtroom evidence board, microscope, editor, graph, cockpit, rubric, or simulator.
+- Do not create box-in-box layouts: card grids inside panels, sidebars full of explanation cards, or framed canvases surrounded by more framed cards.
 - Do not pad the artifact with repeated summaries. If a sentence does not help the learner act, inspect, compare, or decide, remove it.
+
+## Layout Discipline
+
+Design the surface around the explanatory object, not around containers:
+
+- Prefer an open canvas, board, lab table, graph paper, timeline, editor, map, or simulation stage as the main surface.
+- Use at most one framing container around the primary object. Avoid nested borders, stacked panels, and repeated rounded rectangles.
+- Replace side explanation cards with direct annotations, labels, callout lines, overlays, tooltips, legends, scrubbers, or inline evidence markers near the relevant visual element.
+- Keep controls compact and spatially attached to what they affect. Use a toolbar, floating controls, edge rail, or inline handles instead of a separate card column when possible.
+- Let whitespace, alignment, scale, and motion organize the page before adding borders.
+- When a secondary explanation is necessary, use one lightweight inspector or drawer, not several independent cards.
 
 ## Modality Rules
 
@@ -70,6 +82,7 @@ When creating an interactive explainer:
 - Keep the primary visual persistent while controls change it.
 - Put controls next to the thing they affect.
 - Limit prose in interactive views: one or two short sentences per selected state is usually enough.
+- Keep explanatory side panels subordinate. The main object should occupy most of the screen and remain the obvious focus.
 - Keep controls obvious, responsive, accessible, and mobile-friendly.
 - Avoid hiding essential understanding behind hover-only behavior.
 
@@ -93,6 +106,8 @@ Before finalizing, verify:
 - The artifact would still mostly make sense if paragraphs were removed.
 - The main interaction changes a diagram, example, state, chart, or specimen rather than only replacing text.
 - The design does not look like a generic AI-generated dark card dashboard.
+- The layout avoids nested boxes, card stacks, and framed panels around framed panels.
+- Labels and annotations sit close to the visual evidence they describe.
 - Examples sit near the abstract ideas they explain.
 - Common misconceptions are corrected when relevant.
 - Text is concise: one idea per section, no filler paragraphs.

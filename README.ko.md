@@ -16,6 +16,7 @@
 - selectable concept, step control, timeline, diagram, chart, example, misconception callout 같은 탐색형 학습을 유도합니다.
 - generated educational image, Mermaid, SVG, table, chart, code example, interactive HTML, frontend app 중 무엇을 써야 하는지 판단하게 합니다.
 - 도메인에 맞는 시각 모델이 더 잘 가르칠 때는 AI스러운 hero, 텍스트 카드 그리드, 장식용 은유를 피합니다.
+- 박스 안에 박스가 반복되는 대시보드 대신 open canvas와 직접 주석 중심의 레이아웃을 유도합니다.
 - 표준 `skills` CLI로 설치 가능한 skill 패키지로 배포됩니다.
 
 ## 작동 프로세스

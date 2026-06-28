@@ -37,6 +37,19 @@ Pick a form that feels native to the subject instead of defaulting to cards:
 - **Tradeoffs**: show a decision surface, sliders for constraints, and how the recommendation changes.
 - **Timelines**: show time as the primary axis, not as a row of prose cards.
 
+## Open Canvas Patterns
+
+Use these patterns to avoid boxy AI layouts:
+
+- **Annotated canvas**: one large visual field with labels attached directly to nodes, paths, specimens, or regions.
+- **Floating inspector**: one compact inspector that updates from the selected object; avoid multiple stacked explanation panels.
+- **Inline legend**: put color, symbol, and state explanations near the visual, not in a separate card.
+- **Scrub bar**: use a timeline or stepper along the visual edge instead of a row of large step cards.
+- **Ghost path or overlay**: show previous, current, and next states as overlays on the same object rather than separate boxes.
+- **Object-attached controls**: put sliders, toggles, handles, or buttons on or beside the affected element.
+
+Use boxes only when they represent real domain boundaries such as files, screens, components, documents, rooms, states, or data records. Decorative grouping boxes should be rare.
+
 ## Output Recipes
 
 ### Compact visual answer
@@ -58,7 +71,7 @@ Use when exploration will teach better than static reading:
 3. Put that object in the first view with minimal framing copy.
 4. Add controls that change the object directly: scrub, select, compare, toggle layers, run an example, adjust parameters, or reveal evidence.
 5. Pair each interaction with immediate visual feedback and short annotations.
-6. Include examples and misconception callouts near the relevant visual evidence.
+6. Include examples and misconception callouts near the relevant visual evidence, preferably as attached labels or overlays rather than cards.
 7. Verify responsiveness, accessible labels, keyboard usability, readable text, and non-overlapping controls.
 
 ### Technical explainer
@@ -114,6 +127,9 @@ Use this depth order unless the user asks for a different format:
 Revise before finalizing if any of these are true:
 
 - The screen is mostly headline, paragraph, and cards.
+- The layout has panels inside panels or a large visual trapped inside a bordered card.
+- A right sidebar contains several explanation cards that could be direct annotations.
+- Most controls and labels are rounded rectangles with text inside.
 - The visual metaphor is unrelated to the user's domain.
 - Interactions only change text panels.
 - A diagram node or card repeats prose that could have been a label.
