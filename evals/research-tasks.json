@@ -126,5 +126,21 @@
       "Constraints such as latency, burstiness, cost, and operational load are not spatially encoded.",
       "The interaction changes explanatory copy but not the decision surface."
     ]
+  },
+  {
+    "id": "retention-analysis",
+    "prompt": "Use visual-explanation-engine to explain why weekly retention dropped after a new onboarding release.",
+    "domain": "data-analytics",
+    "successCriteria": [
+      "The cohort heatmap, retention curve, or data table is the primary object.",
+      "The release date, affected cohorts, baseline, and drop are attached to the relevant data marks.",
+      "Observed data is visually separated from interpretation or recommendation.",
+      "Controls change the selected segment or cohort on the visual surface."
+    ],
+    "failureModes": [
+      "The explanation is a KPI dashboard with detached insight cards.",
+      "The chart is decorative and does not show the affected cohorts or baseline.",
+      "The interaction changes narrative copy but not the data marks."
+    ]
   }
 ]

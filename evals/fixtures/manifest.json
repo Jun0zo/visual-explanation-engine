@@ -110,5 +110,19 @@
     "variant": "candidate",
     "file": "architecture-decision-surface.html",
     "notes": "Decision surface with constraint axes, architecture regions, scenario movement, and visual recommendation shift."
+  },
+  {
+    "id": "retention-dashboard-cards",
+    "task": "retention-analysis",
+    "variant": "baseline",
+    "file": "retention-dashboard-cards.html",
+    "notes": "KPI-card retention dashboard with detached insights and a decorative mini chart."
+  },
+  {
+    "id": "retention-cohort-lens",
+    "task": "retention-analysis",
+    "variant": "candidate",
+    "file": "retention-cohort-lens.html",
+    "notes": "Cohort heatmap and retention curve with release marker, affected cohorts, baseline, and segment toggle."
   }
 ]

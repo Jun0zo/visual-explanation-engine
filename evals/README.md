@@ -35,6 +35,7 @@ Generated runs are intentionally ignored by git. They are evidence for local ite
 - `photosynthesis-mechanism`: definition-card baseline vs chloroplast cross-section mechanism lab.
 - `incident-timeline`: card postmortem baseline vs scaled incident timeline axis.
 - `architecture-tradeoff`: pros/cons card baseline vs constraint-driven decision surface.
+- `retention-analysis`: KPI-card dashboard baseline vs annotated cohort heatmap and retention curve.
 
 The goal is not to make the metric perfect. The goal is to create a repeatable pressure loop: generate examples, capture them, score regressions, inspect screenshots, then tighten the skill instructions.
 

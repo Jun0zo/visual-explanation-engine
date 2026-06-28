@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retention Dashboard Cards Baseline</title>
+  <style>
+    :root { --ink:#1f2924; --muted:#69756f; --line:#d8e1dc; --panel:#fff; --soft:#f5f8f6; --green:#10866f; --blue:#2c69d8; --red:#c94d4d; --orange:#d98916; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--soft); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    header { padding:38px 46px 28px; background:#fbfdf9; border-bottom:1px solid var(--line); }
+    h1 { margin:0 0 10px; font-size:52px; letter-spacing:0; }
+    p { margin:0; color:var(--muted); font-size:20px; line-height:1.55; }
+    main { display:grid; grid-template-columns:minmax(780px,1fr) 380px; gap:28px; padding:34px 46px; }
+    .panel, .card { background:var(--panel); border:1px solid var(--line); border-radius:18px; box-shadow:0 16px 42px rgba(38,60,48,.07); }
+    .panel { padding:26px; }
+    .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-top:22px; }
+    .card { padding:22px; }
+    h2, h3 { margin:0; }
+    h2 { font-size:30px; }
+    h3 { font-size:22px; margin-bottom:12px; }
+    .metric { font-size:34px; font-weight:950; margin-top:10px; }
+    .tag { display:inline-block; margin-top:12px; padding:8px 12px; border-radius:999px; background:#ffeceb; color:#9d3333; font-weight:900; }
+    .mini { height:310px; margin-top:22px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(#eaf1ed 1px, transparent 1px), linear-gradient(90deg, #eaf1ed 1px, transparent 1px); background-size:38px 38px; padding:28px; }
+    .chart { height:210px; margin-top:18px; border-left:4px solid #93a29a; border-bottom:4px solid #93a29a; position:relative; }
+    .chart::before { content:""; position:absolute; left:10%; right:10%; top:54%; height:7px; border-radius:999px; background:linear-gradient(90deg, var(--green), var(--orange), var(--red)); transform:rotate(7deg); }
+    .side { display:flex; flex-direction:column; gap:18px; }
+    button { margin-top:16px; border:1px solid #cbd8d1; border-radius:14px; padding:13px 17px; background:#fff; color:var(--ink); font-size:17px; font-weight:900; }
+    button.primary { background:var(--ink); color:#fff; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>주간 리텐션 하락 분석</h1>
+    <p>새 온보딩 릴리스 이후 리텐션이 낮아졌습니다. 핵심 KPI와 주요 인사이트를 요약했습니다.</p>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>요약 지표</h2>
+      <div class="stats">
+        <article class="card"><h3>Week 1</h3><p class="metric">42%</p><span class="tag">-9pt</span></article>
+        <article class="card"><h3>Week 2</h3><p class="metric">31%</p><span class="tag">-7pt</span></article>
+        <article class="card"><h3>Activation</h3><p class="metric">58%</p><span class="tag">주의</span></article>
+        <article class="card"><h3>Mobile</h3><p class="metric">39%</p><span class="tag">하락</span></article>
+      </div>
+      <div class="mini" data-visual>
+        <strong>간단 추세</strong>
+        <div class="chart"></div>
+      </div>
+    </section>
+    <aside class="side">
+      <section class="card" data-side-card><h3>핵심 인사이트</h3><p>온보딩 릴리스 이후 신규 사용자의 유지율이 전반적으로 하락했습니다.</p><button class="primary" data-eval-action>모바일 보기</button></section>
+      <section class="card" data-side-card><h3>가능한 원인</h3><p>새 튜토리얼 단계가 길어져 사용자가 완료 전에 이탈했을 수 있습니다.</p></section>
+      <section class="card" data-side-card><h3>추천 조치</h3><p>온보딩 단계를 줄이고 모바일 화면의 첫 성공 경험을 앞당깁니다.</p></section>
+    </aside>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => {
+      document.querySelector(".side .card p").textContent = "모바일 세그먼트에서 하락폭이 더 큽니다.";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retention Cohort Lens Candidate</title>
+  <style>
+    :root { --paper:#fbfcf8; --ink:#1f2924; --muted:#68756e; --grid:#e5eee8; --line:#97a69e; --green:#10866f; --blue:#2c69d8; --orange:#d98916; --red:#c94d4d; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; color:var(--ink); background:var(--paper); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .stage { position:relative; min-height:100vh; padding:28px 36px; background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size:42px 42px; }
+    h1 { margin:0; font-size:34px; letter-spacing:0; }
+    .hint { margin-top:7px; max-width:860px; color:var(--muted); font-size:17px; line-height:1.45; }
+    .toolbar { position:absolute; right:34px; top:28px; display:flex; align-items:center; gap:10px; padding:8px; border:1px solid #cbd8d1; border-radius:999px; background:rgba(251,252,248,.86); backdrop-filter:blur(10px); z-index:4; }
+    button { border:0; border-radius:999px; padding:10px 15px; background:transparent; color:var(--ink); font-weight:900; }
+    button[data-eval-action] { background:var(--ink); color:#fff; }
+    svg { position:absolute; inset:100px 26px 70px; width:calc(100% - 52px); height:calc(100% - 170px); }
+    .axis { stroke:#8d9b94; stroke-width:4; stroke-linecap:round; }
+    .tick { stroke:#8d9b94; stroke-width:2; }
+    .cell { stroke:rgba(255,255,255,.74); stroke-width:2; }
+    .cold { fill:#f4d5c8; }
+    .warm { fill:#f0b37d; }
+    .good { fill:#63b69d; }
+    .strong { fill:#168d73; }
+    .affected-all { fill:none; stroke:var(--red); stroke-width:4; }
+    .affected-mobile { fill:none; stroke:var(--orange); stroke-width:0; opacity:0; }
+    .curve { fill:none; stroke:#97a69e; stroke-width:5; stroke-linecap:round; stroke-dasharray:9 11; }
+    .baseline { fill:none; stroke:var(--green); stroke-width:6; stroke-linecap:round; opacity:.72; }
+    .mobile-curve { fill:none; stroke:var(--orange); stroke-width:8; stroke-linecap:round; opacity:0; }
+    .release { stroke:var(--blue); stroke-width:4; stroke-dasharray:9 9; }
+    .label { font-size:16px; font-weight:950; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .small { font-size:13px; font-weight:780; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .value { font-size:13px; font-weight:900; fill:#fff; text-anchor:middle; dominant-baseline:middle; }
+    .axis-label { font-size:14px; font-weight:900; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .callout { position:absolute; max-width:292px; padding:8px 10px; border-left:4px solid var(--red); background:rgba(251,252,248,.76); font-weight:850; line-height:1.35; }
+    .callout small { display:block; margin-top:4px; color:var(--muted); font-weight:720; }
+    .c1 { left:546px; top:150px; border-color:var(--blue); }
+    .c2 { left:610px; top:520px; }
+    .c3 { right:112px; top:190px; border-color:var(--orange); }
+    .ribbon { position:absolute; left:72px; right:72px; bottom:32px; height:6px; background:#d2ddd7; }
+    .ribbon::before { content:""; position:absolute; left:0; top:0; bottom:0; width:46%; background:var(--red); }
+    .ribbon i { position:absolute; top:-9px; left:46%; width:24px; height:24px; border-radius:50%; border:6px solid var(--red); background:var(--paper); transform:translateX(-50%); }
+    .mobile-only { opacity:0; }
+    body.mobile .mobile-only { opacity:1; }
+    body.mobile .all-only { opacity:.16; }
+    body.mobile .affected-mobile { opacity:1; stroke-width:4; }
+    body.mobile .affected-all { opacity:.18; }
+    body.mobile .mobile-curve { opacity:.94; }
+    body.mobile .baseline { opacity:.24; }
+    body.mobile .ribbon::before { width:72%; background:var(--orange); }
+    body.mobile .ribbon i { left:72%; border-color:var(--orange); }
+  </style>
+</head>
+<body data-state-target>
+  <main class="stage" data-visual>
+    <h1>리텐션 하락은 KPI가 아니라 cohort 표면에서 보인다</h1>
+    <div class="hint">릴리스 전후 cohort를 같은 격자에 놓으면 하락이 전체 문제가 아니라 특정 주차와 세그먼트 문제인지 분리됩니다.</div>
+    <div class="toolbar" data-floating-toolbar><button>전체 cohort</button><button data-eval-action>모바일 세그먼트</button></div>
+    <svg viewBox="0 0 1360 700" aria-label="retention cohort analysis">
+      <text class="axis-label" x="146" y="74">cohort</text>
+      <text class="axis-label" x="326" y="74">W0</text><text class="axis-label" x="414" y="74">W1</text><text class="axis-label" x="502" y="74">W2</text><text class="axis-label" x="590" y="74">W3</text><text class="axis-label" x="678" y="74">W4</text>
+      <line class="release" x1="466" y1="88" x2="466" y2="430"/>
+      <g>
+        <text class="axis-label" x="130" y="126">Feb 05</text>
+        <rect class="cell strong" x="294" y="102" width="76" height="44"/><text class="value" x="332" y="124">100</text>
+        <rect class="cell good" x="382" y="102" width="76" height="44"/><text class="value" x="420" y="124">52</text>
+        <rect class="cell good" x="470" y="102" width="76" height="44"/><text class="value" x="508" y="124">41</text>
+        <rect class="cell warm" x="558" y="102" width="76" height="44"/><text class="value" x="596" y="124">34</text>
+        <rect class="cell warm" x="646" y="102" width="76" height="44"/><text class="value" x="684" y="124">29</text>
+        <text class="axis-label" x="130" y="184">Feb 12</text>
+        <rect class="cell strong" x="294" y="160" width="76" height="44"/><text class="value" x="332" y="182">100</text>
+        <rect class="cell good" x="382" y="160" width="76" height="44"/><text class="value" x="420" y="182">51</text>
+        <rect class="cell good" x="470" y="160" width="76" height="44"/><text class="value" x="508" y="182">40</text>
+        <rect class="cell warm" x="558" y="160" width="76" height="44"/><text class="value" x="596" y="182">33</text>
+        <rect class="cell warm" x="646" y="160" width="76" height="44"/><text class="value" x="684" y="182">28</text>
+        <text class="axis-label" x="130" y="242">Feb 19</text>
+        <rect class="cell strong" x="294" y="218" width="76" height="44"/><text class="value" x="332" y="240">100</text>
+        <rect class="cell good" x="382" y="218" width="76" height="44"/><text class="value" x="420" y="240">50</text>
+        <rect class="cell good" x="470" y="218" width="76" height="44"/><text class="value" x="508" y="240">39</text>
+        <rect class="cell warm" x="558" y="218" width="76" height="44"/><text class="value" x="596" y="240">32</text>
+        <rect class="cell warm" x="646" y="218" width="76" height="44"/><text class="value" x="684" y="240">27</text>
+        <text class="axis-label" x="130" y="300">Feb 26</text>
+        <rect class="cell strong" x="294" y="276" width="76" height="44"/><text class="value" x="332" y="298">100</text>
+        <rect class="cell warm" x="382" y="276" width="76" height="44"/><text class="value" x="420" y="298">43</text>
+        <rect class="cell cold" x="470" y="276" width="76" height="44"/><text class="value" x="508" y="298">30</text>
+        <rect class="cell cold" x="558" y="276" width="76" height="44"/><text class="value" x="596" y="298">24</text>
+        <rect class="cell cold" x="646" y="276" width="76" height="44"/><text class="value" x="684" y="298">20</text>
+        <rect class="affected-all" x="380" y="274" width="256" height="48"/>
+        <text class="axis-label" x="130" y="358">Mar 04</text>
+        <rect class="cell strong" x="294" y="334" width="76" height="44"/><text class="value" x="332" y="356">100</text>
+        <rect class="cell warm" x="382" y="334" width="76" height="44"/><text class="value" x="420" y="356">42</text>
+        <rect class="cell cold" x="470" y="334" width="76" height="44"/><text class="value" x="508" y="356">29</text>
+        <rect class="cell cold" x="558" y="334" width="76" height="44"/><text class="value" x="596" y="356">23</text>
+        <rect class="cell cold" x="646" y="334" width="76" height="44"/><text class="value" x="684" y="356">18</text>
+        <rect class="affected-mobile" x="380" y="332" width="256" height="48"/>
+      </g>
+      <line class="axis" x1="820" y1="438" x2="1218" y2="438"/>
+      <line class="axis" x1="820" y1="438" x2="820" y2="122"/>
+      <text class="axis-label" x="820" y="468">W0</text><text class="axis-label" x="930" y="468">W1</text><text class="axis-label" x="1040" y="468">W2</text><text class="axis-label" x="1150" y="468">W3</text>
+      <path class="curve" d="M820 162 C912 236 1000 294 1102 342 C1150 364 1186 388 1218 404"/>
+      <path class="baseline all-only" d="M820 158 C906 220 990 268 1080 304 C1138 326 1178 346 1218 366"/>
+      <path class="mobile-curve mobile-only" d="M820 158 C902 258 982 326 1078 382 C1132 412 1178 424 1218 430"/>
+      <text class="label all-only" x="958" y="274">전체: W1부터 -8~9pt</text>
+      <text class="label mobile-only" x="934" y="338">모바일: 하락폭이 더 큼</text>
+      <text class="small" x="1034" y="166">회색은 이전 baseline</text>
+      <text class="small" x="1034" y="188">색 선은 선택 세그먼트</text>
+    </svg>
+    <div class="callout c1" data-annotation>릴리스 경계가 관찰 기준 <small>이 선 이후 cohort의 W1/W2를 이전 cohort와 비교합니다.</small></div>
+    <div class="callout c2" data-annotation>하락은 특정 셀에서 시작 <small>W1부터 낮아지고 W2에서 격차가 더 벌어집니다.</small></div>
+    <div class="callout c3" data-annotation>해석은 데이터 뒤에 붙임 <small>모바일을 고르면 같은 표면에서 다른 하락선이 드러납니다.</small></div>
+    <div class="ribbon"><i></i></div>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => document.body.classList.toggle("mobile"));
+  </script>
+</body>
+</html>

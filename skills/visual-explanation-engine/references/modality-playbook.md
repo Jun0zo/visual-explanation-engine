@@ -36,6 +36,7 @@ Pick a form that feels native to the subject instead of defaulting to cards:
 - **Mathematics**: show a graph, geometric construction, or manipulable parameter before definitions.
 - **Scientific mechanisms**: show cross-sections, scale changes, transformations, hidden internals, and where matter or energy enters, moves, changes, and exits.
 - **Tradeoffs**: show a decision surface, sliders for constraints, threshold lines, and how the recommendation changes.
+- **Data and analytics**: show the data surface first: chart, cohort grid, distribution, table, baseline, segments, outliers, and annotated deltas.
 - **Timelines**: show time as the primary axis, including duration, gaps, overlap, causality, and before/after state; avoid rows of prose cards.
 
 ## Open Canvas Patterns
@@ -57,6 +58,7 @@ Use these patterns to avoid boxy AI layouts:
 - **Mechanism cross-section**: show hidden structure as the canvas, then attach inputs, outputs, forces, reactions, and state changes to the exact regions where they happen.
 - **Temporal axis**: put events, metric traces, phases, spans, and state changes on a scaled axis so gaps and overlaps teach instead of disappearing.
 - **Decision surface**: plot options against the constraints that actually choose between them; show thresholds, viable regions, and the scenario point moving when assumptions change.
+- **Annotated data surface**: place claims directly on marks, cells, intervals, and baseline gaps; keep interpretation visually separate from observed values.
 
 Use boxes only when they represent real domain boundaries such as files, screens, components, documents, rooms, states, or data records. Decorative grouping boxes should be rare.
 
@@ -157,4 +159,5 @@ Revise before finalizing if any of these are true:
 - A science explanation names inputs and outputs without showing where they enter, transform, or exit.
 - A timeline uses equal cards or steps for events whose timing, duration, overlap, or causal lag matters.
 - An architecture recommendation is just option cards with pros and cons, without request paths, capacity, constraints, budgets, or failure boundaries.
+- A data explanation is mostly KPI tiles and insight prose without the data marks, baseline, segment, or uncertainty that support the claim.
 - The result would look plausible for almost any topic after swapping the words.
