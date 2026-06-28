@@ -94,5 +94,21 @@
       "Energy and matter flows are described without showing where they move.",
       "The interaction changes prose but not the mechanism or cross-section."
     ]
+  },
+  {
+    "id": "incident-timeline",
+    "prompt": "Use visual-explanation-engine to explain a production incident postmortem timeline to an engineering team.",
+    "domain": "timeline-causality",
+    "successCriteria": [
+      "Time is the primary axis rather than a row of event cards.",
+      "Deploy, degradation, detection, rollback, and recovery are positioned by time.",
+      "Duration, overlap, causal lag, and MTTR are visible on the same surface.",
+      "Controls shift the visible state from degraded interval to recovery interval."
+    ],
+    "failureModes": [
+      "Events are presented as isolated cards with no time scale.",
+      "Cause, impact, and mitigation are separated into prose panels.",
+      "The interaction changes a summary paragraph but not the timeline."
+    ]
   }
 ]

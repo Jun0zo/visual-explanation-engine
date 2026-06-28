@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Incident Timeline Axis Candidate</title>
+  <style>
+    :root { --paper:#fbfcf8; --ink:#1f2924; --muted:#68756e; --grid:#e6eee8; --line:#cbd9d1; --red:#c94d4d; --orange:#d98916; --green:#10866f; --blue:#2c69d8; --purple:#6e58d9; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; color:var(--ink); background:var(--paper); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .stage { position:relative; min-height:100vh; padding:28px 36px; background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size:42px 42px; }
+    h1 { margin:0; font-size:34px; letter-spacing:0; }
+    .hint { margin-top:7px; max-width:810px; color:var(--muted); font-size:17px; line-height:1.45; }
+    .toolbar { position:absolute; right:34px; top:28px; display:flex; align-items:center; gap:10px; padding:8px; border:1px solid var(--line); border-radius:999px; background:rgba(251,252,248,.84); backdrop-filter:blur(10px); z-index:4; }
+    button { border:0; border-radius:999px; padding:10px 15px; background:transparent; color:var(--ink); font-weight:900; }
+    button[data-eval-action] { background:var(--ink); color:#fff; }
+    svg { position:absolute; inset:104px 28px 76px; width:calc(100% - 56px); height:calc(100% - 180px); }
+    .axis { stroke:#93a29a; stroke-width:5; stroke-linecap:round; }
+    .tick { stroke:#93a29a; stroke-width:3; }
+    .band { fill:rgba(201,77,77,.12); stroke:rgba(201,77,77,.45); stroke-width:2; }
+    .metric { fill:none; stroke-width:7; stroke-linecap:round; stroke-linejoin:round; }
+    .latency { stroke:var(--orange); }
+    .errors { stroke:var(--red); }
+    .requests { stroke:var(--blue); opacity:.58; }
+    .event-line { stroke:#64736b; stroke-width:2; stroke-dasharray:8 9; }
+    .event-dot { fill:var(--paper); stroke-width:6; }
+    .deploy { stroke:var(--orange); }
+    .detect { stroke:var(--red); }
+    .rollback { stroke:var(--purple); }
+    .recover { stroke:var(--green); }
+    .label { font-size:16px; font-weight:950; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .small { font-size:13px; font-weight:780; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .time { font-size:14px; font-weight:900; fill:var(--muted); text-anchor:middle; paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .callout { position:absolute; max-width:286px; padding:8px 10px; border-left:4px solid var(--red); background:rgba(251,252,248,.72); font-weight:850; line-height:1.35; }
+    .callout small { display:block; color:var(--muted); margin-top:4px; font-weight:700; }
+    .c1 { left:118px; top:248px; border-color:var(--orange); }
+    .c2 { left:690px; top:172px; border-color:var(--red); }
+    .c3 { right:104px; top:512px; border-color:var(--green); }
+    .probe { position:absolute; left:58px; right:58px; bottom:34px; height:5px; background:#d3ded8; }
+    .probe::before { content:""; position:absolute; left:0; top:0; bottom:0; width:48%; background:var(--red); }
+    .dot { position:absolute; top:-8px; left:48%; width:22px; height:22px; border-radius:50%; border:5px solid var(--red); background:var(--paper); transform:translateX(-50%); }
+    body.recovery .band { fill:rgba(16,134,111,.10); stroke:rgba(16,134,111,.45); }
+    body.recovery .rollback, body.recovery .recover { stroke-width:8; }
+    body.recovery .latency, body.recovery .errors { opacity:.38; }
+    body.recovery .probe::before { width:82%; background:var(--green); }
+    body.recovery .dot { left:82%; border-color:var(--green); }
+  </style>
+</head>
+<body data-state-target>
+  <main class="stage" data-visual>
+    <h1>장애는 카드 목록보다 시간축에서 읽힌다</h1>
+    <div class="hint">배포, 지연 증가, 오류 폭증, 롤백, 회복을 같은 축에 놓으면 원인과 MTTR이 한눈에 보입니다.</div>
+    <div class="toolbar" data-floating-toolbar><button>장애 구간</button><button data-eval-action>복구 구간 보기</button></div>
+    <svg viewBox="0 0 1360 700" aria-label="production incident timeline">
+      <rect class="band" x="336" y="126" width="602" height="440" rx="20"/>
+      <text class="label" x="356" y="158">degraded window</text>
+      <text class="small" x="356" y="181">09:07부터 rollback 효과가 보일 때까지</text>
+      <path class="metric requests" d="M118 424 C244 420 310 418 396 420 C528 424 650 430 784 426 C930 420 1034 418 1228 418"/>
+      <path class="metric latency" d="M118 360 C250 358 320 354 380 324 C482 250 610 236 720 244 C824 252 886 306 946 352 C1030 396 1122 380 1228 360"/>
+      <path class="metric errors" d="M118 494 C286 494 378 488 444 450 C552 384 646 334 744 300 C842 272 906 332 946 394 C1016 474 1112 492 1228 490"/>
+      <line class="axis" x1="118" y1="600" x2="1228" y2="600"/>
+      <g>
+        <line class="tick" x1="118" y1="586" x2="118" y2="616"/><text class="time" x="118" y="640">09:00</text>
+        <line class="tick" x1="336" y1="586" x2="336" y2="616"/><text class="time" x="336" y="640">09:07</text>
+        <line class="tick" x1="566" y1="586" x2="566" y2="616"/><text class="time" x="566" y="640">09:14</text>
+        <line class="tick" x1="830" y1="586" x2="830" y2="616"/><text class="time" x="830" y="640">09:21</text>
+        <line class="tick" x1="1042" y1="586" x2="1042" y2="616"/><text class="time" x="1042" y="640">09:32</text>
+        <line class="tick" x1="1228" y1="586" x2="1228" y2="616"/><text class="time" x="1228" y="640">09:40</text>
+      </g>
+      <g>
+        <line class="event-line" x1="214" y1="168" x2="214" y2="600"/><circle class="event-dot deploy" cx="214" cy="600" r="14"/><text class="label" x="162" y="30">deploy</text><text class="small" x="158" y="53">new payment API</text>
+        <line class="event-line" x1="336" y1="226" x2="336" y2="600"/><circle class="event-dot deploy" cx="336" cy="600" r="14"/><text class="label" x="356" y="232">DB waits rise</text>
+        <line class="event-line" x1="566" y1="110" x2="566" y2="600"/><circle class="event-dot detect" cx="566" cy="600" r="14"/><text class="label" x="590" y="114">500s spike</text><text class="small" x="590" y="137">alert fires</text>
+        <line class="event-line" x1="830" y1="216" x2="830" y2="600"/><circle class="event-dot rollback" cx="830" cy="600" r="14"/><text class="label" x="850" y="222">rollback starts</text>
+        <line class="event-line" x1="1042" y1="276" x2="1042" y2="600"/><circle class="event-dot recover" cx="1042" cy="600" r="14"/><text class="label" x="1062" y="282">stable again</text><text class="small" x="1062" y="305">latency and errors return</text>
+      </g>
+      <text class="label" x="118" y="346">latency</text>
+      <text class="label" x="118" y="480">errors</text>
+      <text class="label" x="118" y="406">requests</text>
+    </svg>
+    <div class="callout c1" data-annotation>원인은 09:07부터 보임 <small>배포보다 늦게 DB wait이 먼저 올라갑니다.</small></div>
+    <div class="callout c2" data-annotation>사용자 영향은 09:14부터 <small>오류율은 지연 증가 뒤에 따라옵니다.</small></div>
+    <div class="callout c3" data-annotation>복구는 한 점이 아니라 구간 <small>롤백 뒤 지표가 안정화될 때까지가 MTTR입니다.</small></div>
+    <div class="probe"><i class="dot"></i></div>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => document.body.classList.toggle("recovery"));
+  </script>
+</body>
+</html>

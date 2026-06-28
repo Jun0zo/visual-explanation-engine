@@ -82,5 +82,19 @@
     "variant": "candidate",
     "file": "photosynthesis-chloroplast-lab.html",
     "notes": "Chloroplast cross-section with light, water, electron, ATP/NADPH, CO2, and sugar flows attached to structure."
+  },
+  {
+    "id": "incident-timeline-cards",
+    "task": "incident-timeline",
+    "variant": "baseline",
+    "file": "incident-timeline-cards.html",
+    "notes": "Generic incident postmortem cards with a small decorative timeline strip."
+  },
+  {
+    "id": "incident-timeline-axis",
+    "task": "incident-timeline",
+    "variant": "candidate",
+    "file": "incident-timeline-axis.html",
+    "notes": "Incident timeline with scaled time axis, degraded interval, metric traces, and recovery-state toggle."
   }
 ]

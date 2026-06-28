@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Incident Timeline Cards Baseline</title>
+  <style>
+    :root { --ink:#1f2924; --muted:#68736e; --line:#d9e2dc; --panel:#fff; --soft:#f7faf6; --red:#c94d4d; --orange:#d98916; --green:#10866f; --blue:#2c69d8; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--soft); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    header { padding:38px 46px 30px; border-bottom:1px solid var(--line); background:#fbfdf9; }
+    h1 { margin:0 0 10px; font-size:52px; letter-spacing:0; }
+    p { margin:0; color:var(--muted); font-size:20px; line-height:1.55; }
+    main { display:grid; grid-template-columns:minmax(680px, 1fr) 390px; gap:30px; padding:34px 46px; }
+    .panel, .card { background:var(--panel); border:1px solid var(--line); border-radius:18px; box-shadow:0 16px 40px rgba(37,58,47,.07); }
+    .panel { padding:26px; }
+    .cards { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:18px; margin-top:20px; }
+    .card { padding:24px; }
+    h2, h3 { margin:0; }
+    h2 { font-size:30px; }
+    h3 { font-size:24px; margin-bottom:12px; }
+    .badge { display:inline-block; margin-bottom:14px; padding:9px 13px; border-radius:999px; font-weight:900; background:#fff0df; color:#8d5a00; }
+    .mini { height:260px; margin-top:22px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(#edf3ef 1px, transparent 1px), linear-gradient(90deg, #edf3ef 1px, transparent 1px); background-size:38px 38px; padding:30px; }
+    .line { height:6px; border-radius:999px; background:#d4ddd7; margin-top:92px; position:relative; }
+    .line::before { content:""; position:absolute; left:26%; right:22%; top:0; bottom:0; background:#f1b3a8; }
+    .dot { position:absolute; top:-12px; width:30px; height:30px; border-radius:50%; background:#fff; border:6px solid var(--orange); transform:translateX(-50%); }
+    .sidebar { display:flex; flex-direction:column; gap:18px; }
+    button { margin-top:18px; border:1px solid #cbd8d1; border-radius:14px; padding:13px 18px; font-weight:900; background:#fff; color:var(--ink); font-size:17px; }
+    button.primary { background:var(--ink); color:#fff; }
+    .pill { display:inline-block; margin-top:14px; padding:10px 14px; border-radius:999px; background:#ffecec; color:#9a3333; font-weight:900; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>장애 타임라인 요약</h1>
+    <p>배포 이후 오류율이 올라갔고 롤백 뒤 안정화되었습니다. 중요한 사건을 카드로 정리했습니다.</p>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>주요 사건</h2>
+      <div class="cards">
+        <article class="card"><span class="badge">09:00</span><h3>배포</h3><p>새 결제 API 버전이 production에 배포되었습니다.</p></article>
+        <article class="card"><span class="badge">09:07</span><h3>DB 대기 증가</h3><p>커넥션 풀이 포화되면서 요청 대기 시간이 길어졌습니다.</p></article>
+        <article class="card"><span class="badge">09:14</span><h3>오류율 급증</h3><p>사용자는 500 오류를 보기 시작했고 알림이 울렸습니다.</p></article>
+        <article class="card"><span class="badge">09:32</span><h3>복구</h3><p>롤백 이후 지연 시간과 오류율이 정상 범위로 돌아왔습니다.</p></article>
+      </div>
+      <div class="mini" data-visual>
+        <strong>요약선</strong>
+        <div class="line">
+          <i class="dot" style="left:18%"></i>
+          <i class="dot" style="left:43%; border-color:var(--red)"></i>
+          <i class="dot" style="left:76%; border-color:var(--green)"></i>
+        </div>
+      </div>
+    </section>
+    <aside class="sidebar">
+      <section class="card" data-side-card><h3>원인</h3><p>새 API가 connection pool을 과도하게 잡아 장애가 발생했습니다.</p><button class="primary" data-eval-action>복구 카드 보기</button></section>
+      <section class="card" data-side-card><h3>영향</h3><p>결제 요청의 일부가 실패했고 support 문의가 증가했습니다.</p></section>
+      <section class="card" data-side-card><h3>다음 조치</h3><p>pool limit guard와 canary 배포를 추가합니다.</p><span class="pill">MTTR 32분</span></section>
+    </aside>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => {
+      document.querySelector(".sidebar .card p").textContent = "롤백 카드는 원인 제거와 지표 정상화를 따로 설명합니다.";
+    });
+  </script>
+</body>
+</html>
