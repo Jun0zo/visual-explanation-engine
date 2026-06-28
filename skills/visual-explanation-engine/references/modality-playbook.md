@@ -34,7 +34,7 @@ Pick a form that feels native to the subject instead of defaulting to cards:
 - **Systems**: show an object moving through components, permissions, queues, retries, and failure branches.
 - **Code and debugging**: show the source artifact, highlighted execution line, runtime state, logs/output, and the trace connecting them.
 - **Mathematics**: show a graph, geometric construction, or manipulable parameter before definitions.
-- **Scientific mechanisms**: show cross-sections, scale changes, transformations, and hidden internals.
+- **Scientific mechanisms**: show cross-sections, scale changes, transformations, hidden internals, and where matter or energy enters, moves, changes, and exits.
 - **Tradeoffs**: show a decision surface, sliders for constraints, and how the recommendation changes.
 - **Timelines**: show time as the primary axis, not as a row of prose cards.
 
@@ -54,6 +54,7 @@ Use these patterns to avoid boxy AI layouts:
 - **Surface-as-page**: for graphs, maps, timelines, editors, and documents, make the native surface fill the page; do not wrap it in a title card, inner canvas, and surrounding dashboard.
 - **State-on-object**: show algorithm state by changing the object itself: recolor paths, move pointers, replace numbers in place, fade rejected branches, or draw the next-step preview.
 - **Code trace workspace**: pair code with the live state/output it changes; use arrows, highlighted lines, stack frames, request traces, or logs instead of separate explanation cards.
+- **Mechanism cross-section**: show hidden structure as the canvas, then attach inputs, outputs, forces, reactions, and state changes to the exact regions where they happen.
 
 Use boxes only when they represent real domain boundaries such as files, screens, components, documents, rooms, states, or data records. Decorative grouping boxes should be rare.
 
@@ -102,6 +103,8 @@ Use generated or hand-built visuals only when they reveal something text cannot:
 3. Avoid decorative scenes, stock-like atmosphere, or generic images.
 4. Prefer before/after, cross-section, exploded view, or layered diagram when useful.
 
+For science or physical mechanisms, make matter and energy accountable: show what enters, what transforms, what exits, and which structure makes the transformation possible.
+
 ### Artifact inspection
 
 Use when explaining judgment, quality, scoring, language, writing, presentation, or review systems:
@@ -149,4 +152,5 @@ Revise before finalizing if any of these are true:
 - A diagram node or card repeats prose that could have been a label.
 - Code is shown in a small decorative block while the explanation happens in cards.
 - A runtime explanation never shows the state, output, log, request, or stack frame that changes.
+- A science explanation names inputs and outputs without showing where they enter, transform, or exit.
 - The result would look plausible for almost any topic after swapping the words.

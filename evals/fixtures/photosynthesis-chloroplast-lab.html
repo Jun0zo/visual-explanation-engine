@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photosynthesis Chloroplast Lab Candidate</title>
+  <style>
+    :root { --paper:#fbfcf7; --ink:#1f2924; --muted:#68756e; --grid:#e6eee8; --leaf:#17866c; --light:#e2a21c; --blue:#2c69d8; --green:#10866f; --orange:#d98a16; --carbon:#6e58d9; --line:#cbd9d1; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; overflow:hidden; color:var(--ink); background:var(--paper); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .lab { position:relative; min-height:100vh; padding:28px 36px; background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size:42px 42px; }
+    h1 { margin:0; font-size:34px; letter-spacing:0; }
+    .hint { margin-top:7px; max-width:760px; color:var(--muted); font-size:17px; line-height:1.45; }
+    .toolbar { position:absolute; right:34px; top:28px; display:flex; align-items:center; gap:10px; padding:8px; border:1px solid var(--line); border-radius:999px; background:rgba(251,252,247,.84); backdrop-filter:blur(10px); z-index:4; }
+    button { border:0; border-radius:999px; padding:10px 15px; background:transparent; color:var(--ink); font-weight:900; }
+    button[data-eval-action] { background:var(--ink); color:#fff; }
+    svg { position:absolute; inset:106px 24px 74px; width:calc(100% - 48px); height:calc(100% - 180px); }
+    .label { font-size:16px; font-weight:950; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .small { font-size:13px; font-weight:780; fill:var(--muted); paint-order:stroke; stroke:var(--paper); stroke-width:6px; }
+    .membrane { fill:#e9f8ef; stroke:var(--leaf); stroke-width:7; }
+    .stroma { fill:#f5fff8; opacity:.9; }
+    .stack { fill:#13916f; opacity:.86; }
+    .stack.dim { opacity:.32; }
+    .flow { fill:none; stroke-width:8; stroke-linecap:round; stroke-linejoin:round; }
+    .photon { stroke:var(--light); }
+    .electron { stroke:var(--blue); }
+    .proton { stroke:var(--orange); stroke-dasharray:13 11; }
+    .carbon-flow { stroke:var(--carbon); }
+    .molecule { font-size:18px; font-weight:950; fill:var(--ink); paint-order:stroke; stroke:var(--paper); stroke-width:7px; }
+    .callout { position:absolute; max-width:285px; padding:8px 10px; border-left:4px solid var(--light); background:rgba(251,252,247,.72); font-weight:850; line-height:1.35; }
+    .callout small { display:block; color:var(--muted); margin-top:4px; font-weight:700; }
+    .c1 { left:74px; top:292px; }
+    .c2 { left:426px; top:604px; border-color:var(--blue); }
+    .c3 { right:130px; top:236px; border-color:var(--carbon); }
+    .probe { position:absolute; left:58px; right:58px; bottom:34px; height:5px; background:#d3ded8; }
+    .probe::before { content:""; position:absolute; left:0; top:0; bottom:0; width:34%; background:var(--light); }
+    .dot { position:absolute; top:-8px; left:34%; width:22px; height:22px; border-radius:50%; border:5px solid var(--light); background:var(--paper); transform:translateX(-50%); }
+    body.carbon-mode .stack.dim { opacity:.86; }
+    body.carbon-mode .carbon-flow { stroke-width:11; }
+    body.carbon-mode .electron { opacity:.28; }
+    body.carbon-mode .photon { opacity:.28; }
+    body.carbon-mode .probe::before { width:74%; background:var(--carbon); }
+    body.carbon-mode .dot { left:74%; border-color:var(--carbon); }
+    body.carbon-mode .sugar { fill:rgba(110,88,217,.18); stroke:var(--carbon); stroke-width:5; }
+  </style>
+</head>
+<body data-state-target>
+  <main class="lab" data-visual>
+    <h1>광합성은 엽록체 안의 에너지 물류다</h1>
+    <div class="hint">빛은 틸라코이드 막에서 전자 흐름을 만들고, 그 에너지 운반체가 바깥쪽 캘빈 회로에서 CO2를 당 재료로 묶습니다.</div>
+    <div class="toolbar" data-floating-toolbar><button>빛 반응</button><button data-eval-action>탄소 고정 보기</button></div>
+    <svg viewBox="0 0 1360 720" aria-label="chloroplast cross-section photosynthesis mechanism">
+      <defs>
+        <marker id="arrow-light" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L14 7 L0 14 Z" fill="#e2a21c"/></marker>
+        <marker id="arrow-blue" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L14 7 L0 14 Z" fill="#2c69d8"/></marker>
+        <marker id="arrow-carbon" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L14 7 L0 14 Z" fill="#6e58d9"/></marker>
+      </defs>
+      <ellipse class="membrane" cx="660" cy="356" rx="492" ry="248"/>
+      <ellipse class="stroma" cx="660" cy="356" rx="440" ry="204"/>
+      <text class="label" x="458" y="176">stroma: ATP/NADPH가 쓰이는 공간</text>
+      <g>
+        <ellipse class="stack" cx="426" cy="288" rx="98" ry="18"/>
+        <ellipse class="stack" cx="426" cy="324" rx="98" ry="18"/>
+        <ellipse class="stack" cx="426" cy="360" rx="98" ry="18"/>
+        <ellipse class="stack" cx="426" cy="396" rx="98" ry="18"/>
+        <text class="label" x="288" y="338">thylakoid stack</text>
+      </g>
+      <g>
+        <ellipse class="stack" cx="656" cy="286" rx="98" ry="18"/>
+        <ellipse class="stack" cx="656" cy="322" rx="98" ry="18"/>
+        <ellipse class="stack" cx="656" cy="358" rx="98" ry="18"/>
+        <ellipse class="stack" cx="656" cy="394" rx="98" ry="18"/>
+      </g>
+      <g>
+        <ellipse class="stack dim" cx="884" cy="310" rx="98" ry="18"/>
+        <ellipse class="stack dim" cx="884" cy="346" rx="98" ry="18"/>
+        <ellipse class="stack dim" cx="884" cy="382" rx="98" ry="18"/>
+      </g>
+      <path class="flow photon" marker-end="url(#arrow-light)" d="M150 156 C214 190 268 224 346 282"/>
+      <path class="flow photon" marker-end="url(#arrow-light)" d="M190 90 C296 142 372 182 502 278"/>
+      <text class="label" x="112" y="126">light</text>
+      <text class="small" x="126" y="148">energy arrives at chlorophyll</text>
+      <path class="flow electron" marker-end="url(#arrow-blue)" d="M426 322 C500 252 612 252 656 322 C710 398 790 404 884 346"/>
+      <text class="label" x="548" y="244">electron flow</text>
+      <text class="small" x="542" y="268">moves energy along the membrane</text>
+      <path class="flow proton" d="M396 438 C504 502 690 510 814 434"/>
+      <text class="label" x="430" y="536">H+ gradient pushes ATP synthase</text>
+      <text class="molecule" x="310" y="452">H2O</text>
+      <text class="molecule" x="218" y="468">O2 out</text>
+      <path class="flow electron" marker-end="url(#arrow-blue)" d="M322 444 C280 458 248 462 218 462"/>
+      <text class="molecule" x="754" y="236">ATP</text>
+      <text class="molecule" x="818" y="236">NADPH</text>
+      <path class="flow carbon-flow" marker-end="url(#arrow-carbon)" d="M1038 164 C1118 220 1112 332 1006 394"/>
+      <text class="molecule" x="1084" y="156">CO2</text>
+      <text class="label" x="1046" y="420">Calvin cycle</text>
+      <text class="small" x="1010" y="446">carbon is fixed into sugar material</text>
+      <circle class="sugar" cx="1002" cy="486" r="44" fill="rgba(110,88,217,.06)" stroke="#b8acef" stroke-width="3"/>
+      <text class="molecule" x="973" y="493">sugar</text>
+    </svg>
+    <div class="callout c1" data-annotation>빛은 막에서 먼저 쓰임 <small>당을 바로 만들지 않고 전자 흐름을 만듭니다.</small></div>
+    <div class="callout c2" data-annotation>물은 전자를 보충함 <small>남는 산소가 밖으로 나갑니다.</small></div>
+    <div class="callout c3" data-annotation>CO2는 나중에 고정됨 <small>ATP와 NADPH가 캘빈 회로의 연료입니다.</small></div>
+    <div class="probe"><i class="dot"></i></div>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => document.body.classList.toggle("carbon-mode"));
+  </script>
+</body>
+</html>

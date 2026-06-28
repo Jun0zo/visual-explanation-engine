@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photosynthesis Cards Baseline</title>
+  <style>
+    :root { --ink:#1f2924; --muted:#69746f; --line:#d8e2dc; --panel:#fff; --soft:#f7faf6; --green:#168a70; --blue:#2c69d8; --orange:#e19a1b; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--soft); font-family:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    header { padding:38px 46px 30px; border-bottom:1px solid var(--line); background:#fbfdf9; }
+    h1 { margin:0 0 10px; font-size:52px; letter-spacing:0; }
+    p { margin:0; color:var(--muted); font-size:20px; line-height:1.55; }
+    main { display:grid; grid-template-columns:minmax(680px, 1fr) 390px; gap:30px; padding:34px 46px; }
+    .panel, .card { background:var(--panel); border:1px solid var(--line); border-radius:18px; box-shadow:0 16px 40px rgba(37,58,47,.07); }
+    .panel { padding:26px; }
+    .cards { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:18px; margin-top:20px; }
+    .card { padding:24px; }
+    h2, h3 { margin:0; }
+    h2 { font-size:30px; }
+    h3 { font-size:24px; margin-bottom:12px; }
+    .badge { display:inline-block; margin-bottom:14px; padding:9px 13px; border-radius:999px; font-weight:900; background:#eaf7f1; color:var(--green); }
+    .diagram { height:260px; margin-top:22px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(#edf3ef 1px, transparent 1px), linear-gradient(90deg, #edf3ef 1px, transparent 1px); background-size:38px 38px; display:grid; place-items:center; }
+    .diagram svg { width:82%; height:82%; }
+    .sidebar { display:flex; flex-direction:column; gap:18px; }
+    button { margin-top:18px; border:1px solid #cbd8d1; border-radius:14px; padding:13px 18px; font-weight:900; background:#fff; color:var(--ink); font-size:17px; }
+    button.primary { background:var(--ink); color:#fff; }
+    .pill { display:inline-block; margin-top:14px; padding:10px 14px; border-radius:999px; background:#fff5df; color:#8d5c00; font-weight:900; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>광합성은 빛으로 당을 만드는 과정</h1>
+    <p>빛 반응과 캘빈 회로를 단계별 카드로 정리했습니다. 각 단계는 서로 이어져 식물이 에너지를 저장합니다.</p>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>광합성 핵심 단계</h2>
+      <div class="cards">
+        <article class="card"><span class="badge">1</span><h3>빛 흡수</h3><p>엽록소가 빛을 받아 전자를 높은 에너지 상태로 올립니다.</p></article>
+        <article class="card"><span class="badge">2</span><h3>물 분해</h3><p>물이 산소, 전자, 수소 이온으로 나뉘고 산소가 밖으로 나갑니다.</p></article>
+        <article class="card"><span class="badge">3</span><h3>ATP 생성</h3><p>전자 흐름과 수소 이온 기울기를 이용해 ATP를 만듭니다.</p></article>
+        <article class="card"><span class="badge">4</span><h3>당 합성</h3><p>CO2가 캘빈 회로에서 고정되어 당의 재료가 됩니다.</p></article>
+      </div>
+      <div class="diagram" data-visual>
+        <svg viewBox="0 0 640 220" aria-label="decorative photosynthesis diagram">
+          <ellipse cx="310" cy="112" rx="210" ry="82" fill="#e7f7ef" stroke="#168a70" stroke-width="7"/>
+          <g fill="#168a70" opacity=".75">
+            <ellipse cx="230" cy="92" rx="62" ry="16"/><ellipse cx="230" cy="122" rx="62" ry="16"/><ellipse cx="230" cy="152" rx="62" ry="16"/>
+            <ellipse cx="390" cy="92" rx="62" ry="16"/><ellipse cx="390" cy="122" rx="62" ry="16"/><ellipse cx="390" cy="152" rx="62" ry="16"/>
+          </g>
+          <path d="M72 46 L172 86" stroke="#e19a1b" stroke-width="8" stroke-linecap="round"/>
+          <path d="M468 72 C548 94 556 142 492 164" fill="none" stroke="#2c69d8" stroke-width="8" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </section>
+    <aside class="sidebar">
+      <section class="card" data-side-card><h3>중요한 연결</h3><p>빛 반응은 ATP와 NADPH를 만들고, 캘빈 회로는 그것을 써서 CO2를 당으로 바꿉니다.</p><button class="primary" data-eval-action>다음 카드</button></section>
+      <section class="card" data-side-card><h3>흔한 오해</h3><p>식물이 흙을 먹어 몸을 만드는 것이 아니라, 탄소의 대부분은 CO2에서 옵니다.</p></section>
+      <section class="card" data-side-card><h3>요약</h3><p>빛 에너지 → 화학 에너지 → 탄소 고정이라는 큰 흐름입니다.</p><span class="pill">빛 + CO2 + 물</span></section>
+    </aside>
+  </main>
+  <script>
+    document.querySelector("[data-eval-action]").addEventListener("click", () => {
+      document.querySelector(".sidebar .card p").textContent = "다음 카드는 캘빈 회로에서 CO2가 고정되는 과정을 설명합니다.";
+    });
+  </script>
+</body>
+</html>

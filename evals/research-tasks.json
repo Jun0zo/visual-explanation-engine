@@ -78,5 +78,21 @@
       "Code is a decorative snippet instead of an inspected artifact.",
       "The interaction changes a paragraph but not the code highlight, rendered output, or trace."
     ]
+  },
+  {
+    "id": "photosynthesis-mechanism",
+    "prompt": "Use visual-explanation-engine to explain photosynthesis to a middle-school student.",
+    "domain": "scientific-mechanism",
+    "successCriteria": [
+      "A chloroplast or leaf cross-section is the primary object.",
+      "Light, water splitting, electron flow, ATP/NADPH, CO2, and sugar are attached to the structure where they occur.",
+      "The learner can distinguish light reactions from carbon fixation by changing visual state.",
+      "Labels do not become generic cards or cover the mechanism being inspected."
+    ],
+    "failureModes": [
+      "The explanation is a list of definition cards with a decorative plant diagram.",
+      "Energy and matter flows are described without showing where they move.",
+      "The interaction changes prose but not the mechanism or cross-section."
+    ]
   }
 ]

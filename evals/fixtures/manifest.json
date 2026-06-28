@@ -68,5 +68,19 @@
     "variant": "candidate",
     "file": "react-render-trace.html",
     "notes": "Code-and-trace workspace showing setState, render, commit, effect, and visible output change."
+  },
+  {
+    "id": "photosynthesis-cards",
+    "task": "photosynthesis-mechanism",
+    "variant": "baseline",
+    "file": "photosynthesis-cards.html",
+    "notes": "Generic photosynthesis card explainer with a small decorative chloroplast diagram."
+  },
+  {
+    "id": "photosynthesis-chloroplast-lab",
+    "task": "photosynthesis-mechanism",
+    "variant": "candidate",
+    "file": "photosynthesis-chloroplast-lab.html",
+    "notes": "Chloroplast cross-section with light, water, electron, ATP/NADPH, CO2, and sugar flows attached to structure."
   }
 ]

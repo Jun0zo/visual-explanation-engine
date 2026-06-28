@@ -32,6 +32,7 @@ Generated runs are intentionally ignored by git. They are evidence for local ite
 - `oauth-request-path`: step-card baseline vs request trace across browser, app, and provider lanes.
 - `gradient-descent-surface`: definition-card baseline vs graph-first curve lab.
 - `react-render-debugging`: React lifecycle card baseline vs code-and-runtime trace workspace.
+- `photosynthesis-mechanism`: definition-card baseline vs chloroplast cross-section mechanism lab.
 
 The goal is not to make the metric perfect. The goal is to create a repeatable pressure loop: generate examples, capture them, score regressions, inspect screenshots, then tighten the skill instructions.
 
